@@ -1,0 +1,27 @@
+﻿<mah:MetroWindow x:Class="EducationProcess.Desktop.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+        xmlns:local="clr-namespace:EducationProcess.Desktop"
+        xmlns:helpers="clr-namespace:EducationProcess.Desktop.Helpers"
+        xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+
+    <mah:MetroWindow.DataContext>
+        <viewModels:MainWindowViewModel/>
+    </mah:MetroWindow.DataContext>
+
+    <mah:MetroWindow.Resources>
+        <helpers:ViewModelTemplateSelector x:Key="ViewModelTemplateSelector"/>
+    </mah:MetroWindow.Resources>
+
+    <Grid>
+        <StackPanel>
+            <ComboBox ItemsSource="{Binding Roles}" SelectedItem="{Binding SelectedRole}" DisplayMemberPath="Name"/>
+            <ContentPresenter Content="{Binding SelectedRole}" DataContext="{Binding}" ContentTemplateSelector="{StaticResource ViewModelTemplateSelector}"/>
+        </StackPanel>
+    </Grid>
+</mah:MetroWindow>
