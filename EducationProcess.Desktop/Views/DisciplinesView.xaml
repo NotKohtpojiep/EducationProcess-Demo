@@ -26,6 +26,7 @@
             <Label Grid.Column="1" Content="Кафедра: " FontSize="24" HorizontalAlignment="Left"/>
             <ComboBox Grid.Column="2" Width="225" HorizontalAlignment="Left" Margin="5" ItemsSource="{Binding Cathedras}" DisplayMemberPath="Name" SelectedValuePath="Name" SelectedIndex="0"></ComboBox>
         </Grid>
+
         <DataGrid x:Name="DataGridsss" Grid.Row="1" ItemsSource="{Binding Disciplines}" AutoGenerateColumns="False" CanUserAddRows="false">
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Кафедра" Binding="{Binding  Name}"/>

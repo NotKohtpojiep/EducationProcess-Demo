@@ -39,11 +39,6 @@ namespace EducationProcess.Desktop
             this._viewModel = new MainWindowViewModel(DialogCoordinator.Instance);
             this.DataContext = this._viewModel;
             InitializeComponent();
-            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-
-            DisciplineWindow dw = new DisciplineWindow();
-            dw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
-            dw.ShowDialog();
         }
 
         #region IView Members
