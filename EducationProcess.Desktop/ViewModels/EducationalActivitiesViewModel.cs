@@ -19,17 +19,17 @@ namespace EducationProcess.Desktop.ViewModels
     public class EducationalActivitiesViewModel : BindableBase
     {
         private readonly IDialogCoordinator _dialogCoordinator;
-        public ObservableCollection<SemesterDisciplines> SemesterDisciplines { get; set; }
+        public ObservableCollection<SemesterDiscipline> SemesterDisciplines { get; set; }
         public EducationalActivitiesViewModel(IDialogCoordinator dialogCoordinator)
         {
             _dialogCoordinator = dialogCoordinator;
-            SemesterDisciplines[] disciplines = new EducationProcessContext().SemesterDisciplines
+            SemesterDiscipline[] disciplines = new EducationProcessContext().SemesterDisciplines
                 .Where(x => x.Semester.Number == 1)
                 .Include(x => x.Group)
                 .Include(x => x.Discipline)
                 .Include(x => x.Employee)
                 .ToArray();
-            SemesterDisciplines = new ObservableCollection<SemesterDisciplines>(disciplines);
+            SemesterDisciplines = new ObservableCollection<SemesterDiscipline>(disciplines);
         }
 
     }

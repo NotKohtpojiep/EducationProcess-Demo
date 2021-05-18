@@ -33,7 +33,7 @@ namespace EducationProcess.Desktop.Views
 
  private void ToExcelButton_OnClick(object sender, RoutedEventArgs e)
     {
-        var d = DataGridsss.ItemsSource.Cast<SemesterDisciplines>();
+        var d = DataGridsss.ItemsSource.Cast<SemesterDiscipline>();
         var data = ToDataTable(d.ToList());
         ToExcelFile(data, "test.xlsx");
     }

@@ -69,7 +69,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Speciality", x => x.Post_id);
+                    table.PrimaryKey("PK_Posts", x => x.Post_id);
                 });
 
             migrationBuilder.CreateTable(
@@ -200,7 +200,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Semesters_Disciplines", x => x.Semester_discipline_id);
+                    table.PrimaryKey("PK_Semester_disciplines", x => x.Semester_discipline_id);
                     table.ForeignKey(
                         name: "FK_Semesters_Disciplines_Disciplines",
                         column: x => x.Discipline_id,

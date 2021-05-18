@@ -67,7 +67,7 @@ namespace EducationProcess.Desktop.ViewModels
             try
             {
                 //Validate credentials through the authentication service
-                Employees employee = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
+                Employee employee = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 //Get the current principal object
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
@@ -75,7 +75,7 @@ namespace EducationProcess.Desktop.ViewModels
                     throw new ArgumentException(
                         "The application's default thread principal must be set to a CustomPrincipal object on startup.");
 
-                Posts post =
+                Post post =
                     await new EducationProcessContext().Posts.FirstOrDefaultAsync(x => x.PostId == employee.PostId);
                 //Authenticate the user
                 customPrincipal.Identity =

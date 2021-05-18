@@ -12,19 +12,19 @@ namespace EducationProcess.Desktop.Helpers.Identity
 {
     public interface IAuthenticationService
     {
-        Task<Employees> AuthenticateUser(string username, string password);
+        Task<Employee> AuthenticateUser(string username, string password);
     }
 
     public class AuthenticationService : IAuthenticationService
     {
-        public async Task<Employees> AuthenticateUser(string username, string clearTextPassword)
+        public async Task<Employee> AuthenticateUser(string username, string clearTextPassword)
         {
             /*
             InternalUserData userData = _users.FirstOrDefault(u => u.Username.Equals(username)
                 && u.HashedPassword.Equals(CalculateHash(clearTextPassword, u.Username)));
             */
             Account userData =
-                await new EducationProcessContext().Account.AsNoTracking().Include(x => x.Employee).FirstOrDefaultAsync(x =>
+                await new EducationProcessContext().Accounts.AsNoTracking().Include(x => x.Employee).FirstOrDefaultAsync(x =>
                     x.Username == username && x.Password == clearTextPassword);
             if (userData == null)
                 throw new UnauthorizedAccessException("Access denied. Please provide some valid credentials.");

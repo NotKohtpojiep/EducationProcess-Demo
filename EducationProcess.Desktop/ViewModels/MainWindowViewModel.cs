@@ -42,7 +42,7 @@ namespace EducationProcess.Desktop.ViewModels
                 throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
             int employeeId = customPrincipal.Identity.EmployeeId;
 
-            Employees currentEmployee = new EducationProcessContext().Employees.FirstOrDefault(x => x.EmployeeId == employeeId);
+            Employee currentEmployee = new EducationProcessContext().Employees.FirstOrDefault(x => x.EmployeeId == employeeId);
 
             SelectedRole = Roles.FirstOrDefault();
             this.ShowInputDialogCommand = new RelayCommand(
