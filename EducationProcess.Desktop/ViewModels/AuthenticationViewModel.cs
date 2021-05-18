@@ -1,12 +1,16 @@
 ﻿using System;
 using System.ComponentModel;
+using System.Linq;
 using System.Security;
 using System.Threading;
 using System.Windows.Controls;
 using DevExpress.Mvvm;
 using EducationProcess.Desktop.Core;
+using EducationProcess.Desktop.DataAccess;
+using EducationProcess.Desktop.DataAccess.Entities;
 using EducationProcess.Desktop.Helpers.Identity;
 using MahApps.Metro.Controls;
+using Microsoft.EntityFrameworkCore;
 
 namespace EducationProcess.Desktop.ViewModels
 {
@@ -35,12 +39,11 @@ namespace EducationProcess.Desktop.ViewModels
             get
             {
                 if (IsAuthenticated)
-                    return string.Format("Signed in as {0}. {1}",
+                    return string.Format("Здравствуйте, {0}. {1}",
                           Thread.CurrentPrincipal.Identity.Name,
-                          Thread.CurrentPrincipal.IsInRole("Administrators") ? "You are an administrator!"
-                              : "You are NOT a member of the administrators group.");
-
-                return "Not authenticated!";
+                          Thread.CurrentPrincipal.IsInRole("Администратор") ? "Ого, ты админ."
+                              : "Вы не относитесь к группе администраторов.");
+                return "Не авторизован.";
             }
         }
 
@@ -55,34 +58,48 @@ namespace EducationProcess.Desktop.ViewModels
         public RelayCommand ShowViewCommand { get; set; }
         #endregion
 
-        private void Login(object parameter)
+        private async void  Login(object parameter)
         {
+            IsAuthenticating = true;
+            IsVisibleProgressBar = "Visible";
             PasswordBox passwordBox = parameter as PasswordBox;
             string clearTextPassword = passwordBox.Password;
             try
             {
                 //Validate credentials through the authentication service
-                User user = _authenticationService.AuthenticateUser(Username, clearTextPassword);
+                Employees employee = await _authenticationService.AuthenticateUser(Username, clearTextPassword);
 
                 //Get the current principal object
                 CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
                 if (customPrincipal == null)
-                    throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
+                    throw new ArgumentException(
+                        "The application's default thread principal must be set to a CustomPrincipal object on startup.");
+
+                Posts post =
+                    await new EducationProcessContext().Posts.FirstOrDefaultAsync(x => x.PostId == employee.PostId);
                 //Authenticate the user
-                customPrincipal.Identity = new CustomIdentity(user.Username, user.Email, user.Roles);
+                customPrincipal.Identity =
+                    new CustomIdentity(employee.Firstname, "no", new[] { post.Name }, employee.EmployeeId);
                 IsAuthenticated = Thread.CurrentPrincipal.Identity.IsAuthenticated;
                 //Update UI
                 Username = string.Empty; //reset
                 passwordBox.Password = string.Empty; //reset
                 Status = string.Empty;
+
+                ShowView("Gay");
             }
             catch (UnauthorizedAccessException)
             {
-                Status = "Login failed! Please provide some valid credentials.";
+                Status = "Неверные логин или пароль. Попробуйте ещё раз.";
             }
             catch (Exception ex)
             {
                 Status = string.Format("ERROR: {0}", ex.Message);
+            }
+            finally
+            {
+                IsAuthenticated = false;
+                IsVisibleProgressBar = "Hidden";
             }
         }
 
@@ -107,6 +124,9 @@ namespace EducationProcess.Desktop.ViewModels
             return IsAuthenticated;
         }
 
+        public bool IsAuthenticating { get; set; }
+
+        public string IsVisibleProgressBar { get; set; } = "Hidden";
         public bool IsAuthenticated { get; set; }
 
         private void ShowView(object parameter)
@@ -121,7 +141,7 @@ namespace EducationProcess.Desktop.ViewModels
                 //Authenticate the user
                 if (Thread.CurrentPrincipal == null)
                     throw new Exception("wataf..");
-                if (Thread.CurrentPrincipal.IsInRole("Administrators") == false)
+                if (Thread.CurrentPrincipal.IsInRole("Администратор") == false)
                     throw new SecurityException();
 
                 view?.Show();
@@ -129,7 +149,7 @@ namespace EducationProcess.Desktop.ViewModels
             }
             catch (SecurityException)
             {
-                Status = "You are not authorized!";
+                Status = "Вы не авторизованы";
             }
         }
     }

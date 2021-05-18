@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 
-#nullable disable
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
 
 namespace EducationProcess.Desktop.DataAccess.Entities
 {
-    public partial class Discipline
+    public partial class Disciplines
     {
-        public Discipline()
+        public Disciplines()
         {
-            SemesterDisciplines = new HashSet<SemesterDiscipline>();
+            SemesterDisciplines = new HashSet<SemesterDisciplines>();
         }
 
         public int DisciplineId { get; set; }
@@ -27,6 +29,6 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         public short ControlWorkVerificationHours { get; set; }
         public string Note { get; set; }
 
-        public virtual ICollection<SemesterDiscipline> SemesterDisciplines { get; set; }
+        public virtual ICollection<SemesterDisciplines> SemesterDisciplines { get; set; }
     }
 }

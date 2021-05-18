@@ -9,16 +9,18 @@ namespace EducationProcess.Desktop.Helpers.Identity
 {
     public class CustomIdentity : IIdentity
     {
-        public CustomIdentity(string name, string email, string[] roles)
+        public CustomIdentity(string name, string email, string[] roles, int employeeId)
         {
             Name = name;
             Email = email;
             Roles = roles;
+            EmployeeId = employeeId;
         }
 
         public string Name { get; private set; }
         public string Email { get; private set; }
         public string[] Roles { get; private set; }
+        public int EmployeeId {get; private set; }
 
         #region IIdentity Members
         public string AuthenticationType { get { return "Custom authentication"; } }

@@ -14,7 +14,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EducationProcess.Desktop.Core;
+using EducationProcess.Desktop.Helpers.Identity;
+using EducationProcess.Desktop.ViewModels;
 using MahApps.Metro.Controls;
+using MahApps.Metro.Controls.Dialogs;
 
 namespace EducationProcess.Desktop
 {
@@ -29,10 +32,14 @@ namespace EducationProcess.Desktop
     /// </summary>
     public partial class MainWindow : MetroWindow, IView
     {
+        private readonly MainWindowViewModel _viewModel;
         public MainWindow()
         {
+            this._viewModel = new MainWindowViewModel(DialogCoordinator.Instance);
+            this.DataContext = this._viewModel;
             InitializeComponent();
-                // MessageBox.Show("Итог: " + Thread.CurrentPrincipal.Identity.Name);
+            CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+            MessageBox.Show("Итог: " + customPrincipal.Identity.Name);
         }
 
         #region IView Members

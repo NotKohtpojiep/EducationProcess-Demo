@@ -3,48 +3,55 @@
                  xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+                 xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  mc:Ignorable="d"
-                 Title="Login window" Height="250" Width="400">
+                 Title="Авторизация" Height="250" Width="300"
+                 WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
         <BooleanToVisibilityConverter x:Key="booleanToVisibilityConverter"/>
     </Window.Resources>
     <Grid Margin="10">
         <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="10"/>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="10"/>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <TextBlock Text="{Binding AuthenticatedUser}" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="2"
+        <TextBlock Text="{Binding AuthenticatedUser}" Grid.Row="0" Grid.Column="1" Grid.ColumnSpan="2"
                FontSize="14" HorizontalAlignment="Right" TextWrapping="Wrap" FontWeight="Bold"
                Margin="2,2,2,2"/>
-        <TextBlock Text="Username:" Grid.Row="1" Grid.Column="0" />
-        <TextBlock Text="Password:" Grid.Row="2" Grid.Column="0" />
-        <TextBox Text="{Binding Username}" Grid.Row="1" Grid.Column="1" />
-        <PasswordBox x:Name="passwordBox" Grid.Row="2" Grid.Column="1" />
-        <StackPanel Orientation="Horizontal" Grid.Row="3" Grid.Column="1">
-            <Button Content="Log in" Command="{Binding LoginCommand}"
-                    CommandParameter="{Binding ElementName=passwordBox}"
-            HorizontalAlignment="Center"/>
+
+        <TextBlock Text="Логин:" Grid.Row="1" Grid.Column="1" />
+        <TextBlock Text="Пароль:" Grid.Row="2" Grid.Column="1" />
+        <TextBox Text="{Binding Username}" mah:TextBoxHelper.Watermark="Логин" Grid.Row="1" Grid.Column="2" Margin="10,0,40,0" />
+        <PasswordBox x:Name="passwordBox" Grid.Row="2" Grid.Column="2" mah:TextBoxHelper.Watermark="Пароль" Margin="10,0,40,0" />
+
+        <Button Content="Войти в систему" Command="{Binding LoginCommand}"
+                CommandParameter="{Binding ElementName=passwordBox}" Grid.Row="4" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" />
+
+        <TextBlock Text="{Binding Status}" Grid.Row="5" Grid.Column="2"
+                   HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" TextWrapping="Wrap" />
+
+        <mah:ProgressRing Grid.ColumnSpan="3" HorizontalAlignment="Center"  Grid.RowSpan="6" Grid.Row="0" VerticalAlignment="Center" Visibility="{Binding IsVisibleProgressBar}"/>
+        <!--
             <Button Content="Log out" Command="{Binding LogoutCommand}"
             Visibility="{Binding IsAuthenticated, Converter={StaticResource booleanToVisibilityConverter}}"
             HorizontalAlignment="Center" Margin="2,0,0,0"/>
         </StackPanel>
-        <TextBlock Text="{Binding Status}" Grid.Row="4" Grid.Column="1"
-               HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" TextWrapping="Wrap" />
         <StackPanel Grid.Row="5" Grid.Column="1" VerticalAlignment="Center">
             <Button Content="Show secret view" Command="{Binding ShowViewCommand}" CommandParameter="Gay"
               HorizontalAlignment="Center"/>
             <Button Content="Show admin view" Command="{Binding ShowViewCommand}" CommandParameter="Admin"
               HorizontalAlignment="Center" Margin="2,2,0,0" />
-        </StackPanel>
+            -->
+
     </Grid>
 </mah:MetroWindow>

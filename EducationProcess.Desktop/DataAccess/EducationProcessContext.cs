@@ -3,7 +3,9 @@ using EducationProcess.Desktop.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-#nullable disable
+// Code scaffolded by EF Core assumes nullable reference types (NRTs) are not used or disabled.
+// If you have enabled NRTs for your project, then un-comment the following line:
+// #nullable disable
 
 namespace EducationProcess.Desktop.DataAccess
 {
@@ -18,37 +20,35 @@ namespace EducationProcess.Desktop.DataAccess
         {
         }
 
-        public virtual DbSet<AcademicYear> AcademicYears { get; set; }
-        public virtual DbSet<Account> Accounts { get; set; }
-        public virtual DbSet<Cathedra> Cathedras { get; set; }
-        public virtual DbSet<Discipline> Disciplines { get; set; }
-        public virtual DbSet<Employee> Employees { get; set; }
-        public virtual DbSet<Group> Groups { get; set; }
-        public virtual DbSet<Post> Posts { get; set; }
-        public virtual DbSet<Semester> Semesters { get; set; }
-        public virtual DbSet<SemesterDiscipline> SemesterDisciplines { get; set; }
-        public virtual DbSet<Specialty> Specialties { get; set; }
+        public virtual DbSet<AcademicYears> AcademicYears { get; set; }
+        public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Cathedras> Cathedras { get; set; }
+        public virtual DbSet<Disciplines> Disciplines { get; set; }
+        public virtual DbSet<Employees> Employees { get; set; }
+        public virtual DbSet<Groups> Groups { get; set; }
+        public virtual DbSet<Posts> Posts { get; set; }
+        public virtual DbSet<SemesterDisciplines> SemesterDisciplines { get; set; }
+        public virtual DbSet<Semesters> Semesters { get; set; }
+        public virtual DbSet<Specialties> Specialties { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-#warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
+#warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
                 optionsBuilder.UseSqlServer("Server=DESKTOP-F79I7DI\\PLEASEBEMYSEMPAI;Database=EducationProcess;Trusted_Connection=True;");
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.HasAnnotation("Relational:Collation", "Cyrillic_General_CI_AS");
-
-            modelBuilder.Entity<AcademicYear>(entity =>
+            modelBuilder.Entity<AcademicYears>(entity =>
             {
+                entity.HasKey(e => e.AcademicYearId);
+
                 entity.ToTable("Academic_years");
 
-                entity.Property(e => e.AcademicYearId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Academic_year_id");
+                entity.Property(e => e.AcademicYearId).HasColumnName("Academic_year_id");
 
                 entity.Property(e => e.BeginingYear).HasColumnName("Begining_year");
 
@@ -57,8 +57,6 @@ namespace EducationProcess.Desktop.DataAccess
 
             modelBuilder.Entity<Account>(entity =>
             {
-                entity.ToTable("Account");
-
                 entity.Property(e => e.AccountId).HasColumnName("Account_id");
 
                 entity.Property(e => e.EmployeeId).HasColumnName("Employee_id");
@@ -72,14 +70,16 @@ namespace EducationProcess.Desktop.DataAccess
                     .HasMaxLength(75);
 
                 entity.HasOne(d => d.Employee)
-                    .WithMany(p => p.Accounts)
+                    .WithMany(p => p.Account)
                     .HasForeignKey(d => d.EmployeeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Account_Employees");
             });
 
-            modelBuilder.Entity<Cathedra>(entity =>
+            modelBuilder.Entity<Cathedras>(entity =>
             {
+                entity.HasKey(e => e.CathedraId);
+
                 entity.Property(e => e.CathedraId).HasColumnName("Cathedra_id");
 
                 entity.Property(e => e.Abbreviation).HasMaxLength(10);
@@ -89,8 +89,10 @@ namespace EducationProcess.Desktop.DataAccess
                     .HasMaxLength(75);
             });
 
-            modelBuilder.Entity<Discipline>(entity =>
+            modelBuilder.Entity<Disciplines>(entity =>
             {
+                entity.HasKey(e => e.DisciplineId);
+
                 entity.Property(e => e.DisciplineId).HasColumnName("Discipline_id");
 
                 entity.Property(e => e.ConsultationHours).HasColumnName("Consultation_hours");
@@ -122,8 +124,10 @@ namespace EducationProcess.Desktop.DataAccess
                 entity.Property(e => e.TestHours).HasColumnName("Test_hours");
             });
 
-            modelBuilder.Entity<Employee>(entity =>
+            modelBuilder.Entity<Employees>(entity =>
             {
+                entity.HasKey(e => e.EmployeeId);
+
                 entity.Property(e => e.EmployeeId).HasColumnName("Employee_id");
 
                 entity.Property(e => e.Firstname)
@@ -145,8 +149,10 @@ namespace EducationProcess.Desktop.DataAccess
                     .HasConstraintName("FK_Employees_Posts");
             });
 
-            modelBuilder.Entity<Group>(entity =>
+            modelBuilder.Entity<Groups>(entity =>
             {
+                entity.HasKey(e => e.GroupId);
+
                 entity.Property(e => e.GroupId).HasColumnName("Group_id");
 
                 entity.Property(e => e.CourseNumber).HasColumnName("Course_number");
@@ -174,8 +180,11 @@ namespace EducationProcess.Desktop.DataAccess
                     .HasConstraintName("FK_Groups_Specialties");
             });
 
-            modelBuilder.Entity<Post>(entity =>
+            modelBuilder.Entity<Posts>(entity =>
             {
+                entity.HasKey(e => e.PostId)
+                    .HasName("PK_Speciality");
+
                 entity.Property(e => e.PostId).HasColumnName("Post_id");
 
                 entity.Property(e => e.Name)
@@ -183,21 +192,11 @@ namespace EducationProcess.Desktop.DataAccess
                     .HasMaxLength(75);
             });
 
-            modelBuilder.Entity<Semester>(entity =>
+            modelBuilder.Entity<SemesterDisciplines>(entity =>
             {
-                entity.Property(e => e.SemesterId).HasColumnName("Semester_id");
+                entity.HasKey(e => e.SemesterDisciplineId)
+                    .HasName("PK_Semesters_Disciplines");
 
-                entity.Property(e => e.AcademicYearId).HasColumnName("Academic_year_id");
-
-                entity.HasOne(d => d.AcademicYear)
-                    .WithMany(p => p.Semesters)
-                    .HasForeignKey(d => d.AcademicYearId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Semesters_Academic_years");
-            });
-
-            modelBuilder.Entity<SemesterDiscipline>(entity =>
-            {
                 entity.ToTable("Semester_disciplines");
 
                 entity.Property(e => e.SemesterDisciplineId).HasColumnName("Semester_discipline_id");
@@ -210,8 +209,8 @@ namespace EducationProcess.Desktop.DataAccess
 
                 entity.Property(e => e.GroupName)
                     .IsRequired()
-                    .HasMaxLength(10)
-                    .HasColumnName("Group_name");
+                    .HasColumnName("Group_name")
+                    .HasMaxLength(10);
 
                 entity.Property(e => e.IsAccepted).HasColumnName("Is_accepted");
 
@@ -242,13 +241,26 @@ namespace EducationProcess.Desktop.DataAccess
                     .HasConstraintName("FK_Semesters_Disciplines_Semesters");
             });
 
-            modelBuilder.Entity<Specialty>(entity =>
+            modelBuilder.Entity<Semesters>(entity =>
+            {
+                entity.HasKey(e => e.SemesterId);
+
+                entity.Property(e => e.SemesterId).HasColumnName("Semester_id");
+
+                entity.Property(e => e.AcademicYearId).HasColumnName("Academic_year_id");
+
+                entity.HasOne(d => d.AcademicYear)
+                    .WithMany(p => p.Semesters)
+                    .HasForeignKey(d => d.AcademicYearId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Semesters_Academic_years");
+            });
+
+            modelBuilder.Entity<Specialties>(entity =>
             {
                 entity.HasKey(e => e.SpecialtieId);
 
-                entity.Property(e => e.SpecialtieId)
-                    .ValueGeneratedNever()
-                    .HasColumnName("Specialtie_id");
+                entity.Property(e => e.SpecialtieId).HasColumnName("Specialtie_id");
 
                 entity.Property(e => e.Abbreviation).HasMaxLength(10);
 

@@ -9,7 +9,7 @@ namespace EducationProcess.Desktop.Helpers.Identity
     public class AnonymousIdentity : CustomIdentity
     {
         public AnonymousIdentity()
-            : base(string.Empty, string.Empty, new string[] { })
+            : base(string.Empty, string.Empty, new string[] { }, 0)
         { }
     }
 }
