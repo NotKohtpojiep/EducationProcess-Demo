@@ -4,6 +4,8 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewmodels="clr-namespace:EducationProcess.Desktop.ViewModels"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             mah:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewmodels:EducationalActivitiesViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
@@ -13,22 +15,34 @@
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-       
-        <DataGrid x:Name="DataGridsss" Grid.Row="1" ItemsSource="{Binding SemesterDisciplines}" AutoGenerateColumns="False" CanUserAddRows="false">
+        <Grid x:Name="SemestreHeadInfo" Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="20"/>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="1" Content="Семестр I" FontSize="24" HorizontalAlignment="Left"></Label>
+            <Label Grid.Column="1" Content="Учебный год:" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Center" ></Label>
+            <ComboBox Grid.Column="2" HorizontalAlignment="Left" Width="100" Margin="10" ItemsSource="{Binding AcademicYears}" SelectedIndex="0"></ComboBox>
+
+        </Grid>
+
+        <DataGrid x:Name="SemesterDisciplinesDataGrid" Grid.Row="1" ItemsSource="{Binding SemesterDisciplines}" AutoGenerateColumns="False" CanUserAddRows="false">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Дисциплина" Binding="{Binding  Discipline.Name}"/>
-                <DataGridTextColumn Header="Группа" Binding="{Binding Group.Name}"/>
-                <DataGridTextColumn Header="Лекции" Binding="{Binding Discipline.LectionLessonHours}"/>
-                <DataGridTextColumn Header="Прак. зан." Binding="{Binding Discipline.PracticalLessonHours}"/>
-                <DataGridTextColumn Header="Лаб. зан." Binding="{Binding Discipline.LaboratoryLessonHours}"/>
-                <DataGridTextColumn Header="Консульт." Binding="{Binding Discipline.ConsultationHours}"/>
-                <DataGridTextColumn Header="Зачеты" Binding="{Binding Discipline.TestHours}"/>
-                <DataGridTextColumn Header="Экзаменных" Binding="{Binding Discipline.ExamHours}"/>
-                <DataGridTextColumn Header="Курс. пр." Binding="{Binding Discipline.CourseworkProjectHours}"/>
-                <DataGridTextColumn Header="Дипл. пр." Binding="{Binding Discipline.DiplomaProjectHours}"/>
-                <DataGridTextColumn Header="ГЭК" Binding="{Binding Discipline.SecHours}"/>
-                <DataGridTextColumn Header="Рук. пркт." Binding="{Binding Discipline.PracticeHeadHours}"/>
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Discipline.Note}"/>
+                <DataGridTextColumn Header="Дисциплина" Binding="{Binding  DisciplineName}"/>
+                <DataGridTextColumn Header="Группа" Binding="{Binding  GroupName}"/>
+                <DataGridTextColumn Header="Лекции" Binding="{Binding LectionLessonHours}"/>
+                <DataGridTextColumn Header="Прак. зан." Binding="{Binding PracticalLessonHours}"/>
+                <DataGridTextColumn Header="Лаб. зан." Binding="{Binding LaboratoryLessonHours}"/>
+                <DataGridTextColumn Header="Консульт." Binding="{Binding ConsultationHours}"/>
+                <DataGridTextColumn Header="Зачеты" Binding="{Binding TestHours}"/>
+                <DataGridTextColumn Header="Экзаменных" Binding="{Binding ExamHours}"/>
+                <DataGridTextColumn Header="Курс. пр." Binding="{Binding CourseworkProjectHours}"/>
+                <DataGridTextColumn Header="Дипл. пр." Binding="{Binding DiplomaProjectHours}"/>
+                <DataGridTextColumn Header="ГЭК" Binding="{Binding SecHours}"/>
+                <DataGridTextColumn Header="Рук. пркт." Binding="{Binding PracticeHeadHours}"/>
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"/>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -39,7 +53,7 @@
                 <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="*"/>
             </Grid.ColumnDefinitions>
-            <Button  Click="ToExcelButton_OnClick" Content="Экспортировать данные" Margin="10"/>
+            <Button Command="{Binding ConvertToExcelCommand}" Content="Экспортировать в Excel" Margin="10" Background="LightGreen"/>
         </Grid>
     </Grid>
 </UserControl>

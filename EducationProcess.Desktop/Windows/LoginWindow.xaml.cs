@@ -15,7 +15,7 @@ using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.ViewModels;
 using MahApps.Metro.Controls;
 
-namespace EducationProcess.Desktop.Views
+namespace EducationProcess.Desktop.Windows
 {
     /// <summary>
     /// Interaction logic for LoginWindow.xaml

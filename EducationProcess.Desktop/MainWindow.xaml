@@ -5,14 +5,13 @@
                  xmlns:viewmodels="clr-namespace:EducationProcess.Desktop.ViewModels"
                  xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                 xmlns:theming="urn:controlzex" 
                  xmlns:views="clr-namespace:EducationProcess.Desktop.Views"
-                 Title="Education Process"
+                 Title="Учебный процесс"
                  Width="900"
                  Height="600"
                  d:DataContext="{d:DesignInstance viewmodels:MainWindowViewModel}"
                  d:DesignHeight="600"
-                 d:DesignWidth="800"
+                 d:DesignWidth="900"
                  mah:DialogParticipation.Register="{Binding}"
                  GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                  NonActiveGlowBrush="#CDFF0000"
@@ -29,26 +28,9 @@
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands ShowLastSeparator="False">
             <Button 
-                    Content="Flyouts"
+                    Content="{Binding HelloUserMessage}"
                     ToolTip="Flyouts demo window" />
-            <Button 
-                    Content="IconPacks"
-                    ToolTip="All MahApp icons" />
-            <Button 
-                    Content="VS"
-                    ToolTip="Visual Studio style demo" />
-            <Button 
-                    Content="Clean"
-                    ToolTip="Clean window style demo" />
-            <Button
-                    Content="Interop"
-                    ToolTip="The interop demo" />
-            <Button 
-                    Content="Navigation"
-                    ToolTip="Window navigation demo" />
-            <ToggleButton Content="Confirm quit"
-                          IsChecked="{Binding QuitConfirmationEnabled}"
-                          ToolTip="Enable quit confirmation dialog on exit" />
+
         </mah:WindowCommands>
     </mah:MetroWindow.RightWindowCommands>
 
@@ -64,21 +46,24 @@
                 <ScrollViewer Margin="2"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto">
-                    <Button Content="Button" Command="{Binding ShowInputDialogCommand}"/>
+                    <Grid>
+                        <Label Content="Я честно не знаю, что может здесь такое быть..."></Label>
+                        <Button Content="Вывести сообщение" Command="{Binding ShowInputDialogCommand}" VerticalAlignment="Center"/>
+                    </Grid>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Учебный процесс">
                 <ScrollViewer Margin="2"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto">
-                    <views:EducationalActivitiesView DataContext="{Binding EducationalActivitiesViewModelsss}"/>
+                    <views:EducationalActivitiesView DataContext="{Binding EducationalActivitiesViewModels}"/>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Дисциплины">
                 <ScrollViewer Margin="2"
                               HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto">
-           
+                    <views:DisciplinesView DataContext="{Binding DisciplinesViewModel}"></views:DisciplinesView>
                 </ScrollViewer>
             </TabItem>
             <TabItem Header="Группы">
@@ -91,27 +76,13 @@
 
                 </ScrollViewer>
             </TabItem>
-            <TabItem Header="progress">
-                <ScrollViewer Margin="2"
-                              HorizontalScrollBarVisibility="Auto"
-                              VerticalScrollBarVisibility="Auto">
-
-                </ScrollViewer>
-            </TabItem>
-            <TabItem Header="splitview">
-                <ScrollViewer Margin="2" VerticalScrollBarVisibility="Auto">
-
-                </ScrollViewer>
-            </TabItem>
-
         </mah:MetroAnimatedSingleRowTabControl>
 
         <StatusBar Grid.Row="2">
-            <StatusBarItem>MahApps.Metro DEMO Application</StatusBarItem>
+            <StatusBarItem Content="{Binding UserRole}"></StatusBarItem>
             <Separator Style="{StaticResource MahApps.Styles.Separator.StatusBar}" />
-            <StatusBarItem>Selected Tab:</StatusBarItem>
+            <StatusBarItem>Выбранное окно:</StatusBarItem>
             <StatusBarItem Content="{Binding ElementName=MainTabControl, Path=SelectedItem.Header, Mode=OneWay}" />
         </StatusBar>
-
     </Grid>
 </mah:MetroWindow>

@@ -22,7 +22,8 @@ namespace EducationProcess.Desktop.ViewModels
         private BaseRoleViewModel _selectedRole;
 
         public BaseRoleViewModel[] Roles { get; }
-        public EducationalActivitiesViewModel EducationalActivitiesViewModelsss { get; set; }
+        public EducationalActivitiesViewModel EducationalActivitiesViewModels { get; set; }
+        public DisciplinesViewModel DisciplinesViewModel { get; set; }
 
         public MainWindowViewModel(IDialogCoordinator dialogCoordinator)
         {
@@ -35,7 +36,8 @@ namespace EducationProcess.Desktop.ViewModels
                 new UserRoleViewModel(),
             };
 
-            EducationalActivitiesViewModelsss = new EducationalActivitiesViewModel(dialogCoordinator);
+            EducationalActivitiesViewModels = new EducationalActivitiesViewModel(dialogCoordinator);
+            DisciplinesViewModel = new DisciplinesViewModel();
 
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal == null)
@@ -53,11 +55,14 @@ namespace EducationProcess.Desktop.ViewModels
                         $"This dialog was shown from a VM, without knowledge of Window... And hello, {currentEmployee.Firstname} {currentEmployee.Lastname}");
                 }
             );
+            HelloUserMessage = $"Здравствуйте, {currentEmployee.Firstname} {currentEmployee.Lastname}";
+            UserRole = $"{SelectedRole.Name}";
 
         }
 
         public RelayCommand ShowInputDialogCommand { get; set; }
-
+        public string HelloUserMessage { get; private set; }
+        public string UserRole { get; private set; }
         public string Error => string.Empty;
 
         public string? this[string columnName]

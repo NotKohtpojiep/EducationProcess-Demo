@@ -8,7 +8,7 @@ using System.Windows;
 using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.Helpers.Identity;
 using EducationProcess.Desktop.ViewModels;
-using EducationProcess.Desktop.Views;
+using EducationProcess.Desktop.Windows;
 using MahApps.Metro.Controls;
 
 namespace EducationProcess.Desktop
@@ -18,7 +18,6 @@ namespace EducationProcess.Desktop
     /// </summary>
     public partial class App : Application
     {
-
         protected override void OnStartup(StartupEventArgs e)
         {
             //Create a custom principal with an anonymous identity at startup
@@ -32,6 +31,5 @@ namespace EducationProcess.Desktop
             IView loginWindow = new LoginWindow(viewModel);
             loginWindow.Show();
         }
-
     }
 }

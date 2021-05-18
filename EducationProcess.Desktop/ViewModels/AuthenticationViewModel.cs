@@ -58,7 +58,7 @@ namespace EducationProcess.Desktop.ViewModels
         public RelayCommand ShowViewCommand { get; set; }
         #endregion
 
-        private async void  Login(object parameter)
+        private async void Login(object parameter)
         {
             IsAuthenticating = true;
             IsVisibleProgressBar = "Visible";
@@ -144,8 +144,8 @@ namespace EducationProcess.Desktop.ViewModels
                 if (Thread.CurrentPrincipal.IsInRole("Администратор") == false)
                     throw new SecurityException();
 
-                view?.Show();
                 this.CloseView();
+                view?.Show();
             }
             catch (SecurityException)
             {

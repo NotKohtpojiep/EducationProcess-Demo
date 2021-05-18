@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.Helpers.Identity;
 using EducationProcess.Desktop.ViewModels;
+using EducationProcess.Desktop.Windows;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
@@ -39,7 +40,10 @@ namespace EducationProcess.Desktop
             this.DataContext = this._viewModel;
             InitializeComponent();
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
-            MessageBox.Show("Итог: " + customPrincipal.Identity.Name);
+
+            DisciplineWindow dw = new DisciplineWindow();
+            dw.WindowStartupLocation = WindowStartupLocation.CenterOwner;
+            dw.ShowDialog();
         }
 
         #region IView Members
