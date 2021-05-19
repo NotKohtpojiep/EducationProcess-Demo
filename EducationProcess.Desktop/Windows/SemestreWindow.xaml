@@ -121,7 +121,6 @@
                         </Grid>
                     </Border>
 
-
                     <Border BorderBrush="LightGray" BorderThickness="5" Margin="10" CornerRadius="5">
                         <Grid>
                             <Grid.RowDefinitions>

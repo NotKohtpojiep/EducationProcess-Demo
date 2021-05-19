@@ -16,8 +16,10 @@ using EducationProcess.Desktop.DataAccess;
 using EducationProcess.Desktop.DataAccess.Entities;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.EntityFrameworkCore;
-
-using Range = System.Range;
+using NPOI.HSSF.Util;
+using NPOI.SS.UserModel;
+using NPOI.SS.Util;
+using NPOI.XSSF.UserModel;
 
 namespace EducationProcess.Desktop.ViewModels
 {
@@ -96,7 +98,7 @@ namespace EducationProcess.Desktop.ViewModels
             semestreInfos.Add((new SemestreInfo(resultDiscipline, null)));
             string[] academicYears = new string[] { "2020-2021", "2019-2020", "2018-2019" };
 
-            SemesterDisciplines = new ObservableCollection<SemestreInfo>(semestreInfos);     
+            SemesterDisciplines = new ObservableCollection<SemestreInfo>(semestreInfos);
             AcademicYears = new ObservableCollection<string>(academicYears);
             ConvertToExcelCommand = new RelayCommand(null, _ => ConvertDataToExcel());
 
@@ -108,63 +110,101 @@ namespace EducationProcess.Desktop.ViewModels
 
         private void ConvertDataToExcel()
         {
-            var data = ToDataTable(SemesterDisciplines.ToList());
-            ToExcelFile(data, "test.xlsx");
+            ToExcelFile(null, null);
             _dialogCoordinator.ShowMessageAsync(this, "Конвертация в таблицу", "Операция завершена успешо.");
-        }
-
-        public static DataTable ToDataTable<T>(List<T> items)
-        {
-            var dataTable = new DataTable(typeof(T).Name);
-
-            //Get all the properties
-            var properties = typeof(T).GetProperties(BindingFlags.Public | BindingFlags.Instance);
-            foreach (var prop in properties)
-            {
-                //Defining type of data column gives proper data table 
-                var type = (prop.PropertyType.IsGenericType && prop.PropertyType.GetGenericTypeDefinition() == typeof(Nullable<>) ? Nullable.GetUnderlyingType(prop.PropertyType) : prop.PropertyType);
-                //Setting column names as Property names
-                dataTable.Columns.Add(prop.Name, type);
-            }
-            foreach (var item in items)
-            {
-                var values = new object[properties.Length];
-                for (var i = 0; i < properties.Length; i++)
-                {
-                    //inserting property values to data table rows
-                    values[i] = properties[i].GetValue(item, null);
-                }
-                dataTable.Rows.Add(values);
-            }
-            //put a breakpoint here and check data table
-            return dataTable;
         }
 
         public static void ToExcelFile(DataTable dataTable, string filePath, bool overwriteFile = true)
         {
-            if (File.Exists(filePath) && overwriteFile)
-                File.Delete(filePath);
+            var newFile = @"newbook.xlsx";
 
-            using (var connection = new OleDbConnection())
+            using (var fs = new FileStream(newFile, FileMode.Create, FileAccess.Write))
             {
-                connection.ConnectionString = $"Provider=Microsoft.ACE.OLEDB.12.0;Data Source={filePath};" +
-                                              "Extended Properties='Excel 12.0 Xml;HDR=YES;'";
-                connection.Open();
-                using (var command = new OleDbCommand())
+
+                IWorkbook workbook = new XSSFWorkbook();
+
+                ISheet sheet1 = workbook.CreateSheet("Sheet1");
+
+                var style = workbook.CreateCellStyle();
+                style.FillForegroundColor = HSSFColor.LightYellow.Index;
+                style.FillPattern = FillPattern.SolidForeground;
+                style.WrapText = true;
+                style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+                style.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Bottom;
+                style.BorderBottom = BorderStyle.Thin;
+                style.BorderTop = BorderStyle.Thin;
+                style.BorderLeft = BorderStyle.Thin;
+                style.BorderRight = BorderStyle.Thin;
+
+                sheet1.AddMergedRegion(new CellRangeAddress(0, 1, 0, 0));
+                var rowIndex = 0;
+                IRow row = sheet1.CreateRow(rowIndex);
+                row.Height = 30 * 30;
+                var cell = row.CreateCell(0);
+                cell.CellStyle = style;
+                cell.SetCellValue("Наименование дисциплины");
+                IRow row2 = sheet1.CreateRow(1);
+                var cell22 = row2.CreateCell(0);
+                cell22.CellStyle = style;
+                sheet1.AutoSizeColumn(0);
+                rowIndex++;
+
+
+                sheet1.AddMergedRegion(new CellRangeAddress(0, 1, 1, 1));
+                row.Height = 30 * 30;
+                cell = row.CreateCell(1);
+                cell.CellStyle = style;
+                cell.SetCellValue("Группа");
+                sheet1.AutoSizeColumn(1);
+
+
+
+                sheet1.AddMergedRegion(new CellRangeAddress(0, 0, 2, 12));
+                row = sheet1.GetRow(0);
+                cell = row.CreateCell(2);
+                cell.CellStyle = style;
+                cell.SetCellValue("Количество часов по видам");
+
+                row = sheet1.CreateRow(1);
+                string[] hoursType = new[]
                 {
-                    command.Connection = connection;
-                    var columnNames = (from DataColumn dataColumn in dataTable.Columns select dataColumn.ColumnName).ToList();
-                    var tableName = !string.IsNullOrWhiteSpace(dataTable.TableName) ? dataTable.TableName : Guid.NewGuid().ToString();
-                    command.CommandText = $"CREATE TABLE [{tableName}] ({string.Join(",", columnNames.Select(c => $"[{c}] VARCHAR").ToArray())});";
-                    command.ExecuteNonQuery();
-                    foreach (DataRow row in dataTable.Rows)
-                    {
-                        var rowValues = (from DataColumn column in dataTable.Columns select (row[column] != null && row[column] != DBNull.Value) ? row[column].ToString() : string.Empty).ToList();
-                        command.CommandText = $"INSERT INTO [{tableName}]({string.Join(",", columnNames.Select(c => $"[{c}]"))}) VALUES ({string.Join(",", rowValues.Select(r => $"'{r}'").ToArray())});";
-                        command.ExecuteNonQuery();
-                    }
+                    "Лекции", "Прак. зан.", "Лаб. зан.", "Консульт.", "Зачеты", "Экзамены", "Курс. пр.", "Дипл. пр.",
+                    "ГЭК", "Рук. пркт.", "Проверка конт. раб."
+                };
+                for (int i = 0; i < hoursType.Length; i++)
+                {
+                    cell = row.CreateCell(i + 2);
+                    cell.CellStyle = style;
+                    cell.SetCellValue(hoursType[i]);
                 }
-                connection.Close();
+
+                sheet1.AddMergedRegion(new CellRangeAddress(0, 1, 13, 13));
+                row = sheet1.GetRow(0);
+                cell = row.CreateCell(13);
+                cell.CellStyle = style;
+                cell.SetCellValue("Примечание");
+
+
+                var sheet2 = workbook.CreateSheet("Sheet2");
+                var style1 = workbook.CreateCellStyle();
+                style1.FillForegroundColor = HSSFColor.Blue.Index2;
+                style1.FillPattern = FillPattern.SolidForeground;
+
+                var style2 = workbook.CreateCellStyle();
+                style2.FillForegroundColor = HSSFColor.Yellow.Index2;
+                style2.FillPattern = FillPattern.SolidForeground;
+
+                var cell2 = sheet2.CreateRow(0).CreateCell(0);
+                cell2.CellStyle = style1;
+                cell2.SetCellValue(0);
+
+                cell2 = sheet2.CreateRow(1).CreateCell(0);
+                cell2.CellStyle = style2;
+                cell2.SetCellValue(1);
+
+
+
+                workbook.Write(fs);
             }
         }
     }
