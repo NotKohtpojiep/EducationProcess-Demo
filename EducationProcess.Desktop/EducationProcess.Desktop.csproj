@@ -22,7 +22,6 @@
 
   <ItemGroup>
     <Folder Include="DataAccess\Entities\" />
-    <Folder Include="Helpers\Excel\" />
   </ItemGroup>
 
 </Project>
