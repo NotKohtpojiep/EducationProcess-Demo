@@ -40,6 +40,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 {
                     Discipline_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    Discipline_index = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(125)", maxLength: 125, nullable: false),
                     Lection_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
                     Practical_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
@@ -99,6 +100,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                     Specialtie_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Cathedra_id = table.Column<int>(type: "int", nullable: false),
+                    Specialtie_index = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(75)", maxLength: 75, nullable: false),
                     Abbreviation = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: true)
                 },
@@ -166,7 +168,8 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                     Course_number = table.Column<byte>(type: "tinyint", nullable: false),
                     Curator_id = table.Column<int>(type: "int", nullable: false),
                     Specialtie_id = table.Column<int>(type: "int", nullable: false),
-                    Receipt_year = table.Column<short>(type: "smallint", nullable: false)
+                    Receipt_year = table.Column<short>(type: "smallint", nullable: false),
+                    IsBudget = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {

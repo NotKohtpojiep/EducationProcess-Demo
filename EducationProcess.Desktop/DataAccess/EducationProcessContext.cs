@@ -99,6 +99,11 @@ namespace EducationProcess.Desktop.DataAccess
 
                 entity.Property(e => e.DiplomaProjectHours).HasColumnName("Diploma_project_hours");
 
+                entity.Property(e => e.DisciplineIndex)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("Discipline_index");
+
                 entity.Property(e => e.ExamHours).HasColumnName("Exam_hours");
 
                 entity.Property(e => e.LaboratoryLessonHours).HasColumnName("Laboratory_lesson_hours");
@@ -253,6 +258,11 @@ namespace EducationProcess.Desktop.DataAccess
                 entity.Property(e => e.Name)
                     .IsRequired()
                     .HasMaxLength(75);
+
+                entity.Property(e => e.SpecialtieIndex)
+                    .IsRequired()
+                    .HasMaxLength(10)
+                    .HasColumnName("Specialtie_index");
 
                 entity.HasOne(d => d.Cathedra)
                     .WithMany(p => p.Specialties)

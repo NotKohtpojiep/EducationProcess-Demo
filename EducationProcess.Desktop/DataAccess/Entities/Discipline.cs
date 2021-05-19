@@ -13,6 +13,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         }
 
         public int DisciplineId { get; set; }
+        public string DisciplineIndex { get; set; }
         public string Name { get; set; }
         public short LectionLessonHours { get; set; }
         public short PracticalLessonHours { get; set; }

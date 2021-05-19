@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EducationProcess.Desktop.DataAccess.Migrations
 {
     [DbContext(typeof(EducationProcessContext))]
-    [Migration("20210518130244_InitDb")]
+    [Migration("20210519145919_InitDb")]
     partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -116,6 +116,12 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                         .HasColumnType("smallint")
                         .HasColumnName("Diploma_project_hours");
 
+                    b.Property<string>("DisciplineIndex")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasColumnName("Discipline_index");
+
                     b.Property<short>("ExamHours")
                         .HasColumnType("smallint")
                         .HasColumnName("Exam_hours");
@@ -206,6 +212,9 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                     b.Property<int>("CuratorId")
                         .HasColumnType("int")
                         .HasColumnName("Curator_id");
+
+                    b.Property<bool>("IsBudget")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -336,6 +345,12 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                         .IsRequired()
                         .HasMaxLength(75)
                         .HasColumnType("nvarchar(75)");
+
+                    b.Property<string>("SpecialtieIndex")
+                        .IsRequired()
+                        .HasMaxLength(10)
+                        .HasColumnType("nvarchar(10)")
+                        .HasColumnName("Specialtie_index");
 
                     b.HasKey("SpecialtieId");
 

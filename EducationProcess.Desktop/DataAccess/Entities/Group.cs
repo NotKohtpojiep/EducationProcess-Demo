@@ -18,6 +18,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         public int CuratorId { get; set; }
         public int SpecialtieId { get; set; }
         public short ReceiptYear { get; set; }
+        public bool IsBudget { get; set; }
 
         public virtual Employee Curator { get; set; }
         public virtual Specialty Specialtie { get; set; }

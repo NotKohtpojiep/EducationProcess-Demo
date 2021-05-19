@@ -110,101 +110,181 @@ namespace EducationProcess.Desktop.ViewModels
 
         private void ConvertDataToExcel()
         {
-            ToExcelFile(null, null);
+            Discipline[] disciplines = new EducationProcessContext().Disciplines.ToArray();
+
+            ToExcelFile(disciplines, null);
             _dialogCoordinator.ShowMessageAsync(this, "Конвертация в таблицу", "Операция завершена успешо.");
         }
 
-        public static void ToExcelFile(DataTable dataTable, string filePath, bool overwriteFile = true)
+        public void ToExcelFile(Discipline[] disciplines, string filePath, bool overwriteFile = true)
         {
             var newFile = @"newbook.xlsx";
 
             using (var fs = new FileStream(newFile, FileMode.Create, FileAccess.Write))
             {
-
                 IWorkbook workbook = new XSSFWorkbook();
 
-                ISheet sheet1 = workbook.CreateSheet("Sheet1");
+                GetHeadersOfEducationPlan(workbook, "Учебный план");
+                ISheet sheet = workbook.GetSheet("Учебный план");
+                var horisontalTextStyle = GetHorisontalTextStyle(workbook);
 
-                var style = workbook.CreateCellStyle();
-                style.FillForegroundColor = HSSFColor.LightYellow.Index;
-                style.FillPattern = FillPattern.SolidForeground;
-                style.WrapText = true;
-                style.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
-                style.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Bottom;
-                style.BorderBottom = BorderStyle.Thin;
-                style.BorderTop = BorderStyle.Thin;
-                style.BorderLeft = BorderStyle.Thin;
-                style.BorderRight = BorderStyle.Thin;
-
-                sheet1.AddMergedRegion(new CellRangeAddress(0, 1, 0, 0));
-                var rowIndex = 0;
-                IRow row = sheet1.CreateRow(rowIndex);
-                row.Height = 30 * 30;
-                var cell = row.CreateCell(0);
-                cell.CellStyle = style;
-                cell.SetCellValue("Наименование дисциплины");
-                IRow row2 = sheet1.CreateRow(1);
-                var cell22 = row2.CreateCell(0);
-                cell22.CellStyle = style;
-                sheet1.AutoSizeColumn(0);
-                rowIndex++;
-
-
-                sheet1.AddMergedRegion(new CellRangeAddress(0, 1, 1, 1));
-                row.Height = 30 * 30;
-                cell = row.CreateCell(1);
-                cell.CellStyle = style;
-                cell.SetCellValue("Группа");
-                sheet1.AutoSizeColumn(1);
-
-
-
-                sheet1.AddMergedRegion(new CellRangeAddress(0, 0, 2, 12));
-                row = sheet1.GetRow(0);
-                cell = row.CreateCell(2);
-                cell.CellStyle = style;
-                cell.SetCellValue("Количество часов по видам");
-
-                row = sheet1.CreateRow(1);
-                string[] hoursType = new[]
+                for(int i = 0; i < disciplines.Length; i++)
                 {
-                    "Лекции", "Прак. зан.", "Лаб. зан.", "Консульт.", "Зачеты", "Экзамены", "Курс. пр.", "Дипл. пр.",
-                    "ГЭК", "Рук. пркт.", "Проверка конт. раб."
-                };
-                for (int i = 0; i < hoursType.Length; i++)
-                {
-                    cell = row.CreateCell(i + 2);
-                    cell.CellStyle = style;
-                    cell.SetCellValue(hoursType[i]);
+                    int index = i + 8;
+                    SetCellValue(sheet, index, 1, disciplines[i].DisciplineIndex, horisontalTextStyle);
+                    SetCellValue(sheet, index, 2, disciplines[i].Name, horisontalTextStyle);
+                    SetCellValue(sheet, index, 3, disciplines[i].ExamHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 4, disciplines[i].ExamHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 5, disciplines[i].LectionLessonHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 6, disciplines[i].PracticalLessonHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 7, disciplines[i].CourseworkProjectHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 8, disciplines[i].ConsultationHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 9, disciplines[i].ControlWorkVerificationHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 10, disciplines[i].ControlWorkVerificationHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 11, disciplines[i].ConsultationHours.ToString(), horisontalTextStyle);
+                    SetCellValue(sheet, index, 12, disciplines[i].DiplomaProjectHours.ToString(), horisontalTextStyle);
                 }
 
-                sheet1.AddMergedRegion(new CellRangeAddress(0, 1, 13, 13));
-                row = sheet1.GetRow(0);
-                cell = row.CreateCell(13);
-                cell.CellStyle = style;
-                cell.SetCellValue("Примечание");
-
-
-                var sheet2 = workbook.CreateSheet("Sheet2");
-                var style1 = workbook.CreateCellStyle();
-                style1.FillForegroundColor = HSSFColor.Blue.Index2;
-                style1.FillPattern = FillPattern.SolidForeground;
-
-                var style2 = workbook.CreateCellStyle();
-                style2.FillForegroundColor = HSSFColor.Yellow.Index2;
-                style2.FillPattern = FillPattern.SolidForeground;
-
-                var cell2 = sheet2.CreateRow(0).CreateCell(0);
-                cell2.CellStyle = style1;
-                cell2.SetCellValue(0);
-
-                cell2 = sheet2.CreateRow(1).CreateCell(0);
-                cell2.CellStyle = style2;
-                cell2.SetCellValue(1);
-
-
-
                 workbook.Write(fs);
+            }
+        }
+
+        private void SetCellValue(ISheet worksheet, int rowPosition, int columnPosition, String value, ICellStyle style = null)
+        {
+            IRow dataRow = worksheet.GetRow(rowPosition) ?? worksheet.CreateRow(rowPosition);
+            ICell cell = dataRow.GetCell(columnPosition) ?? dataRow.CreateCell(columnPosition);
+            cell.CellStyle = style;
+            cell.SetCellValue(value);
+        }
+
+        private ICellStyle GetVerticalTextStyle(IWorkbook workbook)
+        {
+            var verticalTextStyle = workbook.CreateCellStyle();
+            verticalTextStyle.WrapText = true;
+            verticalTextStyle.Rotation = 90;
+            verticalTextStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Left;
+            verticalTextStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Bottom;
+            verticalTextStyle.BorderBottom = BorderStyle.Thin;
+            verticalTextStyle.BorderTop = BorderStyle.Thin;
+            verticalTextStyle.BorderLeft = BorderStyle.Thin;
+            verticalTextStyle.BorderRight = BorderStyle.Thin;
+            verticalTextStyle.BorderDiagonal = BorderDiagonal.Both;
+
+            return verticalTextStyle;
+        }
+
+        private ICellStyle GetHorisontalTextStyle(IWorkbook workbook)
+        {
+            var horizontalTextStyle = workbook.CreateCellStyle();
+            horizontalTextStyle.WrapText = true;
+            horizontalTextStyle.Alignment = NPOI.SS.UserModel.HorizontalAlignment.Center;
+            horizontalTextStyle.VerticalAlignment = NPOI.SS.UserModel.VerticalAlignment.Bottom;
+            horizontalTextStyle.BorderBottom = BorderStyle.Thin;
+            horizontalTextStyle.BorderTop = BorderStyle.Thin;
+            horizontalTextStyle.BorderLeft = BorderStyle.Thin;
+            horizontalTextStyle.BorderRight = BorderStyle.Thin;
+
+            return horizontalTextStyle;
+        }
+        private void GetHeadersOfEducationPlan(IWorkbook workbook, string sheetName)
+        {
+            var verticalTextStyle = GetVerticalTextStyle(workbook);
+            var horizontalTextStyle = GetHorisontalTextStyle(workbook);
+
+            // Полотно
+            ISheet sheet = workbook.CreateSheet(sheetName);
+
+            // Первая строка "Учебный план"
+            sheet.AddMergedRegion(new CellRangeAddress(0, 0, 2, 26));
+            SetCellValue(sheet, 0, 2, "Учебный план");
+
+            // Вторая строка "для специальности ... гг."
+            sheet.AddMergedRegion(new CellRangeAddress(1, 1, 2, 26));
+            SetCellValue(sheet, 1, 2, "для специальности 09.02.07 Информационные системы и программирование. 2019-2020 г");
+
+            const int headerRow = 2;
+            int headerColumn = 1;
+
+            const int stepDown = 4;
+
+
+            // Колонка индекс
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow, headerColumn, "Индекс", verticalTextStyle);
+
+            headerColumn++;
+            // Колонка наименование дисциплин
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow, headerColumn, "Наименование циклов, дисциплин, профессиональных модулей, МДК, практик", horizontalTextStyle);
+
+            headerColumn++;
+            // Колонка форма промежуточной аттестации
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow, headerColumn, "Форма промежуточной аттестации (зачеты, дифференцированные зачеты)", verticalTextStyle);
+
+            headerColumn++;
+            // Колонка форма объема образовательной нагрузки
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow, headerColumn, "Объем образовательной нагрузки", verticalTextStyle);
+
+            headerColumn++;
+            // Колонка форма самостоятельная учебная нагрузка
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 1, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow + 1, headerColumn, "Самостоятельная учебная нагрузка", verticalTextStyle);
+
+            // Плитка учебная нагрузка обучающихся
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow, headerRow, headerColumn, headerColumn + 7));
+            SetCellValue(sheet, headerRow, headerColumn, "Учебная нагрузка обучающихся (час.)", horizontalTextStyle);
+
+
+            headerColumn++;
+            // Колонка Всего учебных занятий
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 3, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow + 3, headerColumn, "Всего учебных занятий", verticalTextStyle);
+
+            // Плитка взаимодействии с преподавателем
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 1, headerRow + 1, headerColumn, headerColumn + 6));
+            SetCellValue(sheet, headerRow + 1, headerColumn, "Во взаимодействии с преподавателем", horizontalTextStyle);
+
+            // Плитка нагрузка на дисциплины и МДК
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 2, headerRow + 2, headerColumn, headerColumn + 3));
+            SetCellValue(sheet, headerRow + 2, headerColumn, "Нагрузка на дисциплины и МДК", horizontalTextStyle);
+
+            headerColumn++;
+            // Колонка форма объема образовательной нагрузки
+
+            SetCellValue(sheet, headerRow + 4, headerColumn, "Теоретическое обучение", verticalTextStyle);
+            // Плитка нагрузка на дисциплины и МДК
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 3, headerRow + 3, headerColumn, headerColumn + 2));
+            SetCellValue(sheet, headerRow + 3, headerColumn, "в т.ч. по учебным дисциплинам и МДК", horizontalTextStyle);
+
+            headerColumn++;
+            // Колонка форма объема образовательной нагрузки
+            SetCellValue(sheet, headerRow + 4, headerColumn, "Лаб. и практ. занятия", verticalTextStyle);
+
+            headerColumn++;
+            // Колонка форма объема образовательной нагрузки
+            SetCellValue(sheet, headerRow + 4, headerColumn, "Курсовых работ (проектов)", verticalTextStyle);
+
+            headerColumn++;
+            // Колонка форма объема образовательной нагрузки
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 2, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow + 2, headerColumn, "По практике производственной и учебной", verticalTextStyle);
+
+            headerColumn++;
+            // Колонка форма объема образовательной нагрузки
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 2, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow + 2, headerColumn, "Консультации", verticalTextStyle);
+
+            headerColumn++;
+            // Колонка форма объема образовательной нагрузки
+            sheet.AddMergedRegion(new CellRangeAddress(headerRow + 2, headerRow + stepDown, headerColumn, headerColumn));
+            SetCellValue(sheet, headerRow + 2, headerColumn, "Промежуточная аттестация", verticalTextStyle);
+
+
+            for (int i = 1; i <= headerColumn; i++)
+            {
+                SetCellValue(sheet, headerRow + 5, i, i.ToString(), horizontalTextStyle);
             }
         }
     }

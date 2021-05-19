@@ -14,6 +14,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
 
         public int SpecialtieId { get; set; }
         public int CathedraId { get; set; }
+        public string SpecialtieIndex { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
 
