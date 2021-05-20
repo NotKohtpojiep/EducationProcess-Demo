@@ -15,6 +15,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         public int DisciplineId { get; set; }
         public string DisciplineIndex { get; set; }
         public string Name { get; set; }
+        public int? DisciplineGroupId { get; set; }
         public short LectionLessonHours { get; set; }
         public short PracticalLessonHours { get; set; }
         public short LaboratoryLessonHours { get; set; }
@@ -28,6 +29,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         public short ControlWorkVerificationHours { get; set; }
         public string Note { get; set; }
 
+        public virtual DisciplineGroup DisciplineGroup { get; set; }
         public virtual ICollection<SemesterDiscipline> SemesterDisciplines { get; set; }
     }
 }

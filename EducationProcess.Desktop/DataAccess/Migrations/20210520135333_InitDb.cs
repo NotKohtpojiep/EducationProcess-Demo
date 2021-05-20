@@ -35,29 +35,23 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Disciplines",
+                name: "Discipline_groups",
                 columns: table => new
                 {
-                    Discipline_id = table.Column<int>(type: "int", nullable: false)
+                    Discipline_group_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Discipline_index = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(125)", maxLength: 125, nullable: false),
-                    Lection_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Practical_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Laboratory_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Consultation_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Test_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Exam_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Coursework_project_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Diploma_project_hours = table.Column<short>(type: "smallint", nullable: false),
-                    SEC_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Practice_head_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Control_work_verification_hours = table.Column<short>(type: "smallint", nullable: false),
-                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    Discipline_group_head_id = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Disciplines", x => x.Discipline_id);
+                    table.PrimaryKey("PK_Discipline_groups", x => x.Discipline_group_id);
+                    table.ForeignKey(
+                        name: "FK_Discipline_groups_Discipline_groups",
+                        column: x => x.Discipline_group_head_id,
+                        principalTable: "Discipline_groups",
+                        principalColumn: "Discipline_group_id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -112,6 +106,39 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                         column: x => x.Cathedra_id,
                         principalTable: "Cathedras",
                         principalColumn: "Cathedra_id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Disciplines",
+                columns: table => new
+                {
+                    Discipline_id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Discipline_index = table.Column<string>(type: "nvarchar(10)", maxLength: 10, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(125)", maxLength: 125, nullable: false),
+                    Discipline_group_id = table.Column<int>(type: "int", nullable: true),
+                    Lection_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Practical_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Laboratory_lesson_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Consultation_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Test_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Exam_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Coursework_project_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Diploma_project_hours = table.Column<short>(type: "smallint", nullable: false),
+                    SEC_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Practice_head_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Control_work_verification_hours = table.Column<short>(type: "smallint", nullable: false),
+                    Note = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Disciplines", x => x.Discipline_id);
+                    table.ForeignKey(
+                        name: "FK_Disciplines_Discipline_groups",
+                        column: x => x.Discipline_group_id,
+                        principalTable: "Discipline_groups",
+                        principalColumn: "Discipline_group_id",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -236,6 +263,16 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 column: "Employee_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Discipline_groups_Discipline_group_head_id",
+                table: "Discipline_groups",
+                column: "Discipline_group_head_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Disciplines_Discipline_group_id",
+                table: "Disciplines",
+                column: "Discipline_group_id");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Employees_Post_id",
                 table: "Employees",
                 column: "Post_id");
@@ -297,6 +334,9 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Semesters");
+
+            migrationBuilder.DropTable(
+                name: "Discipline_groups");
 
             migrationBuilder.DropTable(
                 name: "Employees");

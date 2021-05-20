@@ -1,11 +1,10 @@
 ﻿using System;
-using EducationProcess.Desktop.DataAccess.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
 #nullable disable
 
-namespace EducationProcess.Desktop.DataAccess
+namespace EducationProcess.Desktop.DataAccess.Entities
 {
     public partial class EducationProcessContext : DbContext
     {
@@ -22,6 +21,7 @@ namespace EducationProcess.Desktop.DataAccess
         public virtual DbSet<Account> Accounts { get; set; }
         public virtual DbSet<Cathedra> Cathedras { get; set; }
         public virtual DbSet<Discipline> Disciplines { get; set; }
+        public virtual DbSet<DisciplineGroup> DisciplineGroups { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<Post> Posts { get; set; }
@@ -99,6 +99,8 @@ namespace EducationProcess.Desktop.DataAccess
 
                 entity.Property(e => e.DiplomaProjectHours).HasColumnName("Diploma_project_hours");
 
+                entity.Property(e => e.DisciplineGroupId).HasColumnName("Discipline_group_id");
+
                 entity.Property(e => e.DisciplineIndex)
                     .IsRequired()
                     .HasMaxLength(10)
@@ -123,6 +125,29 @@ namespace EducationProcess.Desktop.DataAccess
                 entity.Property(e => e.SecHours).HasColumnName("SEC_hours");
 
                 entity.Property(e => e.TestHours).HasColumnName("Test_hours");
+
+                entity.HasOne(d => d.DisciplineGroup)
+                    .WithMany(p => p.Disciplines)
+                    .HasForeignKey(d => d.DisciplineGroupId)
+                    .HasConstraintName("FK_Disciplines_Discipline_groups");
+            });
+
+            modelBuilder.Entity<DisciplineGroup>(entity =>
+            {
+                entity.ToTable("Discipline_groups");
+
+                entity.Property(e => e.DisciplineGroupId).HasColumnName("Discipline_group_id");
+
+                entity.Property(e => e.DisciplineGroupHeadId).HasColumnName("Discipline_group_head_id");
+
+                entity.Property(e => e.Name)
+                    .IsRequired()
+                    .HasMaxLength(100);
+
+                entity.HasOne(d => d.DisciplineGroupHead)
+                    .WithMany(p => p.InverseDisciplineGroupHead)
+                    .HasForeignKey(d => d.DisciplineGroupHeadId)
+                    .HasConstraintName("FK_Discipline_groups_Discipline_groups");
             });
 
             modelBuilder.Entity<Employee>(entity =>
