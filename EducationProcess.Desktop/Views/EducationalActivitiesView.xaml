@@ -5,55 +5,30 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:viewmodels="clr-namespace:EducationProcess.Desktop.ViewModels"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:views="clr-namespace:EducationProcess.Desktop.Views"
              mah:DialogParticipation.Register="{Binding}"
              mc:Ignorable="d" 
              d:DataContext="{d:DesignInstance viewmodels:EducationalActivitiesViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+
+        <DataTemplate DataType="{x:Type viewmodels:EducationPlansMenuViewModel}">
+            <views:EducationPlansMenuView />
+        </DataTemplate>
+        <DataTemplate DataType="{x:Type viewmodels:EducationPlanDisciplinesMenuViewModel}">
+            <views:EducationPlanDisciplinesMenuView />
+        </DataTemplate>
+
+
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
-        <Grid x:Name="SemestreHeadInfo" Row="0">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="20"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="20"/>
-            </Grid.ColumnDefinitions>
-            <Label Grid.Column="1" Content="Семестр I" FontSize="24" HorizontalAlignment="Left"></Label>
-            <Label Grid.Column="1" Content="Учебный год:" FontSize="20" HorizontalAlignment="Right" VerticalAlignment="Center" ></Label>
-            <ComboBox Grid.Column="2" HorizontalAlignment="Left" Width="100" Margin="10" ItemsSource="{Binding AcademicYears}" SelectedIndex="0"></ComboBox>
 
-        </Grid>
-
-        <DataGrid x:Name="SemesterDisciplinesDataGrid" Grid.Row="1" ItemsSource="{Binding SemesterDisciplines}" AutoGenerateColumns="False" CanUserAddRows="false">
-            <DataGrid.Columns>
-                <DataGridTextColumn Header="Дисциплина" Binding="{Binding  DisciplineName}"/>
-                <DataGridTextColumn Header="Группа" Binding="{Binding  GroupName}"/>
-                <DataGridTextColumn Header="Лекции" Binding="{Binding LectionLessonHours}"/>
-                <DataGridTextColumn Header="Прак. зан." Binding="{Binding PracticalLessonHours}"/>
-                <DataGridTextColumn Header="Лаб. зан." Binding="{Binding LaboratoryLessonHours}"/>
-                <DataGridTextColumn Header="Консульт." Binding="{Binding ConsultationHours}"/>
-                <DataGridTextColumn Header="Зачеты" Binding="{Binding TestHours}"/>
-                <DataGridTextColumn Header="Экзаменных" Binding="{Binding ExamHours}"/>
-                <DataGridTextColumn Header="Курс. пр." Binding="{Binding CourseworkProjectHours}"/>
-                <DataGridTextColumn Header="Дипл. пр." Binding="{Binding DiplomaProjectHours}"/>
-                <DataGridTextColumn Header="ГЭК" Binding="{Binding SecHours}"/>
-                <DataGridTextColumn Header="Рук. пркт." Binding="{Binding PracticeHeadHours}"/>
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"/>
-            </DataGrid.Columns>
-        </DataGrid>
-
-        <Grid Row="2" Height="50">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Button Command="{Binding ConvertToExcelCommand}" Content="Экспортировать в Excel" Margin="10" Background="LightGreen"/>
-        </Grid>
+        <ContentControl x:Name="FrameContent" Grid.Row="1" Content="{Binding SelectedViewModel}"/>
     </Grid>
 </UserControl>

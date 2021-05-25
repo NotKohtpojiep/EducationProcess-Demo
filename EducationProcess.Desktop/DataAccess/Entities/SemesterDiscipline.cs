@@ -7,17 +7,30 @@ namespace EducationProcess.Desktop.DataAccess.Entities
 {
     public partial class SemesterDiscipline
     {
+        public SemesterDiscipline()
+        {
+            EducationPlanSemesterDisciplines = new HashSet<EducationPlanSemesterDiscipline>();
+            FixedDisciplines = new HashSet<FixedDiscipline>();
+        }
+
         public int SemesterDisciplineId { get; set; }
         public int SemesterId { get; set; }
         public int DisciplineId { get; set; }
-        public int EmployeeId { get; set; }
-        public int GroupId { get; set; }
-        public bool IsAccepted { get; set; }
-        public string GroupName { get; set; }
+        public short TheoryLessonHours { get; set; }
+        public short PracticeWorkHours { get; set; }
+        public short LaboratoryWorkHours { get; set; }
+        public short ControlWorkHours { get; set; }
+        public short IndependentWorkHours { get; set; }
+        public short ConsultationHours { get; set; }
+        public short ExamHours { get; set; }
+        public short EducationalPracticeHours { get; set; }
+        public short ProductionPracticeHours { get; set; }
+        public int? CertificationFormId { get; set; }
 
+        public virtual IntermediateCertificationForm CertificationForm { get; set; }
         public virtual Discipline Discipline { get; set; }
-        public virtual Employee Employee { get; set; }
-        public virtual Group Group { get; set; }
         public virtual Semester Semester { get; set; }
+        public virtual ICollection<EducationPlanSemesterDiscipline> EducationPlanSemesterDisciplines { get; set; }
+        public virtual ICollection<FixedDiscipline> FixedDisciplines { get; set; }
     }
 }

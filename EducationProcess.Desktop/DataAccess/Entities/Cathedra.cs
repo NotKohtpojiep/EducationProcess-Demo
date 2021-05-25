@@ -9,13 +9,15 @@ namespace EducationProcess.Desktop.DataAccess.Entities
     {
         public Cathedra()
         {
-            Specialties = new HashSet<Specialty>();
+            CathedraSpecialties = new HashSet<CathedraSpecialty>();
+            Disciplines = new HashSet<Discipline>();
         }
 
         public int CathedraId { get; set; }
         public string Name { get; set; }
         public string Abbreviation { get; set; }
 
-        public virtual ICollection<Specialty> Specialties { get; set; }
+        public virtual ICollection<CathedraSpecialty> CathedraSpecialties { get; set; }
+        public virtual ICollection<Discipline> Disciplines { get; set; }
     }
 }

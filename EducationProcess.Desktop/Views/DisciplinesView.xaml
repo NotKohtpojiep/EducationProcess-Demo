@@ -7,7 +7,7 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
              mah:DialogParticipation.Register="{Binding}"
-             d:DataContext="{d:DesignInstance viewModels:DisciplinesViewModel}"
+
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="1000">
     <Grid>

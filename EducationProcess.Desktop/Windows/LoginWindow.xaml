@@ -29,10 +29,8 @@
                FontSize="14" HorizontalAlignment="Right" TextWrapping="Wrap" FontWeight="Bold"
                Margin="2,2,2,2"/>
 
-        <TextBlock Text="Логин:" Grid.Row="1" Grid.Column="1" VerticalAlignment="Center"/>
-        <TextBlock Text="Пароль:" Grid.Row="2" Grid.Column="1" VerticalAlignment="Center"/>
-        <TextBox Text="{Binding Username}" mah:TextBoxHelper.Watermark="Логин" Grid.Row="1" Grid.Column="2" Margin="2"/>
-        <PasswordBox x:Name="passwordBox" Grid.Row="2" Grid.Column="2" mah:TextBoxHelper.Watermark="Пароль" Margin="2" />
+        <TextBox Text="{Binding Username}" mah:TextBoxHelper.Watermark="Логин" Grid.Row="1" Grid.Column="2" Margin="2" mah:TextBoxHelper.UseFloatingWatermark="True"/>
+        <PasswordBox x:Name="passwordBox" Grid.Row="2" Grid.Column="2" mah:TextBoxHelper.Watermark="Пароль" Margin="2" mah:TextBoxHelper.UseFloatingWatermark="True" />
 
         <Button Content="Войти в систему" Command="{Binding LoginCommand}"
                 CommandParameter="{Binding ElementName=passwordBox}" Grid.Row="3" Grid.Column="1" Grid.ColumnSpan="2" HorizontalAlignment="Center" Margin="10"/>
@@ -40,7 +38,7 @@
         <TextBlock Text="{Binding Status}" Grid.Row="5" Grid.Column="2"
                    HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="Red" TextWrapping="Wrap" />
 
-        <mah:ProgressRing Grid.ColumnSpan="3" HorizontalAlignment="Center"  Grid.RowSpan="6" Grid.Row="0" VerticalAlignment="Center" Visibility="{Binding IsVisibleProgressBar}"/>
+        <mah:ProgressRing Grid.ColumnSpan="3" HorizontalAlignment="Center"  Grid.RowSpan="6" Grid.Row="0" VerticalAlignment="Center" IsActive="{Binding IsAuthenticating}"/>
         <CheckBox Content="Запомнить меня" Grid.Row="4" Grid.ColumnSpan="3" HorizontalAlignment="Center" Margin="5"/>
 
         <!--

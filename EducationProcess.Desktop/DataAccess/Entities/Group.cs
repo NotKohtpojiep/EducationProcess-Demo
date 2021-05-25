@@ -9,19 +9,20 @@ namespace EducationProcess.Desktop.DataAccess.Entities
     {
         public Group()
         {
-            SemesterDisciplines = new HashSet<SemesterDiscipline>();
+            FixedDisciplines = new HashSet<FixedDiscipline>();
         }
 
         public int GroupId { get; set; }
         public string Name { get; set; }
         public byte CourseNumber { get; set; }
         public int CuratorId { get; set; }
-        public int SpecialtieId { get; set; }
+        public int ReceivedEducationId { get; set; }
+        public int? EducationPlanId { get; set; }
         public short ReceiptYear { get; set; }
-        public bool IsBudget { get; set; }
 
         public virtual Employee Curator { get; set; }
-        public virtual Specialty Specialtie { get; set; }
-        public virtual ICollection<SemesterDiscipline> SemesterDisciplines { get; set; }
+        public virtual EducationPlan EducationPlan { get; set; }
+        public virtual ReceivedEducation ReceivedEducation { get; set; }
+        public virtual ICollection<FixedDiscipline> FixedDisciplines { get; set; }
     }
 }

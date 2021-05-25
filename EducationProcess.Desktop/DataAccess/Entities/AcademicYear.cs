@@ -9,13 +9,13 @@ namespace EducationProcess.Desktop.DataAccess.Entities
     {
         public AcademicYear()
         {
-            Semesters = new HashSet<Semester>();
+            EducationPlans = new HashSet<EducationPlan>();
         }
 
         public int AcademicYearId { get; set; }
         public short BeginingYear { get; set; }
         public short EndingYear { get; set; }
 
-        public virtual ICollection<Semester> Semesters { get; set; }
+        public virtual ICollection<EducationPlan> EducationPlans { get; set; }
     }
 }

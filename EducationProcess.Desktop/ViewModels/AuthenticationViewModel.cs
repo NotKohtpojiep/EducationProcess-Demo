@@ -61,7 +61,7 @@ namespace EducationProcess.Desktop.ViewModels
         private async void Login(object parameter)
         {
             IsAuthenticating = true;
-            IsVisibleProgressBar = "Visible";
+            
             PasswordBox passwordBox = parameter as PasswordBox;
             string clearTextPassword = passwordBox.Password;
             try
@@ -96,11 +96,7 @@ namespace EducationProcess.Desktop.ViewModels
             {
                 Status = string.Format("ERROR: {0}", ex.Message);
             }
-            finally
-            {
-                IsAuthenticated = false;
-                IsVisibleProgressBar = "Hidden";
-            }
+            IsAuthenticating = false;
         }
 
         private bool CanLogin(object parameter)
@@ -126,7 +122,6 @@ namespace EducationProcess.Desktop.ViewModels
 
         public bool IsAuthenticating { get; set; }
 
-        public string IsVisibleProgressBar { get; set; } = "Hidden";
         public bool IsAuthenticated { get; set; }
 
         private void ShowView(object parameter)

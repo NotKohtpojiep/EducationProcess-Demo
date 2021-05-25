@@ -10,24 +10,19 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 
-namespace EducationProcess.Desktop.Views
+namespace EducationProcess.Desktop.Windows
 {
     /// <summary>
-    /// Логика взаимодействия для AccountControl.xaml
+    /// Логика взаимодействия для AddDisciplineToTeacherWindow.xaml
     /// </summary>
-    public partial class AccountControl : UserControl
+    public partial class AddDisciplineToTeacherWindow : MetroWindow
     {
-        public AccountControl()
+        public AddDisciplineToTeacherWindow()
         {
             InitializeComponent();
-        }
-        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
-        {
-            this.HamburgerMenuControl.Content = e.InvokedItem;
         }
     }
 }

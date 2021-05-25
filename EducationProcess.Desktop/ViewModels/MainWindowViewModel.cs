@@ -23,7 +23,7 @@ namespace EducationProcess.Desktop.ViewModels
 
         public BaseRoleViewModel[] Roles { get; }
         public EducationalActivitiesViewModel EducationalActivitiesViewModels { get; set; }
-        public DisciplinesViewModel DisciplinesViewModel { get; set; }
+        public SemesterDisciplineViewModel DisciplinesViewModel { get; set; }
 
         public MainWindowViewModel(IDialogCoordinator dialogCoordinator)
         {
@@ -35,9 +35,9 @@ namespace EducationProcess.Desktop.ViewModels
                 new AdminRoleViewModel(),
                 new UserRoleViewModel(),
             };
+            //DisciplinesViewModel = new SemesterDisciplineViewModel();
 
-            EducationalActivitiesViewModels = new EducationalActivitiesViewModel(dialogCoordinator);
-            DisciplinesViewModel = new DisciplinesViewModel();
+            EducationalActivitiesViewModels = new EducationalActivitiesViewModel();
 
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
             if (customPrincipal == null)

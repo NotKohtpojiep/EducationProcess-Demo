@@ -18,6 +18,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using EducationProcess.Desktop.DataAccess.Entities;
 using EducationProcess.Desktop.ViewModels;
+using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace EducationProcess.Desktop.Views
@@ -30,6 +31,8 @@ namespace EducationProcess.Desktop.Views
         public EducationalActivitiesView()
         {
             InitializeComponent();
+            DataContext = new EducationalActivitiesViewModel();
         }
+        
     }
 }

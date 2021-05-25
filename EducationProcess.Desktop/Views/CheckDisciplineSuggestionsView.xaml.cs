@@ -12,22 +12,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MahApps.Metro.Controls;
+using EducationProcess.Desktop.ViewModels;
 
 namespace EducationProcess.Desktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AccountControl.xaml
+    /// Логика взаимодействия для TeachersView.xaml
     /// </summary>
-    public partial class AccountControl : UserControl
+    public partial class CheckDisciplineSuggestionsView : UserControl
     {
-        public AccountControl()
+        public CheckDisciplineSuggestionsView()
         {
             InitializeComponent();
-        }
-        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
-        {
-            this.HamburgerMenuControl.Content = e.InvokedItem;
+            DataContext = new CheckDisciplineSuggestionsViewModel();
         }
     }
 }

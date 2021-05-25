@@ -10,17 +10,17 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MahApps.Metro.Controls;
 
-namespace EducationProcess.Desktop.Windows
+namespace EducationProcess.Desktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для SemestreWindow.xaml
+    /// Логика взаимодействия для ConfirmLessonView.xaml
     /// </summary>
-    public partial class SemestreWindow : MetroWindow
+    public partial class ConfirmLessonView : UserControl
     {
-        public SemestreWindow()
+        public ConfirmLessonView()
         {
             InitializeComponent();
         }

@@ -21,32 +21,21 @@ namespace EducationProcess.Desktop.Helpers.Excel
             {
                 IWorkbook workbook = new XSSFWorkbook();
 
-                GetHeadersOfEducationPlan(workbook, "Учебный план");
+                (int, int) endedIndexes = GetHeadersOfEducationPlan(workbook, "Учебный план");
+                int startRow = endedIndexes.Item1 + 1;
+                int endCell = endedIndexes.Item2 + 1;
+
                 ISheet sheet = workbook.GetSheet("Учебный план");
-                var mainFont = CreateMainFontStyle(workbook, false);
-                var horisontalTextStyle = CreateHorisontalTextStyle(workbook, mainFont);
+                IFont mainFont = CreateMainFontStyle(workbook, false);
+                ICellStyle horisontalTextStyle = CreateHorisontalTextStyle(workbook, mainFont);
 
-
+                // TODO: Переработать индексы генерируемой шапки таблицы
                 for (int i = 0; i < disciplines.Length; i++)
                 {
-                    int index = i + 8;
-                    for (int j = 1; j <= 12; j++)
+                    for (int column = 0; column < endCell; column++)
                     {
-                        SetCellStyle(sheet, index, j, horisontalTextStyle);
+                        SetCellStyle(sheet, startRow + 1, column, horisontalTextStyle);
                     }
-
-                    SetCellValue(sheet, index, 1, disciplines[i].DisciplineIndex);
-                    SetCellValue(sheet, index, 2, disciplines[i].Name);
-                    SetCellValue(sheet, index, 3, disciplines[i].ExamHours);
-                    SetCellValue(sheet, index, 4, disciplines[i].ExamHours);
-                    SetCellValue(sheet, index, 5, disciplines[i].LectionLessonHours);
-                    SetCellValue(sheet, index, 6, disciplines[i].PracticalLessonHours);
-                    SetCellValue(sheet, index, 7, disciplines[i].CourseworkProjectHours);
-                    SetCellValue(sheet, index, 8, disciplines[i].ConsultationHours);
-                    SetCellValue(sheet, index, 9, disciplines[i].ControlWorkVerificationHours);
-                    SetCellValue(sheet, index, 10, disciplines[i].ControlWorkVerificationHours);
-                    SetCellValue(sheet, index, 11, disciplines[i].ConsultationHours);
-                    SetCellValue(sheet, index, 12, disciplines[i].DiplomaProjectHours);
                 }
 
                 workbook.Write(fs);
@@ -134,7 +123,7 @@ namespace EducationProcess.Desktop.Helpers.Excel
 
             return horizontalTextStyle;
         }
-        private static void GetHeadersOfEducationPlan(IWorkbook workbook, string sheetName)
+        private static (int, int) GetHeadersOfEducationPlan(IWorkbook workbook, string sheetName)
         {
             IFont mainBoldFont = CreateMainFontStyle(workbook, true);
             IFont mainFont = CreateMainFontStyle(workbook, false);
@@ -187,7 +176,6 @@ namespace EducationProcess.Desktop.Helpers.Excel
             // Плитка учебная нагрузка обучающихся
             AddMergedStyledRegion(sheet, new CellRangeAddress(headerRow, headerRow, headerColumn, headerColumn + 7), horizontalBoldTextStyle);
             SetCellValue(sheet, headerRow, headerColumn, "Учебная нагрузка обучающихся (час.)");
-
 
             headerColumn++;
             // Колонка Всего учебных занятий
@@ -295,6 +283,8 @@ namespace EducationProcess.Desktop.Helpers.Excel
                 SetCellStyle(sheet, headerRow + 5, i, horizontalBoldTextStyle);
                 SetCellValue(sheet, headerRow + 5, i, i);
             }
+
+            return (headerRow + 4, headerColumn - 1);
         }
     }
 }

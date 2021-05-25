@@ -5,16 +5,15 @@ using System.Collections.Generic;
 
 namespace EducationProcess.Desktop.DataAccess.Entities
 {
-    public partial class Semester
+    public partial class IntermediateCertificationForm
     {
-        public Semester()
+        public IntermediateCertificationForm()
         {
             SemesterDisciplines = new HashSet<SemesterDiscipline>();
         }
 
-        public int SemesterId { get; set; }
-        public byte Number { get; set; }
-        public byte WeeksCount { get; set; }
+        public int CertificationFormId { get; set; }
+        public string Name { get; set; }
 
         public virtual ICollection<SemesterDiscipline> SemesterDisciplines { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,17 +13,19 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EducationProcess.Desktop.ViewModels;
 
 namespace EducationProcess.Desktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для TeachersView.xaml
+    /// Логика взаимодействия для EducationPlansMenuView.xaml
     /// </summary>
-    public partial class TeachersView : UserControl
+    public partial class EducationPlanGroupsMenuView : UserControl
     {
-        public TeachersView()
+        public EducationPlanGroupsMenuView()
         {
             InitializeComponent();
+            DataContext = new EducationPlanGroupsMenuViewModel();
         }
     }
 }

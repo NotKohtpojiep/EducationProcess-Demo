@@ -9,16 +9,18 @@ namespace EducationProcess.Desktop.DataAccess.Entities
     {
         public Specialty()
         {
-            Groups = new HashSet<Group>();
+            CathedraSpecialties = new HashSet<CathedraSpecialty>();
+            EducationPlans = new HashSet<EducationPlan>();
+            ReceivedSpecialties = new HashSet<ReceivedSpecialty>();
         }
 
         public int SpecialtieId { get; set; }
-        public int CathedraId { get; set; }
-        public string SpecialtieIndex { get; set; }
-        public string Name { get; set; }
+        public string SpecialtieCode { get; set; }
+        public string ImplementedSpecialtyName { get; set; }
         public string Abbreviation { get; set; }
 
-        public virtual Cathedra Cathedra { get; set; }
-        public virtual ICollection<Group> Groups { get; set; }
+        public virtual ICollection<CathedraSpecialty> CathedraSpecialties { get; set; }
+        public virtual ICollection<EducationPlan> EducationPlans { get; set; }
+        public virtual ICollection<ReceivedSpecialty> ReceivedSpecialties { get; set; }
     }
 }

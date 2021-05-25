@@ -4,9 +4,80 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EducationProcess.Desktop.Views"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
-            
+             <mah:HamburgerMenu x:Name="HamburgerMenuControl"
+                               HamburgerWidth="48"
+                               IsPaneOpen="True"
+                               ItemInvoked="HamburgerMenuControl_OnItemInvoked"
+                               SelectedIndex="0"
+                               VerticalScrollBarOnLeftSide="False">
+                <!--  Items  -->
+                <mah:HamburgerMenu.ItemsSource>
+                    <mah:HamburgerMenuItemCollection>
+                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Home}" Label="Home">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                {x:Null}
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
+                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=AccountCircle}" Label="Private">
+                            <mah:HamburgerMenuIconItem.Tag>
+                               {x:Null}
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
+                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Octicons Kind=Briefcase}" Label="Briefcase">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                <UserControl>
+                                    <StackPanel Orientation="Vertical">
+                                        <mah:ToggleSwitch Margin="0 0 0 5" Header="Lorem ipsum dolor sit amet, consectetur adipiscing elit" />
+                                        <mah:ToggleSwitch Margin="0 0 0 5"
+                                                          Header="Ut dictum arcu egestas aliquet elementum"
+                                                          IsOn="True" />
+                                        <mah:ToggleSwitch Margin="0 0 0 5" Header="Pellentesque ultricies metus quis dui luctus, vel faucibus risus rhoncus" />
+                                    </StackPanel>
+                                </UserControl>
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
+                    </mah:HamburgerMenuItemCollection>
+                </mah:HamburgerMenu.ItemsSource>
+
+                <!--  Options  -->
+                <mah:HamburgerMenu.OptionsItemsSource>
+                    <mah:HamburgerMenuItemCollection>
+                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
+                            <mah:HamburgerMenuIconItem.Tag>
+                                {x:Null}
+                            </mah:HamburgerMenuIconItem.Tag>
+                        </mah:HamburgerMenuIconItem>
+                    </mah:HamburgerMenuItemCollection>
+                </mah:HamburgerMenu.OptionsItemsSource>
+
+                <mah:HamburgerMenu.ContentTemplate>
+                    <DataTemplate DataType="{x:Type mah:HamburgerMenuIconItem}">
+                        <Grid Margin="20 0 10 0">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <TextBlock Grid.Row="0"
+                                       Margin="0 15 0 5"
+                                       Padding="0"
+                                       FontFamily="{DynamicResource MahApps.Fonts.Family.Header}"
+                                       
+                                       Text="{Binding Label}" />
+                            <ScrollViewer Grid.Row="1"
+                                          Focusable="False"
+                                          HorizontalScrollBarVisibility="Disabled"
+                                          VerticalScrollBarVisibility="Auto">
+                                <ContentControl Content="{Binding Tag}" Focusable="False" />
+                            </ScrollViewer>
+                        </Grid>
+                    </DataTemplate>
+                </mah:HamburgerMenu.ContentTemplate>
+
+            </mah:HamburgerMenu>
     </Grid>
 </UserControl>

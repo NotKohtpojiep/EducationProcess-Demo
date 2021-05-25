@@ -1,25 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.Helpers.Identity;
 using EducationProcess.Desktop.ViewModels;
 using EducationProcess.Desktop.Windows;
-using MahApps.Metro.Controls;
-using NPOI.SS.UserModel;
-using NPOI.SS.Util;
-using NPOI.XSSF.UserModel;
 
 namespace EducationProcess.Desktop
 {
-
-
-
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
@@ -27,6 +14,15 @@ namespace EducationProcess.Desktop
     {
         protected override void OnStartup(StartupEventArgs e)
         {
+            /*
+            EducationPlan educationPlan = new EducationProcessContext().EducationPlans.First();
+            SemesterDiscipline semesterDiscipline = new EducationProcessContext().SemesterDisciplines.First();
+            SemesterDisciplineViewModel semesterDisciplineViewModel =
+                new SemesterDisciplineViewModel(DialogCoordinator.Instance, educationPlan, semesterDiscipline);
+            SemesterDisciplineWindow semesterDisciplineWindow = new SemesterDisciplineWindow(semesterDisciplineViewModel);
+
+            semesterDisciplineWindow.Show();
+            */
             //Create a custom principal with an anonymous identity at startup
             CustomPrincipal customPrincipal = new CustomPrincipal();
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);

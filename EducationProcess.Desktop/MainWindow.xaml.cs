@@ -22,12 +22,6 @@ using MahApps.Metro.Controls.Dialogs;
 
 namespace EducationProcess.Desktop
 {
-    public class Phone
-    {
-        public string Title { get; set; }
-        public string Company { get; set; }
-        public int Price { get; set; }
-    }
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
@@ -39,6 +33,11 @@ namespace EducationProcess.Desktop
             this._viewModel = new MainWindowViewModel(DialogCoordinator.Instance);
             this.DataContext = this._viewModel;
             InitializeComponent();
+        }
+
+        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
+        {
+            this.HamburgerMenuControl.Content = e.InvokedItem;
         }
 
         #region IView Members

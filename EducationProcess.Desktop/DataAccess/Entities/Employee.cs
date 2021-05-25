@@ -10,8 +10,9 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         public Employee()
         {
             Accounts = new HashSet<Account>();
+            Audiences = new HashSet<Audience>();
+            FixedDisciplines = new HashSet<FixedDiscipline>();
             Groups = new HashSet<Group>();
-            SemesterDisciplines = new HashSet<SemesterDiscipline>();
         }
 
         public int EmployeeId { get; set; }
@@ -22,7 +23,8 @@ namespace EducationProcess.Desktop.DataAccess.Entities
 
         public virtual Post Post { get; set; }
         public virtual ICollection<Account> Accounts { get; set; }
+        public virtual ICollection<Audience> Audiences { get; set; }
+        public virtual ICollection<FixedDiscipline> FixedDisciplines { get; set; }
         public virtual ICollection<Group> Groups { get; set; }
-        public virtual ICollection<SemesterDiscipline> SemesterDisciplines { get; set; }
     }
 }
