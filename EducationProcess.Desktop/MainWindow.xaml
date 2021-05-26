@@ -8,6 +8,9 @@
                  xmlns:views="clr-namespace:EducationProcess.Desktop.Views"
                  xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
                  xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+                 xmlns:desktop="clr-namespace:EducationProcess.Desktop"
+                 xmlns:helpers="clr-namespace:EducationProcess.Desktop.Helpers"
+                 WindowTitleBrush="#FF0080FF"
                  Title="Учебный процесс"
                  Width="900"
                  Height="600"
@@ -15,7 +18,8 @@
                  d:DesignHeight="600"
                  d:DesignWidth="900"
                  mah:DialogParticipation.Register="{Binding}"
-                 GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
+                 GlowBrush="#FF0080FF"
+                 Background="{DynamicResource MahApps.Brushes.Accent2}"
                  NonActiveGlowBrush="#CDFF0000"
                  WindowStartupLocation="CenterScreen"
                  mc:Ignorable="d">
@@ -26,7 +30,13 @@
         
         DialogParticipation.SetRegister(this, null);
     -->
-
+    <mah:MetroWindow.LeftWindowCommands>
+        <mah:WindowCommands ShowSeparators="False">
+            <Viewbox Stretch="Uniform" Margin="3,3,0,3">
+                <iconPacks:PackIconOcticons  Kind="MortarBoard" Foreground="White"  />
+            </Viewbox>
+        </mah:WindowCommands>
+    </mah:MetroWindow.LeftWindowCommands>
     <mah:MetroWindow.RightWindowCommands>
         <mah:WindowCommands ShowLastSeparator="False">
             <Button 
@@ -39,18 +49,22 @@
     <mah:MetroWindow.Resources>
         <ResourceDictionary>
             <!--  This is the template for the menu items.  -->
-            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type mah:HamburgerMenuIconItem}">
+            <DataTemplate x:Key="MenuItemTemplate" DataType="{x:Type helpers:HamburgerMenuIconBadgedItem}">
                 <Grid Height="48">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="{Binding RelativeSource={RelativeSource AncestorType={x:Type mah:HamburgerMenu}}, Path=CompactPaneLength}" />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <ContentControl Grid.Column="0"
-                                    HorizontalAlignment="Center"
-                                    VerticalAlignment="Center"
-                                    Content="{Binding Icon}"
-                                    Focusable="False"
-                                    IsTabStop="False" />
+
+                    <mah:Badged Badge="{Binding Badge}" 
+                                Margin="14" BadgeFontSize="14" BadgeMargin="-1" BadgeBackground="White" BadgeBorderBrush="DodgerBlue" BadgeBorderThickness="2" BadgeForeground="#FF0073E4">
+                        <ContentControl
+                                        HorizontalAlignment="Center"
+                                        VerticalAlignment="Center"
+                                        Content="{Binding Icon}"
+                                        Focusable="False"
+                                        IsTabStop="False" />
+                    </mah:Badged>
                     <TextBlock Grid.Column="1"
                                VerticalAlignment="Center"
                                FontSize="16"
@@ -176,15 +190,15 @@
                         </ControlTemplate>
                     </Setter.Value>
                 </Setter>
-                <Setter Property="mah:ItemHelper.ActiveSelectionBackgroundBrush" Value="Transparent" />
+                <Setter Property="mah:ItemHelper.ActiveSelectionBackgroundBrush" Value="#FF3399FF" />
                 <Setter Property="mah:ItemHelper.ActiveSelectionForegroundBrush" Value="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeWhite}" />
                 <Setter Property="mah:ItemHelper.DisabledForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
-                <Setter Property="mah:ItemHelper.DisabledSelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="mah:ItemHelper.DisabledSelectedBackgroundBrush" Value="#FF3399FF" />
                 <Setter Property="mah:ItemHelper.DisabledSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.Gray}" />
-                <Setter Property="mah:ItemHelper.HoverBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Gray.SemiTransparent}" />
-                <Setter Property="mah:ItemHelper.HoverSelectedBackgroundBrush" Value="{DynamicResource MahApps.Brushes.Accent3}" />
+                <Setter Property="mah:ItemHelper.HoverBackgroundBrush" Value="#FF3399FF" />
+                <Setter Property="mah:ItemHelper.HoverSelectedBackgroundBrush" Value="#FF3978FF" />
                 <Setter Property="mah:ItemHelper.HoverSelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeWhite}" />
-                <Setter Property="mah:ItemHelper.SelectedBackgroundBrush" Value="Transparent" />
+                <Setter Property="mah:ItemHelper.SelectedBackgroundBrush" Value="#FF3399FF" />
                 <Setter Property="mah:ItemHelper.SelectedForegroundBrush" Value="{DynamicResource MahApps.Brushes.SystemControlBackgroundChromeWhite}" />
             </Style>
 
@@ -193,14 +207,13 @@
                    TargetType="{x:Type mah:HamburgerMenu}">
                 <Setter Property="ItemContainerStyle" Value="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem.Ripple}" />
                 <Setter Property="OptionsItemContainerStyle" Value="{StaticResource MahApps.Styles.ListBoxItem.HamburgerMenuItem.Ripple}" />
-                <Setter Property="PaneBackground" Value="#FF44B7FF" />
-                <Setter Property="PaneForeground" Value="#FF9FE4E4" />
+                <Setter Property="PaneBackground" Value="#FF0062C3" />
+                <Setter Property="PaneForeground" Value="#FFC0FFFF" />
                 <Setter Property="ShowSelectionIndicator" Value="True" />
             </Style>
 
         </ResourceDictionary>
     </mah:MetroWindow.Resources>
-
 
     <Grid>
         <Grid.RowDefinitions>
@@ -208,7 +221,6 @@
             <RowDefinition Height="*" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
-
         <Grid Row="1">
             <mah:HamburgerMenu x:Name="HamburgerMenuControl"
                                HamburgerWidth="48"
@@ -219,7 +231,6 @@
                                SelectedIndex="0"
                                Style="{StaticResource MahApps.Styles.HamburgerMenu.Ripple}"
                                VerticalScrollBarOnLeftSide="False">
-
                 <mah:HamburgerMenu.HamburgerMenuHeaderTemplate>
                     <DataTemplate>
                         <TextBlock HorizontalAlignment="Center"
@@ -232,8 +243,8 @@
                 <!--  Items  -->
                 <mah:HamburgerMenu.ItemsSource>
                     <mah:HamburgerMenuItemCollection>
-                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Home}" Label="Home">
-                            <mah:HamburgerMenuIconItem.Tag>
+                        <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Home}" Label="Home">
+                            <helpers:HamburgerMenuIconBadgedItem.Tag>
                                 <ScrollViewer Margin="2"
                                               HorizontalScrollBarVisibility="Auto"
                                               VerticalScrollBarVisibility="Auto">
@@ -242,29 +253,29 @@
                                         <Button Content="Вывести сообщение" Command="{Binding ShowInputDialogCommand}" VerticalAlignment="Center"/>
                                     </Grid>
                                 </ScrollViewer>
-                            </mah:HamburgerMenuIconItem.Tag>
-                        </mah:HamburgerMenuIconItem>
-                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Modern Kind=BookHardcoverOpenWriting}" Label="Учебный план">
-                            <mah:HamburgerMenuIconItem.Tag>
+                            </helpers:HamburgerMenuIconBadgedItem.Tag>
+                        </helpers:HamburgerMenuIconBadgedItem>
+                        <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Modern Kind=BookHardcoverOpenWriting}" Label="Учебный план">
+                            <helpers:HamburgerMenuIconBadgedItem.Tag>
                                 <views:EducationalActivitiesView />
-                            </mah:HamburgerMenuIconItem.Tag>
-                        </mah:HamburgerMenuIconItem>
-                        <mah:HamburgerMenuIconItem Icon="{iconPacks:VaadinIcons Kind=AcademyCap}" Label="Briefcase">
-                            <mah:HamburgerMenuIconItem.Tag>
+                            </helpers:HamburgerMenuIconBadgedItem.Tag>
+                        </helpers:HamburgerMenuIconBadgedItem>
+                        <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:VaadinIcons Kind=AcademyCap}" Label="Дисциплины">
+                            <helpers:HamburgerMenuIconBadgedItem.Tag>
                                 <views:CheckDisciplineSuggestionsView />
-                            </mah:HamburgerMenuIconItem.Tag>
-                        </mah:HamburgerMenuIconItem>
+                            </helpers:HamburgerMenuIconBadgedItem.Tag>
+                        </helpers:HamburgerMenuIconBadgedItem>
                     </mah:HamburgerMenuItemCollection>
                 </mah:HamburgerMenu.ItemsSource>
 
                 <!--  Options  -->
                 <mah:HamburgerMenu.OptionsItemsSource>
                     <mah:HamburgerMenuItemCollection>
-                        <mah:HamburgerMenuIconItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
-                            <mah:HamburgerMenuIconItem.Tag>
-                                <views:TeacherScheduleView />
-                            </mah:HamburgerMenuIconItem.Tag>
-                        </mah:HamburgerMenuIconItem>
+                        <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
+                            <helpers:HamburgerMenuIconBadgedItem.Tag>
+                                <views:GroupsScheduleView />
+                            </helpers:HamburgerMenuIconBadgedItem.Tag>
+                        </helpers:HamburgerMenuIconBadgedItem>
                     </mah:HamburgerMenuItemCollection>
                 </mah:HamburgerMenu.OptionsItemsSource>
 
@@ -276,18 +287,20 @@
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
                             <Grid Row="0" 
-                                  Background="#FF2EADFD">
+                                  Background="#FF006DDA">
                                 <TextBlock Grid.Row="0"
                                            Padding="10"
                                            Foreground="White"
-                                           FontSize="28"
-                                           Text="{Binding Label}" FontWeight="Bold" />
+                                           FontSize="18"
+                                           Text="{Binding Label}" />
                             </Grid>
                             <ScrollViewer Grid.Row="1"
                                           Focusable="False"
                                           HorizontalScrollBarVisibility="Disabled"
                                           VerticalScrollBarVisibility="Auto">
-                                <ContentControl Content="{Binding Tag}" Focusable="False" />
+                                <Border CornerRadius="10" Background="White" Margin="8">
+                                    <ContentControl Content="{Binding Tag}" Focusable="False" />
+                                </Border>
                             </ScrollViewer>
                         </Grid>
                     </DataTemplate>

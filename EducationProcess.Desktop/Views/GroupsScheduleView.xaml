@@ -1,0 +1,142 @@
+﻿<UserControl x:Class="EducationProcess.Desktop.Views.GroupsScheduleView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:EducationProcess.Desktop.Views"
+             xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
+             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
+             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
+             xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+             xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance viewModels:GroupsScheduleViewModel}"
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <Style x:Key="NoSelectionListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
+            <Setter Property="Padding" Value="2,0,0,0"/>
+            <Setter Property="FocusVisualStyle">
+                <Setter.Value>
+                    <Style>
+                        <!-- This removes focus visualization -->
+                        <Setter Property="Control.Template" Value="{x:Null}"/>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <Border x:Name="Bd" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsEnabled" Value="false">
+                                <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                            </Trigger>
+                            <!-- Some default triggers removed to avoid background changes on selection -->
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ListBox Grid.Column="0" ItemsSource="{Binding Groups}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button Margin="10" Background="LightCyan" FontSize="14" Content="{Binding Name}"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+
+        <Grid Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <StackPanel Grid.Row="0" Orientation="Vertical">
+                <Label Content="Расписание группы: " FontSize="24" Margin="10"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <Label Margin="10" Content="Неделя: " FontSize="18"/>
+                    <ComboBox Margin="10" Width="200" ItemsSource="{Binding Dates}" mah:TextBoxHelper.Watermark="Неделя" mah:TextBoxHelper.UseFloatingWatermark="True" ToolTip="Учебная неделя"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Grid.Row="1">
+                <DataGrid IsReadOnly="True" RowDetailsVisibilityMode="Collapsed">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="№ Пары" Width="80"/>
+                        <DataGridTextColumn Header="Дисциплина" Width="*"/>
+                        <DataGridTextColumn Header="Чис/Знм" Width="80" />
+                    </DataGrid.Columns>
+                </DataGrid>
+                <ListBox x:Name="DailyLessons" ItemsSource="{Binding WeekSchedule}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <StackPanel>
+                                <Label Content="{Binding Weekday}" FontSize="18"></Label>
+                                <ListBox x:Name="Lessons" ItemsSource="{Binding Lessons}">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="2">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="80"/>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="80"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Label Grid.Column="0"  Grid.RowSpan="2" Content="{Binding PairNumber}" FontSize="18" VerticalAlignment="Center"></Label>
+                                                    <ListBox Grid.Column="1" ItemsSource="{Binding PairOptions}" >
+                                                        <ListBox.ItemTemplate>
+                                                            <DataTemplate>
+                                                                <StackPanel Orientation="Horizontal">
+                                                                    <Border Margin="10" VerticalAlignment="Center" Background="LightGray" CornerRadius="5">
+                                                                        <Label Content="{Binding  PairInfo}"></Label>
+                                                                    </Border>
+                                                                    <ComboBox Margin="10" Width="250" 
+                                                                              mah:TextBoxHelper.Watermark="Дисциплина" mah:TextBoxHelper.UseFloatingWatermark="True" 
+                                                                              ItemsSource="{Binding Disciplines}" 
+                                                                              SelectedItem="{Binding SelectedDiscipline}"
+                                                                              DisplayMemberPath="Name"></ComboBox>
+                                                                </StackPanel>
+                                                            </DataTemplate>
+                                                        </ListBox.ItemTemplate>
+                                                    </ListBox>
+                                                    <CheckBox Grid.Column="2" ToolTip="Числитель/знаменатель" HorizontalAlignment="Center" IsChecked="{Binding IsNotWhole}" Command="{Binding ChangeCountLessonOptionsCommand}">
+                                                    </CheckBox>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                            </StackPanel>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal">
+                <Button  DockPanel.Dock="Right" Margin="10" Background="LightGreen">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Добавить" />
+                        <iconPacks:PackIconUnicons Width="20" Height="20" Kind="PlusCircle" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+
+                <Button  DockPanel.Dock="Right" Margin="10" Background="LightGoldenrodYellow">
+                    <StackPanel Orientation="Horizontal">
+                        <Label Content="Отмена"/>
+                        <iconPacks:PackIconUnicons Width="20" Height="20" VerticalAlignment="Center"  Kind="TimesCircle" />
+                    </StackPanel>
+                </Button>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

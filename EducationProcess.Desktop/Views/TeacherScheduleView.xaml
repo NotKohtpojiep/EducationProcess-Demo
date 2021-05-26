@@ -23,15 +23,17 @@
             </Setter>
         </Style>
     </UserControl.Resources>
-    <DataGrid x:Name="dgdata" HorizontalAlignment="Left" Height="269" VerticalAlignment="Top" Width="292">
-        <DataGrid.GroupStyle>
-            <GroupStyle ContainerStyle="{StaticResource groupheaderstyle}">
-                <GroupStyle.Panel>
-                    <ItemsPanelTemplate>
-                        <DataGridRowsPresenter />
-                    </ItemsPanelTemplate>
-                </GroupStyle.Panel>
-            </GroupStyle>
-        </DataGrid.GroupStyle>
-    </DataGrid>
+    <Border CornerRadius="20" Background="White" Margin="10">
+        <DataGrid x:Name="dgdata" HorizontalAlignment="Left" Height="269" VerticalAlignment="Top" Width="292">
+            <DataGrid.GroupStyle>
+                <GroupStyle ContainerStyle="{StaticResource groupheaderstyle}">
+                    <GroupStyle.Panel>
+                        <ItemsPanelTemplate>
+                            <DataGridRowsPresenter />
+                        </ItemsPanelTemplate>
+                    </GroupStyle.Panel>
+                </GroupStyle>
+            </DataGrid.GroupStyle>
+        </DataGrid>
+    </Border>
 </UserControl>

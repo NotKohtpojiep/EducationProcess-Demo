@@ -49,7 +49,7 @@ namespace EducationProcess.Desktop.ViewModels
         private async void DecineDiscipline(int fixedDisciplineId)
         {
             MessageDialogResult mgs = await _dialogCoordinator.ShowMessageAsync(this, "Отмена",
-                $"Вы действительно хотите фистинг {fixedDisciplineId}?", MessageDialogStyle.AffirmativeAndNegative);
+                $"Вы действительно чувствуете {fixedDisciplineId} bucks?", MessageDialogStyle.AffirmativeAndNegative);
             if (mgs == MessageDialogResult.Affirmative)
             {
                 await _dialogCoordinator.ShowMessageAsync(this, "Подтвердилось", "Ой, cum...");

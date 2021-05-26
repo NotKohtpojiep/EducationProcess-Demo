@@ -24,7 +24,7 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Content="Выберите учебный план" FontSize="20"></Label>
+            <Label Grid.Row="0" Content="Выберите учебный план" FontSize="24" Margin="10"></Label>
             <Grid Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -40,7 +40,6 @@
                              Margin="10"
                              HorizontalContentAlignment="Stretch"
                              mah:TextBoxHelper.ClearTextButton="True"
-                             mah:TextBoxHelper.IsWaitingForData="True"
                              mah:TextBoxHelper.UseFloatingWatermark="True"
                              mah:TextBoxHelper.Watermark="Поиск"
                              mah:TextBoxHelper.WatermarkAlignment="Left"
@@ -66,7 +65,16 @@
             </Grid>
         </Grid>
 
-        <DataGrid x:Name="SemesterDisciplinesDataGrid" Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding EducationPlans}" AutoGenerateColumns="False"  CanUserAddRows="false" Margin="10">
+        <DataGrid x:Name="SemesterDisciplinesDataGrid" 
+                  Grid.Row="1" IsReadOnly="True"
+                  ItemsSource="{Binding EducationPlans}" 
+                  AutoGenerateColumns="False"  CanUserAddRows="false" 
+                  Margin="10">
+            <DataGrid.InputBindings>
+                <MouseBinding Gesture="LeftDoubleClick" 
+                              Command="{Binding ViewEducationPlanCommand}" 
+                              CommandParameter="{Binding ElementName=UsersDataGrid, Path=SelectedItem}" />
+            </DataGrid.InputBindings>
             <DataGrid.Columns>
                 <DataGridTextColumn Header="Название" Width="2*" Binding="{Binding Name}"/>
                 <DataGridTextColumn Header="Специальность" Width="*" Binding="{Binding   Specialtie.SpecialtieCode}"/>
