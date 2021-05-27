@@ -1,7 +1,0 @@
-﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-                    xmlns:vm="clr-namespace:EducationProcess.Desktop.ViewModels">
-    <DataTemplate DataType="{x:Type vm:UserRoleViewModel}">
-        <TextBlock Text="Представление юзера"/>
-    </DataTemplate>
-</ResourceDictionary>

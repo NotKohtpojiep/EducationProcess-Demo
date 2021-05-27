@@ -6,10 +6,10 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
         Title="{Binding TitleInfo}"
-        Width="900"
-        Height="600"
-        d:DesignHeight="600"
-        d:DesignWidth="900"
+        Width="400"
+        Height="700"
+        d:DesignHeight="700"
+        d:DesignWidth="400"
         d:DataContext="{d:DesignInstance viewModels:SemesterDisciplineViewModel}"
         mah:DialogParticipation.Register="{Binding}"
         GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
@@ -28,49 +28,20 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-            <Border Grid.Row="0" BorderBrush="LightBlue" BorderThickness="5" Margin="10" CornerRadius="5">
+            <Border Grid.Row="0" BorderBrush="LightBlue" BorderThickness="5" Margin="10" CornerRadius="5" Background="#FFE2F1FF">
                 <Grid Margin="10">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-
-                    <Grid Row="1">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Grid Column="0">
-                            <StackPanel>
-                                <Label Content="Выбранная дисциплина:" HorizontalAlignment="Left" ></Label>
-                                <ComboBox Width="250" HorizontalAlignment="Left"
+                    <StackPanel>
+                        <StackPanel>
+                            <Label Content="Выбранная дисциплина:" HorizontalAlignment="Left" ></Label>
+                            <ComboBox Width="220" HorizontalAlignment="Left"
                                           mah:TextBoxHelper.Watermark="Дисциплина"
                                           SelectedValue="{Binding SelectedDiscipline}"
                                           DisplayMemberPath="Name"
                                           ItemsSource="{Binding Disciplines}">
-                                </ComboBox>
-                            </StackPanel>
-                        </Grid>
+                            </ComboBox>
+                        </StackPanel>
 
-                        <!--
-                        <Grid Column="1" HorizontalAlignment="Center">
-                            <StackPanel>
-                                <Label Content="Выбранный учебный план:" HorizontalAlignment="Left" ></Label>
-                                <ComboBox Width="220" HorizontalAlignment="Left"
-                                          mah:TextBoxHelper.Watermark="Учебный план"
-                                          SelectedIndex="1"
-                                          DisplayMemberPath="Name"
-                                          IsEditable="True"
-                                          ItemsSource="{Binding EducationPlans}"
-                                          Text="{Binding Path=Name}">
-                                </ComboBox>
-                            </StackPanel>
-                        </Grid>
-                        -->
-
-                        <Grid Column="2" HorizontalAlignment="Right">
+                        <Grid  HorizontalAlignment="Left">
                             <StackPanel>
                                 <Label Content="Выбранный семестр:" HorizontalAlignment="Left" ></Label>
                                 <ComboBox Width="220" HorizontalAlignment="Left"
@@ -81,7 +52,7 @@
                                 </ComboBox>
                             </StackPanel>
                         </Grid>
-                    </Grid>
+                    </StackPanel>
                 </Grid>
             </Border>
             <Grid Row="1" Margin="0, 5, 0, 5">
@@ -90,17 +61,19 @@
                     <RowDefinition Height="Auto"/>
                 </Grid.RowDefinitions>
 
-                <Label Grid.Row="0" Content="Количество часов по видам" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 15, 0,0 "></Label>
-                <Border Grid.Row="1" BorderBrush="LightSkyBlue" BorderThickness="5" Margin="10" CornerRadius="5">
+                <Label Grid.Row="0" FontSize="18" Content="Количество часов по видам" HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0, 15, 0,0 "></Label>
+                <Border Grid.Row="1" BorderBrush="LightSkyBlue" Background="#FFD7F0FF" BorderThickness="5" Margin="10" CornerRadius="5">
                     <Grid Margin="10">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                            <ColumnDefinition Width="*"/>
-                        </Grid.ColumnDefinitions>
-
-                        <Grid Column="0" Margin="5,0,5,0">
+                        <Grid Margin="5,0,5,0">
                             <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
                                 <RowDefinition Height="Auto"/>
@@ -110,73 +83,57 @@
 
                             <Grid Row="0" Margin="2">
                                 <Label Content="Теоретические занятия:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.TheoryLessonHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown 
+                                    Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.TheoryLessonHours}"
+                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="99" Margin="170,0,0,0"></mah:NumericUpDown>
                             </Grid>
                             <Grid Row="1" Margin="2">
                                 <Label Content="Практические занятия:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.PracticeWorkHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.PracticeWorkHours}" 
+                                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
                             <Grid Row="2" Margin="2">
                                 <Label Content="Лабораторные работы:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.LaboratoryWorkHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown   Value="{Binding SemesterDiscipline.LaboratoryWorkHours}" 
+                                                        mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
                             <Grid Row="3" Margin="2">
                                 <Label Content="Контрольные работы:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.ControlWorkHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ControlWorkHours}" 
+                                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
                             <Grid Row="4" Margin="2">
                                 <Label Content="Самостоятельные работы:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.IndependentWorkHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.IndependentWorkHours}" 
+                                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
-                        </Grid>
 
-                        <Grid Column="1" Margin="5, 0, 5, 0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid Row="1" Margin="2">
+                            <Grid Row="5" Margin="2">
                                 <Label Content="Консультация:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.ConsultationHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ConsultationHours}" 
+                                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
-                            <Grid Row="2" Margin="2">
+                            <Grid Row="6" Margin="2">
                                 <Label Content="Экзамен:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.ExamHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ExamHours}" 
+                                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
-                            <Grid Row="3" Margin="2">
+                            <Grid Row="7" Margin="2">
                                 <Label Content="Учебная практика:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.EducationalPracticeHours}" 
-                                         mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.EducationalPracticeHours}" 
+                                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
-                            <Grid Row="4" Margin="2">
+                            <Grid Row="8" Margin="2">
                                 <Label Content="Производственная практика:" HorizontalAlignment="Left"></Label>
-                                <TextBox Text="{Binding SemesterDiscipline.ProductionPracticeHours}" mah:TextBoxHelper.Watermark="Кол-во часов" HorizontalAlignment="Right" Width="100"></TextBox>
+                                <mah:NumericUpDown Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ProductionPracticeHours}" 
+                                                   mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                             </Grid>
-                        </Grid>
 
-                        <Grid Column="2" Margin="5, 0, 5, 0">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                                <RowDefinition Height="Auto"/>
-                            </Grid.RowDefinitions>
-
-                            <Grid Row="0" Margin="2">
+                            <Grid Row="9" Margin="2">
                                 <StackPanel Orientation="Vertical">
                                     <Label Content="Промежуточная аттестация:"></Label>
                                     <ComboBox Width="220"
+                                              HorizontalAlignment="Left"
                                               mah:TextBoxHelper.Watermark="Тип аттестации"
                                               SelectedValue="{Binding SelectedCertificationForm}"
                                               DisplayMemberPath="Name"

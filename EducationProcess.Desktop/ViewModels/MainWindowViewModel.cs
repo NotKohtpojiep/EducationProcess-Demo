@@ -14,27 +14,13 @@ namespace EducationProcess.Desktop.ViewModels
     public class MainWindowViewModel : BindableBase, IDataErrorInfo
     {
         private readonly IDialogCoordinator _dialogCoordinator;
-        public BaseRoleViewModel SelectedRole
-        {
-            get { return _selectedRole; }
-            set { SetValue(ref _selectedRole, value); }
-        }
-        private BaseRoleViewModel _selectedRole;
-
-        public BaseRoleViewModel[] Roles { get; }
+      
         public EducationalActivitiesViewModel EducationalActivitiesViewModels { get; set; }
         public SemesterDisciplineViewModel DisciplinesViewModel { get; set; }
 
         public MainWindowViewModel(IDialogCoordinator dialogCoordinator)
         {
             this._dialogCoordinator = dialogCoordinator;
-            // формировать список или создавать нужную модель представления можно через MEF или Reflection.
-            // тогда вы не будете зависеть от перечня ролей
-            Roles = new BaseRoleViewModel[]
-            {
-                new AdminRoleViewModel(),
-                new UserRoleViewModel(),
-            };
             //DisciplinesViewModel = new SemesterDisciplineViewModel();
 
             EducationalActivitiesViewModels = new EducationalActivitiesViewModel();
@@ -46,7 +32,6 @@ namespace EducationProcess.Desktop.ViewModels
 
             Employee currentEmployee = new EducationProcessContext().Employees.FirstOrDefault(x => x.EmployeeId == employeeId);
 
-            SelectedRole = Roles.FirstOrDefault();
             this.ShowInputDialogCommand = new RelayCommand(
                 o => true,
                 async x =>
@@ -56,8 +41,7 @@ namespace EducationProcess.Desktop.ViewModels
                 }
             );
             HelloUserMessage = $"Здравствуйте, {currentEmployee.Firstname} {currentEmployee.Lastname}";
-            UserRole = $"{SelectedRole.Name}";
-
+            UserRole = $"";
         }
 
         public RelayCommand ShowInputDialogCommand { get; set; }

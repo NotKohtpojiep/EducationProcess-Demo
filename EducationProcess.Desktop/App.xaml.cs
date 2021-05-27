@@ -23,6 +23,8 @@ namespace EducationProcess.Desktop
 
             semesterDisciplineWindow.Show();
             */
+          
+
             //Create a custom principal with an anonymous identity at startup
             CustomPrincipal customPrincipal = new CustomPrincipal();
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);

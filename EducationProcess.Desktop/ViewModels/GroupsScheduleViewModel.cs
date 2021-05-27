@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,10 +9,47 @@ using DevExpress.Mvvm;
 using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.DataAccess;
 using EducationProcess.Desktop.DataAccess.Entities;
+using EducationProcess.Desktop.Helpers;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace EducationProcess.Desktop.ViewModels
 {
+    public class EducationWeek
+    {
+        public string Name { get; set; }
+        public DateTime StartDay { get; set; }
+
+        public EducationWeek(DateTime start, string name)
+        {
+            StartDay = start;
+            Name = name;
+        }
+
+        public string WeekInfo
+        {
+            get
+            {
+                int firstDayOfYear = (int)new DateTime(StartDay.Year, 1, 1).DayOfWeek;
+                int weekNumber = (StartDay.DayOfYear + firstDayOfYear) / 7;
+                return $"({weekNumber}) {StartDay.ToShortDateString()} - {StartDay.AddDays(6).ToShortDateString()}";
+            }
+        }
+    }
+
+    public class CourseGroups
+    {
+        public int Course { get; set; }
+        public string CourseInfo
+        {
+            get => $"Курс: {Course}";
+        }
+        public Group[] CourseGroupsCollection { get; set; }
+        public CourseGroups(Group[] courseGroups, int semestreNumber)
+        {
+            Course = semestreNumber;
+            CourseGroupsCollection = courseGroups;
+        }
+    }
 
     public class GroupsScheduleViewModel : BindableBase
     {
@@ -19,24 +57,32 @@ namespace EducationProcess.Desktop.ViewModels
         public GroupsScheduleViewModel()
         {
             Discipline[] disciplines = new EducationProcessContext().Disciplines.ToArray();
-            Group[] groups = new EducationProcessContext().Groups.ToArray();
-            Groups = new ObservableCollection<Group>(groups);
-
-            Dates = new ObservableCollection<DateTime>()
-                {DateTime.Now, DateTime.Now.AddDays(7), DateTime.Now.AddDays(14)};
+            int maxCourse = new EducationProcessContext().Groups.Max(x => x.CourseNumber);
+            CourseGroups = new ObservableCollection<CourseGroups>();
+            for (int i = 1; i <= maxCourse; i++)
+            {
+                CourseGroups.Add(new CourseGroups(new EducationProcessContext().Groups.Where(x => x.CourseNumber == i).ToArray(), i));
+            }
+            Weeks = new ObservableCollection<EducationWeek>();
+            for (int i = -5; i < 2; i++)
+            {
+                Weeks.Add(new EducationWeek(DateTime.Now.AddDays(i * 7).StartOfWeek(DayOfWeek.Monday), "Неделя"));
+            }
             List<DaySchedule> schedules = new List<DaySchedule>();
+            SelectedWeek = Weeks[5];
             for (int i = 0; i < 5; i++)
             {
-                string weekday = weekdays[i] + " - " + DateTime.Now.AddDays(i).ToShortDateString();
+                string weekday = weekdays[i] + " - " + SelectedWeek.StartDay.AddDays(i).ToShortDateString();
                 DaySchedule daySchedule = new DaySchedule(disciplines, weekday);
                 schedules.Add(daySchedule);
             }
 
-            WeekSchedule = new ObservableCollection<DaySchedule>(schedules);         
+            WeekSchedule = new ObservableCollection<DaySchedule>(schedules);
         }
+        public EducationWeek SelectedWeek { get; set; }
         public ObservableCollection<DaySchedule> WeekSchedule { get; set; }
-        public ObservableCollection<DateTime> Dates { get; set; }
-        public ObservableCollection<Group> Groups { get; set; }
+        public ObservableCollection<EducationWeek> Weeks { get; set; }
+        public ObservableCollection<CourseGroups> CourseGroups { get; set; }
 
     }
 
@@ -79,13 +125,13 @@ namespace EducationProcess.Desktop.ViewModels
         {
             if (IsNotWhole)
             {
-                PairOptions[0] = new LessonItem(_disciplines, "Ч");
-                PairOptions.Add(new LessonItem(_disciplines, "З"));
+                PairOptions[0] = new LessonItem(_disciplines, "Числитель");
+                PairOptions.Add(new LessonItem(_disciplines, "Знаменатель"));
             }
             else
             {
                 PairOptions.RemoveAt(PairOptions.Count - 1);
-                PairOptions[0] = new LessonItem(_disciplines, "");
+                PairOptions[0] = new LessonItem(_disciplines, "Обычный");
             }
         }
     }
@@ -101,5 +147,4 @@ namespace EducationProcess.Desktop.ViewModels
         public ObservableCollection<Discipline> Disciplines { get; set; }
         public Discipline SelectedDiscipline { get; set; }
     }
-
 }

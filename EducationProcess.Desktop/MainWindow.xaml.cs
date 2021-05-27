@@ -1,7 +1,15 @@
-﻿using EducationProcess.Desktop.Core;
+﻿using System;
+using System.Linq;
+using System.Threading;
+using EducationProcess.Desktop.Core;
+using EducationProcess.Desktop.DataAccess;
+using EducationProcess.Desktop.DataAccess.Entities;
+using EducationProcess.Desktop.Helpers.Identity;
 using EducationProcess.Desktop.ViewModels;
+using EducationProcess.Desktop.Views;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
+using Microsoft.EntityFrameworkCore;
 
 namespace EducationProcess.Desktop
 {
@@ -16,11 +24,25 @@ namespace EducationProcess.Desktop
             this._viewModel = new MainWindowViewModel(DialogCoordinator.Instance);
             this.DataContext = this._viewModel;
             InitializeComponent();
-        }
 
-        private void HamburgerMenuControl_OnItemInvoked(object sender, HamburgerMenuItemInvokedEventArgs e)
-        {
-            this.HamburgerMenuControl.Content = e.InvokedItem;
+            CustomPrincipal? customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;
+            if (customPrincipal == null)
+                throw new ArgumentException("The application's default thread principal must be set to a CustomPrincipal object on startup.");
+            int employeeId = customPrincipal.Identity.EmployeeId;
+            Employee employee = new EducationProcessContext().Employees
+                .Where(x => x.EmployeeId == employeeId)
+                .Include(x => x.Post).First();
+
+            string role = employee.Post.Name;
+            object viewByRole = null;
+            if (role == "Руководитель УМО")
+                viewByRole = new UmoManagerMainView();
+            if (role == "Сотрудник УМО")
+                viewByRole = new UmoEmployeeMainView();
+            if (role == "Преподаватель")
+                viewByRole = new TeacherMainView();
+
+            MainFrame.Navigate(viewByRole);
         }
 
         #region IView Members

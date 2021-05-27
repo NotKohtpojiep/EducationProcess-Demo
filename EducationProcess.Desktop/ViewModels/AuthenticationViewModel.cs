@@ -136,8 +136,8 @@ namespace EducationProcess.Desktop.ViewModels
                 //Authenticate the user
                 if (Thread.CurrentPrincipal == null)
                     throw new Exception("wataf..");
-                if (Thread.CurrentPrincipal.IsInRole("Администратор") == false)
-                    throw new SecurityException();
+                //if (Thread.CurrentPrincipal.IsInRole("Администратор") == false)
+                //    throw new SecurityException();
 
                 this.CloseView();
                 view?.Show();

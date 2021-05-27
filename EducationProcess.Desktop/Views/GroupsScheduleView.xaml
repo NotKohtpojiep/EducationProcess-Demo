@@ -13,6 +13,16 @@
              d:DataContext="{d:DesignInstance viewModels:GroupsScheduleViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
+        <Style x:Key="WithoutSelectionListBoxItem" TargetType="{x:Type ListBoxItem}">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                        <ContentPresenter />
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <Style x:Key="NoSelectionListBoxItemStyle" TargetType="{x:Type ListBoxItem}">
             <Setter Property="Background" Value="Transparent"/>
             <Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
@@ -44,20 +54,33 @@
         </Style>
     </UserControl.Resources>
 
-    <Grid>
+    <Grid Margin="10">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="Auto"/>
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
-        <ListBox Grid.Column="0" ItemsSource="{Binding Groups}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Button Margin="10" Background="LightCyan" FontSize="14" Content="{Binding Name}"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+        <StackPanel>
+            <Label Content="Группы" FontSize="18" Margin="5"></Label>
+            <ListBox ItemsSource="{Binding CourseGroups}" ItemContainerStyle="{StaticResource NoSelectionListBoxItemStyle}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel>
+                            <Label Content="{Binding CourseInfo}" HorizontalAlignment="Center"></Label>
+                            <ListBox ItemsSource="{Binding CourseGroupsCollection}" ItemContainerStyle="{StaticResource NoSelectionListBoxItemStyle}">
+                                <ListBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Button Margin="5,5,5,5" Background="LightCyan" FontSize="14" Content="{Binding Name}" />
+                                    </DataTemplate>
+                                </ListBox.ItemTemplate>
+                            </ListBox>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
 
-        <Grid Column="1">
+        </StackPanel>
+
+        <Grid Column="1" Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -67,57 +90,75 @@
                 <Label Content="Расписание группы: " FontSize="24" Margin="10"></Label>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="10" Content="Неделя: " FontSize="18"/>
-                    <ComboBox Margin="10" Width="200" ItemsSource="{Binding Dates}" mah:TextBoxHelper.Watermark="Неделя" mah:TextBoxHelper.UseFloatingWatermark="True" ToolTip="Учебная неделя"/>
+                    <ComboBox Margin="10" Width="200" ItemsSource="{Binding Weeks}" DisplayMemberPath="WeekInfo" SelectedValue="{Binding SelectedWeek}" mah:TextBoxHelper.Watermark="Неделя" mah:TextBoxHelper.UseFloatingWatermark="True" ToolTip="Учебная неделя"/>
+                    <Button Margin="10" Background="OldLace">
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="Вычет по часам"/>
+                            <iconPacks:PackIconUnicons Width="20" Height="20" Kind="Info" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </Button>
                 </StackPanel>
             </StackPanel>
             <StackPanel Grid.Row="1">
-                <DataGrid IsReadOnly="True" RowDetailsVisibilityMode="Collapsed">
-                    <DataGrid.Columns>
-                        <DataGridTextColumn Header="№ Пары" Width="80"/>
-                        <DataGridTextColumn Header="Дисциплина" Width="*"/>
-                        <DataGridTextColumn Header="Чис/Знм" Width="80" />
-                    </DataGrid.Columns>
-                </DataGrid>
-                <ListBox x:Name="DailyLessons" ItemsSource="{Binding WeekSchedule}">
+                <ListBox x:Name="DailyLessons" 
+                         ItemsSource="{Binding WeekSchedule}" 
+                         ItemContainerStyle="{StaticResource NoSelectionListBoxItemStyle}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <StackPanel>
-                                <Label Content="{Binding Weekday}" FontSize="18"></Label>
-                                <ListBox x:Name="Lessons" ItemsSource="{Binding Lessons}">
-                                    <ListBox.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border BorderThickness="1" BorderBrush="Gray" CornerRadius="2">
-                                                <Grid>
-                                                    <Grid.ColumnDefinitions>
-                                                        <ColumnDefinition Width="80"/>
-                                                        <ColumnDefinition Width="*"/>
-                                                        <ColumnDefinition Width="80"/>
-                                                    </Grid.ColumnDefinitions>
-                                                    <Label Grid.Column="0"  Grid.RowSpan="2" Content="{Binding PairNumber}" FontSize="18" VerticalAlignment="Center"></Label>
-                                                    <ListBox Grid.Column="1" ItemsSource="{Binding PairOptions}" >
-                                                        <ListBox.ItemTemplate>
-                                                            <DataTemplate>
-                                                                <StackPanel Orientation="Horizontal">
-                                                                    <Border Margin="10" VerticalAlignment="Center" Background="LightGray" CornerRadius="5">
-                                                                        <Label Content="{Binding  PairInfo}"></Label>
-                                                                    </Border>
-                                                                    <ComboBox Margin="10" Width="250" 
+                            <Border BorderThickness="5" CornerRadius="10" Margin="2">
+                                <StackPanel>
+                                    <Border Background="Wheat" CornerRadius="10">
+                                        <Grid>
+                                            <Label Margin="10" Content="{Binding Weekday}" HorizontalAlignment="Left" FontSize="18"></Label>
+                                            <Label Margin="10" Content="Чис/Зна" HorizontalAlignment="Right"></Label>
+                                        </Grid>
+                                    </Border>
+                                    <ListBox x:Name="Lessons" 
+                                             ItemsSource="{Binding Lessons}" 
+                                             ItemContainerStyle="{StaticResource NoSelectionListBoxItemStyle}">
+                                        <ListBox.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border BorderThickness="3" CornerRadius="2" Margin="2">
+                                                    <Grid>
+                                                        <Grid.ColumnDefinitions>
+                                                            <ColumnDefinition Width="80"/>
+                                                            <ColumnDefinition Width="*"/>
+                                                            <ColumnDefinition Width="80"/>
+                                                        </Grid.ColumnDefinitions>
+                                                        <Border Grid.Column="0" Grid.RowSpan="2" Margin="10" Background="{DynamicResource MahApps.Brushes.Accent4}" CornerRadius="10">
+                                                            <Label Content="{Binding PairNumber}" FontSize="18" VerticalAlignment="Center" HorizontalAlignment="Center"></Label>
+                                                        </Border>
+                                                        <ListBox Grid.Column="1" 
+                                                                 ItemsSource="{Binding PairOptions}" 
+                                                                 ItemContainerStyle="{StaticResource NoSelectionListBoxItemStyle}" >
+                                                            <ListBox.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Border Background="{DynamicResource MahApps.Brushes.Accent4}" CornerRadius="10" Margin="2">
+                                                                        <StackPanel Orientation="Horizontal">
+                                                                            <Border Margin="10" VerticalAlignment="Center" Width="80" CornerRadius="5">
+                                                                                <Label Content="{Binding  PairInfo}"></Label>
+                                                                            </Border>
+                                                                            <ComboBox Margin="10" Width="350" VerticalAlignment="Center"
                                                                               mah:TextBoxHelper.Watermark="Дисциплина" mah:TextBoxHelper.UseFloatingWatermark="True" 
                                                                               ItemsSource="{Binding Disciplines}" 
                                                                               SelectedItem="{Binding SelectedDiscipline}"
                                                                               DisplayMemberPath="Name"></ComboBox>
-                                                                </StackPanel>
-                                                            </DataTemplate>
-                                                        </ListBox.ItemTemplate>
-                                                    </ListBox>
-                                                    <CheckBox Grid.Column="2" ToolTip="Числитель/знаменатель" HorizontalAlignment="Center" IsChecked="{Binding IsNotWhole}" Command="{Binding ChangeCountLessonOptionsCommand}">
-                                                    </CheckBox>
-                                                </Grid>
-                                            </Border>
-                                        </DataTemplate>
-                                    </ListBox.ItemTemplate>
-                                </ListBox>
-                            </StackPanel>
+                                                                        </StackPanel>
+                                                                    </Border>
+                                                                </DataTemplate>
+                                                            </ListBox.ItemTemplate>
+                                                        </ListBox>
+                                                        <Border Grid.Column="2" Margin="10" Background="{DynamicResource MahApps.Brushes.Accent4}" CornerRadius="10">
+                                                            <CheckBox ToolTip="Числитель/знаменатель" HorizontalAlignment="Center" VerticalAlignment="Center" IsChecked="{Binding IsNotWhole}" Command="{Binding ChangeCountLessonOptionsCommand}">
+                                                            </CheckBox>
+                                                        </Border>
+                                                    </Grid>
+                                                </Border>
+                                            </DataTemplate>
+                                        </ListBox.ItemTemplate>
+                                    </ListBox>
+                                </StackPanel>
+                            </Border>
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -129,7 +170,6 @@
                         <iconPacks:PackIconUnicons Width="20" Height="20" Kind="PlusCircle" VerticalAlignment="Center" />
                     </StackPanel>
                 </Button>
-
                 <Button  DockPanel.Dock="Right" Margin="10" Background="LightGoldenrodYellow">
                     <StackPanel Orientation="Horizontal">
                         <Label Content="Отмена"/>

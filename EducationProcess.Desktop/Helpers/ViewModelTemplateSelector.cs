@@ -22,7 +22,7 @@ namespace EducationProcess.Desktop.Helpers
             var resourceDictonary = new ResourceDictionary
             {
                 Source = new Uri(string.Format(
-                    "pack://application:,,,/{0};component/Views/{1}.xaml",
+                    "pack://application:,,,/{0};component/Views/RoleViews/{1}.xaml",
                     itemType.Assembly.FullName,
                     itemType.Name.Replace("ViewModel", string.Empty)))
             };
