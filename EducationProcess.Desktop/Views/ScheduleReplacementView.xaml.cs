@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace EducationProcess.Desktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для DisciplinesView.xaml
+    /// Логика взаимодействия для ScheduleReplacementView.xaml
     /// </summary>
-    public partial class DisciplinesView : UserControl
+    public partial class ScheduleReplacementView : UserControl
     {
-        public DisciplinesView()
+        public ScheduleReplacementView()
         {
             InitializeComponent();
         }

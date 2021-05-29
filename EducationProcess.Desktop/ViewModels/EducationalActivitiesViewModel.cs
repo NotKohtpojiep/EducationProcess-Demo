@@ -43,7 +43,6 @@ namespace EducationProcess.Desktop.ViewModels
             SemesterDisciplines = new ObservableCollection<SemesterDiscipline>(disciplines);
             AcademicYears = new ObservableCollection<string>(academicYears);
             ConvertToExcelCommand = new RelayCommand(null, _ => ConvertDataToExcel());
-
         }
 
         public RelayCommand ConvertToExcelCommand { get; set; }

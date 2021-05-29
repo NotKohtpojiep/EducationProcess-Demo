@@ -36,6 +36,35 @@ namespace EducationProcess.Desktop.Helpers.Excel
                     {
                         SetCellStyle(sheet, startRow + 1, column, horisontalTextStyle);
                     }
+
+                    Random r = new Random();
+                    SetCellValue(sheet, startRow + 1, 1, disciplines[i].DisciplineIndex);
+                    SetCellValue(sheet, startRow + 1, 2, disciplines[i].Name);
+                    SetCellValue(sheet, startRow + 1, 3, "Э");
+                    SetCellValue(sheet, startRow + 1, 4, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 5, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 6, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 7, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 8, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 9, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 10, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 11, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 12, r.Next(10,100));
+                    SetCellValue(sheet, startRow + 1, 13, r.Next(0,50));
+                    SetCellValue(sheet, startRow + 1, 14, r.Next(0,50));
+                    SetCellValue(sheet, startRow + 1, 15, 0);
+                    SetCellValue(sheet, startRow + 1, 16, 0);
+                    SetCellValue(sheet, startRow + 1, 17, 0);
+                    SetCellValue(sheet, startRow + 1, 18, 0);
+                    SetCellValue(sheet, startRow + 1, 19, 0);
+                    SetCellValue(sheet, startRow + 1, 20, 0);
+                    SetCellValue(sheet, startRow + 1, 21, 0);
+                    SetCellValue(sheet, startRow + 1, 22, 0);
+                    SetCellValue(sheet, startRow + 1, 23, 0);
+                    SetCellValue(sheet, startRow + 1, 24, 0);
+                    SetCellValue(sheet, startRow + 1, 25, 0);
+                    SetCellValue(sheet, startRow + 1, 26, 0);
+                    startRow += 1;
                 }
 
                 workbook.Write(fs);

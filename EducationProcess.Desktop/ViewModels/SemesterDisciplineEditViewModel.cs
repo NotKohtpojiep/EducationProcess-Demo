@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace EducationProcess.Desktop.ViewModels
 {
-    public class SemesterDisciplineViewModel : BindableBase
+    public class SemesterDisciplineEditViewModel : BindableBase
     {
         public string TitleInfo { get; set; }
         public string HeaderText { get; set; }
@@ -31,14 +31,14 @@ namespace EducationProcess.Desktop.ViewModels
         public Semester SelectedSemester { get; set; }
         public IntermediateCertificationForm SelectedCertificationForm { get; set; }
 
-        public SemesterDisciplineViewModel(IDialogCoordinator dialogCoordinator, EducationPlan educationPlan, SemesterDiscipline? semesterDiscipline = null)
+        public SemesterDisciplineEditViewModel(IDialogCoordinator dialogCoordinator, EducationPlan educationPlan, SemesterDiscipline? semesterDiscipline = null)
         {
             _dialogCoordinator = dialogCoordinator;
             EducationProcessContext context = new EducationProcessContext();
 
             string specialtieName = context.Specialties.First(x => x.SpecialtieId == educationPlan.SpecialtieId)
                 .ImplementedSpecialtyName;
-            HeaderText = $"Дисциплина специальности: {specialtieName}";
+            HeaderText = $"Дисциплина специальности:\n{specialtieName}";
 
             Cathedra[] diciplineCathedras = context.CathedraSpecialties
                 .Where(x => x.SpecialtieId == educationPlan.SpecialtieId)

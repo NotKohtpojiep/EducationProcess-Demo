@@ -12,15 +12,15 @@
              d:DataContext="{d:DesignInstance viewmodels:EducationalActivitiesViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-
         <DataTemplate DataType="{x:Type viewmodels:EducationPlansMenuViewModel}">
             <views:EducationPlansMenuView />
         </DataTemplate>
         <DataTemplate DataType="{x:Type viewmodels:EducationPlanDisciplinesMenuViewModel}">
             <views:EducationPlanDisciplinesMenuView />
         </DataTemplate>
-
-
+        <DataTemplate DataType="{x:Type viewmodels:EducationPlanGroupsMenuViewModel}">
+            <views:EducationPlanGroupsMenuView />
+        </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>

@@ -11,6 +11,7 @@ using DevExpress.Mvvm;
 using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.DataAccess;
 using EducationProcess.Desktop.DataAccess.Entities;
+using EducationProcess.Desktop.Windows;
 using MahApps.Metro.Controls.Dialogs;
 using Microsoft.EntityFrameworkCore;
 
@@ -21,6 +22,7 @@ namespace EducationProcess.Desktop.ViewModels
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly INavigationManager _navigationManager;
 
+        public EducationPlan SelectedEducationPlan { get; set; }
         public ObservableCollection<EducationPlan> EducationPlans { get; set; }
 
         public EducationPlansMenuViewModel(INavigationManager navigationManager)
@@ -34,14 +36,56 @@ namespace EducationProcess.Desktop.ViewModels
                 .ToArray();
             EducationPlans = new ObservableCollection<EducationPlan>(educationPlans);
 
-            ViewEducationPlanCommand = new RelayCommand(null, _ => { ViewEducationPlan(); });
+            ViewEducationPlanCommand = new RelayCommand(null, _ => Navigate(new EducationPlanDisciplinesMenuViewModel(_navigationManager)));
+            AddEducationPlanCommand = new RelayCommand(null, _ => ShowEducationPlanEditor(null));
+            EditEducationPlanCommand = new RelayCommand(null, _ => ShowEducationPlanEditor(SelectedEducationPlan));
+            DeleteEducationPlanCommand = new RelayCommand(null, _ => DeleteEducationPlan(SelectedEducationPlan));
+            AttachGroupToEducationPlanCommand = new RelayCommand(null, _ => Navigate(new EducationPlanGroupsMenuViewModel(_navigationManager, SelectedEducationPlan)));
         }
 
         public RelayCommand ViewEducationPlanCommand { get; set; }
+        public RelayCommand AddEducationPlanCommand { get; set; }
+        public RelayCommand EditEducationPlanCommand { get; set; }
+        public RelayCommand DeleteEducationPlanCommand { get; set; }
+        public RelayCommand AttachGroupToEducationPlanCommand { get; set; }
 
-        private void ViewEducationPlan()
+        private bool IsSelectedEducationPlan()
         {
-            _navigationManager.Next(new EducationPlanDisciplinesMenuViewModel(_navigationManager));
+            if (SelectedEducationPlan == null)
+            {
+                _dialogCoordinator.ShowMessageAsync(this, "Внимание", "Выберите учебный план");
+                return false;
+            }
+            return true;
+        }
+
+        private void Navigate(BindableBase viewModel)
+        {
+            if (IsSelectedEducationPlan())
+                _navigationManager.Next(viewModel);
+        }
+
+        private void DeleteEducationPlan(EducationPlan educationPlan)
+        {
+            if (IsSelectedEducationPlan())
+            {
+                EducationPlanEditViewModel viewModel = new EducationPlanEditViewModel(educationPlan);
+                new EducationPlanEditorWindow(viewModel).ShowDialog();
+                RefreshEducationPlans();
+            }
+        }
+
+        private void ShowEducationPlanEditor(EducationPlan educationPlan)
+        {
+            EducationPlanEditViewModel viewModel = new EducationPlanEditViewModel(educationPlan);
+            new EducationPlanEditorWindow(viewModel).ShowDialog();
+            RefreshEducationPlans();
+        }
+
+        private void RefreshEducationPlans()
+        {
+            EducationPlan[] educationPlans = new EducationProcessContext().EducationPlans.ToArray();
+            EducationPlans = new ObservableCollection<EducationPlan>(educationPlans);
         }
     }
 }

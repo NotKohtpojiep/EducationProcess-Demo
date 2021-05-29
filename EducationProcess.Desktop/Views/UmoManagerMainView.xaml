@@ -50,7 +50,7 @@
                     </helpers:HamburgerMenuIconBadgedItem>
                     <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:VaadinIcons Kind=AcademyCap}" Label="Дисциплины">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
-                            <local:CheckDisciplineSuggestionsView />
+                            <local:DisciplinesMenuView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
                 </mah:HamburgerMenuItemCollection>

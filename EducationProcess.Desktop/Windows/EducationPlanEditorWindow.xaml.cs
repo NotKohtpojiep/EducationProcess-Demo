@@ -13,6 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using DevExpress.Mvvm;
 using EducationProcess.Desktop.Core;
+using EducationProcess.Desktop.DataAccess;
+using EducationProcess.Desktop.DataAccess.Entities;
 using EducationProcess.Desktop.ViewModels;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
@@ -22,13 +24,13 @@ namespace EducationProcess.Desktop.Windows
     /// <summary>
     /// Логика взаимодействия для DisciplineWindow.xaml
     /// </summary>
-    public partial class SemesterDisciplineWindow : MetroWindow
+    public partial class EducationPlanEditorWindow : MetroWindow
     {
-        public SemesterDisciplineWindow()
+        public EducationPlanEditorWindow()
         {
             InitializeComponent();
         }
-        public SemesterDisciplineWindow(BindableBase dataContext) : this()
+        public EducationPlanEditorWindow(BindableBase dataContext) : this()
         {
             DataContext = dataContext;
         }

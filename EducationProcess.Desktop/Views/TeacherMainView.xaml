@@ -31,7 +31,7 @@
             <!--  Items  -->
             <mah:HamburgerMenu.ItemsSource>
                 <mah:HamburgerMenuItemCollection>
-                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Home}" Label="Home">
+                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Home}" Label="Главная">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
                             <ScrollViewer Margin="2"
                                           HorizontalScrollBarVisibility="Auto"
@@ -43,7 +43,7 @@
                             </ScrollViewer>
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
-                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:ForkAwesome Kind=BellOutline}" Label="Предлагаемые дисциплины">
+                    <helpers:HamburgerMenuIconBadgedItem Badge="10" Icon="{iconPacks:ForkAwesome Kind=BellOutline}" Label="Предлагаемые дисциплины">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
                             <local:CheckDisciplineSuggestionsView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
@@ -64,7 +64,7 @@
             <!--  Options  -->
             <mah:HamburgerMenu.OptionsItemsSource>
                 <mah:HamburgerMenuItemCollection>
-                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
+                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Cog}" Label="Настройки">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
                            <Grid>
                                <Label Content="Coming Soon..."></Label>

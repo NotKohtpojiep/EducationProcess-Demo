@@ -1,4 +1,5 @@
-﻿using MahApps.Metro.Controls;
+﻿using DevExpress.Mvvm;
+using MahApps.Metro.Controls;
 
 namespace EducationProcess.Desktop.Windows
 {
@@ -10,6 +11,11 @@ namespace EducationProcess.Desktop.Windows
         public AddGroupToEducationPlanWindow()
         {
             InitializeComponent();
+        }
+
+        public AddGroupToEducationPlanWindow(BindableBase viewModel) : this()
+        {
+            DataContext = viewModel;
         }
     }
 }

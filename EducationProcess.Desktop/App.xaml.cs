@@ -14,17 +14,6 @@ namespace EducationProcess.Desktop
     {
         protected override void OnStartup(StartupEventArgs e)
         {
-            /*
-            EducationPlan educationPlan = new EducationProcessContext().EducationPlans.First();
-            SemesterDiscipline semesterDiscipline = new EducationProcessContext().SemesterDisciplines.First();
-            SemesterDisciplineViewModel semesterDisciplineViewModel =
-                new SemesterDisciplineViewModel(DialogCoordinator.Instance, educationPlan, semesterDiscipline);
-            SemesterDisciplineWindow semesterDisciplineWindow = new SemesterDisciplineWindow(semesterDisciplineViewModel);
-
-            semesterDisciplineWindow.Show();
-            */
-          
-
             //Create a custom principal with an anonymous identity at startup
             CustomPrincipal customPrincipal = new CustomPrincipal();
             AppDomain.CurrentDomain.SetThreadPrincipal(customPrincipal);

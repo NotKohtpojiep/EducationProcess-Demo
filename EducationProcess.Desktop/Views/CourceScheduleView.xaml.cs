@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,13 +17,14 @@ using EducationProcess.Desktop.ViewModels;
 namespace EducationProcess.Desktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для EducationPlansMenuView.xaml
+    /// Логика взаимодействия для CourceScheduleView.xaml
     /// </summary>
-    public partial class EducationPlanGroupsMenuView : UserControl
+    public partial class CourceScheduleView : UserControl
     {
-        public EducationPlanGroupsMenuView()
+        public CourceScheduleView()
         {
             InitializeComponent();
+            DataContext = new CourceScheduleViewModel();
         }
     }
 }

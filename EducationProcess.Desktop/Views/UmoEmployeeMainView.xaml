@@ -45,12 +45,12 @@
                     </helpers:HamburgerMenuIconBadgedItem>
                     <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:FontAwesome Kind=CalendarAltSolid}" Label="Расписание">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
-                            <local:EducationalActivitiesView />
+                            <local:CourceScheduleView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
-                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:FontAwesome Kind=CalendarPlusSolid}" Label="Составление расписания">
+                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=CalendarAlert}" Label="Замены">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
-                            <local:CheckDisciplineSuggestionsView />
+                            <local:ScheduleReplacementView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
                 </mah:HamburgerMenuItemCollection>
@@ -61,7 +61,7 @@
                 <mah:HamburgerMenuItemCollection>
                     <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
-                            <local:GroupsScheduleView />
+                            <local:SettingsView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
                 </mah:HamburgerMenuItemCollection>

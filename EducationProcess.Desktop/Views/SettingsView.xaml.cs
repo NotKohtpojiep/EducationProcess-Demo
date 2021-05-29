@@ -16,11 +16,11 @@ using System.Windows.Shapes;
 namespace EducationProcess.Desktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для ChainedGroupsInEducationPlanMenu.xaml
+    /// Логика взаимодействия для SettingsView.xaml
     /// </summary>
-    public partial class ChainedGroupsInEducationPlanMenu : UserControl
+    public partial class SettingsView : UserControl
     {
-        public ChainedGroupsInEducationPlanMenu()
+        public SettingsView()
         {
             InitializeComponent();
         }

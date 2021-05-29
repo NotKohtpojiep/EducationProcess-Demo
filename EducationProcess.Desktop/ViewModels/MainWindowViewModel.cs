@@ -16,7 +16,7 @@ namespace EducationProcess.Desktop.ViewModels
         private readonly IDialogCoordinator _dialogCoordinator;
       
         public EducationalActivitiesViewModel EducationalActivitiesViewModels { get; set; }
-        public SemesterDisciplineViewModel DisciplinesViewModel { get; set; }
+        public SemesterDisciplineEditViewModel DisciplinesViewModel { get; set; }
 
         public MainWindowViewModel(IDialogCoordinator dialogCoordinator)
         {
