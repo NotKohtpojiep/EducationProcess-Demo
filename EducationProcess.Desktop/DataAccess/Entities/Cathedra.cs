@@ -11,6 +11,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         {
             CathedraSpecialties = new HashSet<CathedraSpecialty>();
             Disciplines = new HashSet<Discipline>();
+            EmployeeCathedras = new HashSet<EmployeeCathedra>();
         }
 
         public int CathedraId { get; set; }
@@ -19,5 +20,6 @@ namespace EducationProcess.Desktop.DataAccess.Entities
 
         public virtual ICollection<CathedraSpecialty> CathedraSpecialties { get; set; }
         public virtual ICollection<Discipline> Disciplines { get; set; }
+        public virtual ICollection<EmployeeCathedra> EmployeeCathedras { get; set; }
     }
 }

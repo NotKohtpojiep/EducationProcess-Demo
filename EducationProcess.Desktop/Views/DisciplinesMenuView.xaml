@@ -27,26 +27,31 @@
             <ComboBox Margin="10" Width="200" mah:TextBoxHelper.Watermark="Тип поиска" mah:TextBoxHelper.UseFloatingWatermark="True">
 
             </ComboBox>
-            <Button  DockPanel.Dock="Right" Margin="10" Background="Tomato">
+            <Button  DockPanel.Dock="Right" Margin="10" Background="Tomato" Command="{Binding DeleteDisciplineCommand}">
                 <iconPacks:PackIconFontAwesome Width="20" Height="20" Kind="MinusSolid" Foreground="White"  />
             </Button>
-            <Button  DockPanel.Dock="Right" Margin="10" Background="Orange">
+            <Button  DockPanel.Dock="Right" Margin="10" Background="Orange" Command="{Binding EditDisciplineCommand}">
                 <iconPacks:PackIconFontAwesome Width="20" Height="20" Kind="PencilAltSolid" Foreground="White" />
             </Button>
-            <Button  DockPanel.Dock="Right" Margin="10" Background="LimeGreen">
+            <Button  DockPanel.Dock="Right" Margin="10" Background="LimeGreen" Command="{Binding AddDisciplineCommand}">
                 <iconPacks:PackIconFontAwesome Width="20" Height="20" Kind="PlusSolid" Foreground="White" />
             </Button>
-            <Button  DockPanel.Dock="Right" Margin="10" Background="LightSkyBlue">
+            <Button  DockPanel.Dock="Right" Margin="10" Background="LightSkyBlue" Command="{Binding ViewDisciplineInfoCommand}">
                 <iconPacks:PackIconModern Width="20" Height="20" Kind="Eye" Foreground="White" />
             </Button>
         </DockPanel>
 
-        <DataGrid x:Name="DataGridsss" Grid.Row="2" ItemsSource="{Binding Disciplines}" Margin="10" AutoGenerateColumns="False" CanUserAddRows="false">
+        <DataGrid x:Name="DataGridsss" Grid.Row="2" 
+                  ItemsSource="{Binding Disciplines}" 
+                  Margin="10" AutoGenerateColumns="False" 
+                  CanUserAddRows="false"
+                  IsReadOnly="True"
+                  SelectedValue="{Binding SelectedDiscipline}">
             <DataGrid.Columns>
-                <DataGridTextColumn Header="Кафедра" Binding="{Binding  CathedraName}"/>
-                <DataGridTextColumn Header="Образовательный цикл" Binding="{Binding  EducationCycleName}"/>
-                <DataGridTextColumn Header="Дисциплина" Width="*" Binding="{Binding  DisciplineName}"/>
-                <DataGridTextColumn Header="Примечание" Binding="{Binding DisciplineNote}"/>
+                <DataGridTextColumn Header="Кафедра" Binding="{Binding  Cathedra.Name}"/>
+                <DataGridTextColumn Header="Образовательный цикл" Binding="{Binding  EducationCycle.Name}"/>
+                <DataGridTextColumn Header="Дисциплина" Width="*" Binding="{Binding  Name}"/>
+                <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

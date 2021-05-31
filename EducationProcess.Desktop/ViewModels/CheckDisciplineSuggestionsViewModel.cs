@@ -32,24 +32,24 @@ namespace EducationProcess.Desktop.ViewModels
                 SuggestingDiscipline suggestingDiscipline =
                     new SuggestingDiscipline(discipline.FixedDisciplineId,
                         discipline.SemesterDiscipline.Discipline.Name, discipline.Group.Name,
-                        discipline.SemesterDiscipline.Semester.Number,
-                        new RelayCommand(null, _ => AcceptDiscipline(discipline.FixedDisciplineId)),
-                         new RelayCommand(null, _ => DecineDiscipline(discipline.FixedDisciplineId)));
+                        discipline.SemesterDiscipline.Semester.Number);
                 suggestingDisciplines.Add(suggestingDiscipline);
             }
             SuggestingDisciplines = new ObservableCollection<SuggestingDiscipline>(suggestingDisciplines);
         }
 
+
+
         private async void AcceptDiscipline(int fixedDisciplineId)
         {
             await _dialogCoordinator.ShowMessageAsync(this, "Подтверждение",
-                $"Вы действительно хотите фистинг {fixedDisciplineId}?", MessageDialogStyle.AffirmativeAndNegative);
+                $"Вы уверены, что хотите взять эту дисциплину в нагрузку?", MessageDialogStyle.AffirmativeAndNegative);
         }
 
         private async void DecineDiscipline(int fixedDisciplineId)
         {
             MessageDialogResult mgs = await _dialogCoordinator.ShowMessageAsync(this, "Отмена",
-                $"Вы действительно чувствуете {fixedDisciplineId} bucks?", MessageDialogStyle.AffirmativeAndNegative);
+                $"Вы действительнотхотите отказаться от данной нагрузку?", MessageDialogStyle.AffirmativeAndNegative);
             if (mgs == MessageDialogResult.Affirmative)
             {
                 await _dialogCoordinator.ShowMessageAsync(this, "Подтвердилось", "Ой, cum...");
@@ -59,21 +59,16 @@ namespace EducationProcess.Desktop.ViewModels
         public class SuggestingDiscipline
         {
             private int _fixedDisciplineId;
-            public SuggestingDiscipline(int fixedDisciplineId, string disciplineName, string groupName, int semestreNumber,
-                RelayCommand acceptDisciplineCommand, RelayCommand cancelDisciplineCommand)
+            public SuggestingDiscipline(int fixedDisciplineId, string disciplineName, string groupName, int semestreNumber)
             {
                 _fixedDisciplineId = fixedDisciplineId;
                 Discipline = disciplineName;
                 Group = groupName;
                 SemestreNumber = semestreNumber;
-                AcceptDisciplineCommand = acceptDisciplineCommand;
-                CancelDisciplineCommand = cancelDisciplineCommand;
             }
             public string Discipline { get; set; }
             public string Group { get; set; }
             public int SemestreNumber { get; set; }
-            public RelayCommand AcceptDisciplineCommand { get; set; }
-            public RelayCommand CancelDisciplineCommand { get; set; }
         }
     }
 }

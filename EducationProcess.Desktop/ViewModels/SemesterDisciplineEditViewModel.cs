@@ -31,9 +31,9 @@ namespace EducationProcess.Desktop.ViewModels
         public Semester SelectedSemester { get; set; }
         public IntermediateCertificationForm SelectedCertificationForm { get; set; }
 
-        public SemesterDisciplineEditViewModel(IDialogCoordinator dialogCoordinator, EducationPlan educationPlan, SemesterDiscipline? semesterDiscipline = null)
+        public SemesterDisciplineEditViewModel(EducationPlan educationPlan, SemesterDiscipline? semesterDiscipline = null)
         {
-            _dialogCoordinator = dialogCoordinator;
+            _dialogCoordinator = DialogCoordinator.Instance;
             EducationProcessContext context = new EducationProcessContext();
 
             string specialtieName = context.Specialties.First(x => x.SpecialtieId == educationPlan.SpecialtieId)

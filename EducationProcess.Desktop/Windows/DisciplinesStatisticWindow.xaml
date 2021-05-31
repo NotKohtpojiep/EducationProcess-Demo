@@ -1,0 +1,42 @@
+﻿<mah:MetroWindow x:Class="EducationProcess.Desktop.Windows.DisciplinesStatisticWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:EducationProcess.Desktop.Windows"
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+        WindowTitleBrush="#FF0080FF"
+        GlowBrush="#FF0080FF"
+        Background="{DynamicResource MahApps.Brushes.Accent}"
+        mc:Ignorable="d"
+        Title="Сводка дисциплин" Height="450" Width="800">
+    <Border Margin="10" Background="White" CornerRadius="10">
+        <Grid>
+            <StackPanel>
+                <Label Content="{Binding HeaderText}" FontSize="24" Margin="10"></Label>
+                <DataGrid x:Name="SemesterDisciplinesDataGrid" 
+                      IsReadOnly="True"
+                      ItemsSource="{Binding GroupFixedDisciplines}"
+                      AutoGenerateColumns="False"  CanUserAddRows="false" 
+                      Margin="10">
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Дисциплина" Binding="{Binding Discipline}"/>
+                        <DataGridTextColumn Header="Преподаватель" Binding="{Binding Teacher}"/>
+                        <DataGridTextColumn Header="Кол-во в неделю" Binding="{Binding HoursPeerWeek, Mode=OneTime}"/>
+                        <DataGridTemplateColumn Header="Отчитано" Width="*">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="{Binding ConductedPairs, Mode=OneTime}" Margin="3"></Label>
+                                        <ProgressBar Value="{Binding Percent, Mode=OneTime}" Minimum="0" Maximum="100" Margin="3" Width="100"/>
+                                        <Label Content="{Binding TotalHours}" Margin="3"></Label>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
+                    </DataGrid.Columns>
+                </DataGrid>
+            </StackPanel>
+        </Grid>
+    </Border>
+</mah:MetroWindow>

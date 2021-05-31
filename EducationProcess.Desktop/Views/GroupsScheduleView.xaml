@@ -5,8 +5,6 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:EducationProcess.Desktop.Views"
              xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
-             xmlns:b="http://schemas.microsoft.com/xaml/behaviors"
-             xmlns:dxmvvm="http://schemas.devexpress.com/winfx/2008/xaml/mvvm"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mc:Ignorable="d" 
@@ -69,7 +67,11 @@
                             <ListBox ItemsSource="{Binding CourseGroupsCollection}" ItemContainerStyle="{StaticResource NoSelectionListBoxItemStyle}">
                                 <ListBox.ItemTemplate>
                                     <DataTemplate>
-                                        <Button Margin="5,5,5,5" Background="LightCyan" FontSize="14" Content="{Binding Name}" />
+                                        <Button Margin="5,5,5,5" Background="LightCyan" FontSize="14"
+                                                Content="{Binding Name}"  
+                                                Command="{Binding DataContext.SelectGroupCommand, 
+                                                    RelativeSource={RelativeSource AncestorType=UserControl, AncestorLevel=1}}" 
+                                                CommandParameter="{Binding}"/>
                                     </DataTemplate>
                                 </ListBox.ItemTemplate>
                             </ListBox>
@@ -77,7 +79,6 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-
         </StackPanel>
 
         <Grid Column="1" Margin="10">
@@ -87,15 +88,26 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Vertical">
-                <Label Content="Расписание группы: " FontSize="24" Margin="10"></Label>
+                <StackPanel Orientation="Horizontal">
+                    <Button Margin="10" Background="CornflowerBlue" Command="{Binding PageBackCommand}">
+                        <iconPacks:PackIconTypicons Width="20" Height="20" Kind="ArrowBack" VerticalAlignment="Center" Foreground="White" />
+                    </Button>
+                    <Label Content="{Binding SelectedGroup.Name}" FontSize="24" Margin="5"></Label>
+                </StackPanel>
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="10" Content="Неделя: " FontSize="18"/>
                     <ComboBox Margin="10" Width="200" ItemsSource="{Binding Weeks}" DisplayMemberPath="WeekInfo" SelectedValue="{Binding SelectedWeek}" mah:TextBoxHelper.Watermark="Неделя" mah:TextBoxHelper.UseFloatingWatermark="True" ToolTip="Учебная неделя"/>
-                    <Button Margin="10" Background="OldLace">
+                    <Button Margin="10" Background="RoyalBlue" Command="{Binding ShowDisciplinesStatisticCommand}">
                         <StackPanel Orientation="Horizontal">
-                            <Label Content="Вычет по часам"/>
-                            <iconPacks:PackIconUnicons Width="20" Height="20" Kind="Info" VerticalAlignment="Center" />
+                            <iconPacks:PackIconMaterial Width="20" Height="20" Kind="CalendarClock" VerticalAlignment="Center" Foreground="White" />
                         </StackPanel>
+                    </Button>
+                    <Button Margin="10" Background="LimeGreen">
+                        <iconPacks:PackIconForkAwesome Width="20" Height="20" Kind="FloppyOutline" VerticalAlignment="Center" Foreground="White" />
+                    </Button>
+
+                    <Button Margin="10" Background="Tomato">
+                        <iconPacks:PackIconModern Width="20" Height="20" Kind="Delete" VerticalAlignment="Center" Foreground="White" />
                     </Button>
                 </StackPanel>
             </StackPanel>
@@ -162,20 +174,6 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-            </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Horizontal">
-                <Button  DockPanel.Dock="Right" Margin="10" Background="LightGreen">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Добавить" />
-                        <iconPacks:PackIconUnicons Width="20" Height="20" Kind="PlusCircle" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Button>
-                <Button  DockPanel.Dock="Right" Margin="10" Background="LightGoldenrodYellow">
-                    <StackPanel Orientation="Horizontal">
-                        <Label Content="Отмена"/>
-                        <iconPacks:PackIconUnicons Width="20" Height="20" VerticalAlignment="Center"  Kind="TimesCircle" />
-                    </StackPanel>
-                </Button>
             </StackPanel>
         </Grid>
     </Grid>

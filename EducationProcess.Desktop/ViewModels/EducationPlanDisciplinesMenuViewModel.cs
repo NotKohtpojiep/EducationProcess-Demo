@@ -15,20 +15,48 @@ namespace EducationProcess.Desktop.ViewModels
     {
         private readonly IDialogCoordinator _dialogCoordinator;
         private readonly INavigationManager _navigationManager;
-        public ObservableCollection<SemesterDiscipline> SemesterDisciplines { get; set; }
+        private readonly EducationPlan _educationPlan;
 
-        public EducationPlanDisciplinesMenuViewModel(INavigationManager navigationManager)
+        public EducationPlanDisciplinesMenuViewModel(INavigationManager navigationManager, EducationPlan educationPlan)
         {
             _dialogCoordinator = DialogCoordinator.Instance;
             _navigationManager = navigationManager;
+            _educationPlan = educationPlan;
 
-            SemesterDiscipline[] semesterDisciplines = new EducationProcessContext().SemesterDisciplines
-                .Include(x => x.Discipline)
+            int[] semesterDisciplinesEducPlan = new EducationProcessContext()
+                .EducationPlanSemesterDisciplines
+                .Where(x => x.EducationPlanId == educationPlan.EducationPlanId)
+                .Select(x => x.SemesterDisciplineId)
                 .ToArray();
+
+            SemesterDiscipline[] semesterDisciplines = new EducationProcessContext()
+                .SemesterDisciplines
+                .Where(x => semesterDisciplinesEducPlan.Contains(x.SemesterDisciplineId))
+                .Include(x => x.Discipline)
+                .Include(x => x.Semester)
+                .ToArray();
+
+            int semesterDisciplineAmountHours = semesterDisciplines
+                .Sum(x => x.EducationalPracticeHours +
+                          x.ConsultationHours +
+                          x.ControlWorkHours +
+                          x.ExamHours +
+                          x.IndependentWorkHours +
+                          x.LaboratoryWorkHours +
+                          x.PracticeWorkHours +
+                          x.ProductionPracticeHours +
+                          x.TheoryLessonHours);
+
             SemesterDisciplines = new ObservableCollection<SemesterDiscipline>(semesterDisciplines);
+            EducationPlanInfo = $"Всего часов: {semesterDisciplineAmountHours}\tВремя обучения (семестров): {semesterDisciplines.Max(x => x.Semester.Number)}";
+
             ConvertToExcelCommand = new RelayCommand(null, _ => ConvertDataToExcel());
             PageBackCommand = new RelayCommand(null, _ => PageBack());
         }
+
+        public ObservableCollection<SemesterDiscipline> SemesterDisciplines { get; set; }
+        public string EducationPlanInfo { get; set; }
+
         public RelayCommand ConvertToExcelCommand { get; set; }
 
         private void ConvertDataToExcel()

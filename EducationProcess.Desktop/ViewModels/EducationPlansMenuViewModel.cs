@@ -36,11 +36,19 @@ namespace EducationProcess.Desktop.ViewModels
                 .ToArray();
             EducationPlans = new ObservableCollection<EducationPlan>(educationPlans);
 
-            ViewEducationPlanCommand = new RelayCommand(null, _ => Navigate(new EducationPlanDisciplinesMenuViewModel(_navigationManager)));
+            ViewEducationPlanCommand = new RelayCommand(null, _ =>
+            {
+                if (IsSelectedEducationPlan(SelectedEducationPlan))
+                    Navigate(new EducationPlanDisciplinesMenuViewModel(_navigationManager, SelectedEducationPlan));
+            });
             AddEducationPlanCommand = new RelayCommand(null, _ => ShowEducationPlanEditor(null));
-            EditEducationPlanCommand = new RelayCommand(null, _ => ShowEducationPlanEditor(SelectedEducationPlan));
+            EditEducationPlanCommand = new RelayCommand(null, _ => EditEducationPlan(SelectedEducationPlan));
             DeleteEducationPlanCommand = new RelayCommand(null, _ => DeleteEducationPlan(SelectedEducationPlan));
-            AttachGroupToEducationPlanCommand = new RelayCommand(null, _ => Navigate(new EducationPlanGroupsMenuViewModel(_navigationManager, SelectedEducationPlan)));
+            AttachGroupToEducationPlanCommand = new RelayCommand(null, _ =>
+            {
+                if (IsSelectedEducationPlan(SelectedEducationPlan))
+                    Navigate(new EducationPlanGroupsMenuViewModel(_navigationManager, SelectedEducationPlan));
+            });
         }
 
         public RelayCommand ViewEducationPlanCommand { get; set; }
@@ -49,9 +57,9 @@ namespace EducationProcess.Desktop.ViewModels
         public RelayCommand DeleteEducationPlanCommand { get; set; }
         public RelayCommand AttachGroupToEducationPlanCommand { get; set; }
 
-        private bool IsSelectedEducationPlan()
+        private bool IsSelectedEducationPlan(EducationPlan educationPlan)
         {
-            if (SelectedEducationPlan == null)
+            if (educationPlan == null)
             {
                 _dialogCoordinator.ShowMessageAsync(this, "Внимание", "Выберите учебный план");
                 return false;
@@ -61,17 +69,28 @@ namespace EducationProcess.Desktop.ViewModels
 
         private void Navigate(BindableBase viewModel)
         {
-            if (IsSelectedEducationPlan())
-                _navigationManager.Next(viewModel);
+            _navigationManager.Next(viewModel);
         }
 
         private void DeleteEducationPlan(EducationPlan educationPlan)
         {
-            if (IsSelectedEducationPlan())
+            if (IsSelectedEducationPlan(educationPlan))
             {
-                EducationPlanEditViewModel viewModel = new EducationPlanEditViewModel(educationPlan);
-                new EducationPlanEditorWindow(viewModel).ShowDialog();
+                EducationProcessContext context = new EducationProcessContext();
+                if (context.Groups.FirstOrDefault(x => x.EducationPlanId == educationPlan.EducationPlanId) != null)
+                {
+                    _dialogCoordinator.ShowMessageAsync(this, "Ошибка", "Данный учебный план закреплен за группой");
+                    return;
+                }
                 RefreshEducationPlans();
+            }
+        }
+
+        private void EditEducationPlan(EducationPlan educationPlan)
+        {
+            if (IsSelectedEducationPlan(educationPlan))
+            {
+                ShowEducationPlanEditor(educationPlan);
             }
         }
 
@@ -84,7 +103,11 @@ namespace EducationProcess.Desktop.ViewModels
 
         private void RefreshEducationPlans()
         {
-            EducationPlan[] educationPlans = new EducationProcessContext().EducationPlans.ToArray();
+            EducationPlan[] educationPlans = new EducationProcessContext()
+                .EducationPlans
+                .Include(x => x.Specialtie)
+                .Include(x => x.AcademicYear)
+                .ToArray();;
             EducationPlans = new ObservableCollection<EducationPlan>(educationPlans);
         }
     }

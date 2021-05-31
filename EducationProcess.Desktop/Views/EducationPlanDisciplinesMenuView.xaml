@@ -56,16 +56,20 @@
                     <ComboBox Grid.Column="1" Margin="10" mah:TextBoxHelper.Watermark="Тип поиска" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
                 </Grid>
                 <DockPanel Grid.Column="1" LastChildFill="False" >
-                    <Button  DockPanel.Dock="Right" Margin="10" Background="LightSkyBlue">
+                    <Button DockPanel.Dock="Right" Margin="10" Background="LightSkyBlue"
+                            Command="{Binding ViewSemesterDisciplineCommand}">
                         <iconPacks:PackIconModern Width="20" Height="20" Kind="Eye" Foreground="White" />
                     </Button>
-                    <Button  DockPanel.Dock="Right" Margin="10" Background="DarkOrange">
+                    <Button DockPanel.Dock="Right" Margin="10" Background="DarkOrange"
+                            Command="{Binding EditSemesterDisciplineCommand}">
                         <iconPacks:PackIconModern Width="20" Height="20" Kind="Edit" Foreground="White"  />
                     </Button>
-                    <Button  DockPanel.Dock="Right" Margin="10" Background="Tomato">
+                    <Button DockPanel.Dock="Right" Margin="10" Background="Tomato"
+                            Command="{Binding RemoveSemesterDisciplineCommand}">
                         <iconPacks:PackIconModern Width="20" Height="20" Kind="Delete" Foreground="White"  />
                     </Button>
-                    <Button  DockPanel.Dock="Right" Margin="10" Background="LimeGreen">
+                    <Button DockPanel.Dock="Right" Margin="10" Background="LimeGreen"
+                            Command="{Binding AddSemesterDisciplineCommand}">
                         <iconPacks:PackIconModern Width="20" Height="20" Kind="Add" Foreground="White" />
                     </Button>
                 </DockPanel>
@@ -74,6 +78,7 @@
 
         <DataGrid x:Name="DisciplinesDataGrid" Grid.Row="1" IsReadOnly="True" ItemsSource="{Binding SemesterDisciplines}" AutoGenerateColumns="False"  CanUserAddRows="false" Margin="10">
             <DataGrid.Columns>
+                <DataGridTextColumn Header="Семестр" Binding="{Binding  Semester.Number}"/>
                 <DataGridTextColumn Header="Индекс" Binding="{Binding  Discipline.DisciplineIndex}"/>
                 <DataGridTextColumn Header="Дисциплина" Width="*" Binding="{Binding   Discipline.Name}"/>
                 <DataGridTextColumn Header="Теор." Binding="{Binding TheoryLessonHours}"/>
@@ -99,6 +104,8 @@
                     <iconPacks:PackIconModern Width="20" Height="20" Kind="OfficeExcel" VerticalAlignment="Center" Foreground="Green" />
                 </StackPanel>
             </Button>
+            <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Margin="5"
+                TextWrapping="Wrap" Text="{Binding EducationPlanInfo}"></TextBlock>
         </Grid>
     </Grid>
 </UserControl>

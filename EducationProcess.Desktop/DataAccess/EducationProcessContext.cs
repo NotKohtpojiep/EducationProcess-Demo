@@ -31,6 +31,7 @@ namespace EducationProcess.Desktop.DataAccess
         public virtual DbSet<EducationPlan> EducationPlans { get; set; }
         public virtual DbSet<EducationPlanSemesterDiscipline> EducationPlanSemesterDisciplines { get; set; }
         public virtual DbSet<Employee> Employees { get; set; }
+        public virtual DbSet<EmployeeCathedra> EmployeeCathedras { get; set; }
         public virtual DbSet<FixedDiscipline> FixedDisciplines { get; set; }
         public virtual DbSet<Group> Groups { get; set; }
         public virtual DbSet<IntermediateCertificationForm> IntermediateCertificationForms { get; set; }
@@ -53,7 +54,6 @@ namespace EducationProcess.Desktop.DataAccess
                 optionsBuilder.UseSqlServer("Server=DESKTOP-F79I7DI\\PLEASEBEMYSEMPAI;Database=EducationProcess;Trusted_Connection=True;");
             }
         }
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.HasAnnotation("Relational:Collation", "Cyrillic_General_CI_AS");
@@ -148,15 +148,15 @@ namespace EducationProcess.Desktop.DataAccess
 
                 entity.Property(e => e.ConductedPairId).HasColumnName("Conducted_pair_id");
 
-                entity.Property(e => e.LessonType).HasColumnName("Lesson_type");
+                entity.Property(e => e.LessonTypeId).HasColumnName("Lesson_type_id");
 
                 entity.Property(e => e.ScheduleDisciplineId).HasColumnName("Schedule_discipline_id");
 
                 entity.Property(e => e.ScheduleDisciplineReplacementId).HasColumnName("Schedule_discipline_replacement_id");
 
-                entity.HasOne(d => d.LessonTypeNavigation)
+                entity.HasOne(d => d.LessonType)
                     .WithMany(p => p.ConductedPairs)
-                    .HasForeignKey(d => d.LessonType)
+                    .HasForeignKey(d => d.LessonTypeId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Conducted_pairs_Lesson_types");
 
@@ -320,6 +320,29 @@ namespace EducationProcess.Desktop.DataAccess
                     .HasForeignKey(d => d.PostId)
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_Employees_Posts");
+            });
+
+            modelBuilder.Entity<EmployeeCathedra>(entity =>
+            {
+                entity.HasKey(e => new { e.EmployeeId, e.CathedraId });
+
+                entity.ToTable("Employee_cathedras");
+
+                entity.Property(e => e.EmployeeId).HasColumnName("Employee_id");
+
+                entity.Property(e => e.CathedraId).HasColumnName("Cathedra_id");
+
+                entity.HasOne(d => d.Cathedra)
+                    .WithMany(p => p.EmployeeCathedras)
+                    .HasForeignKey(d => d.CathedraId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Employee_cathedras_Cathedras");
+
+                entity.HasOne(d => d.Employee)
+                    .WithMany(p => p.EmployeeCathedras)
+                    .HasForeignKey(d => d.EmployeeId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("FK_Employee_cathedras_Employees");
             });
 
             modelBuilder.Entity<FixedDiscipline>(entity =>
@@ -529,13 +552,11 @@ namespace EducationProcess.Desktop.DataAccess
 
             modelBuilder.Entity<ScheduleDisciplineReplacement>(entity =>
             {
-                entity.HasKey(e => e.SheduleDisciplineReplacementId);
-
                 entity.ToTable("Schedule_discipline_replacement");
 
-                entity.Property(e => e.SheduleDisciplineReplacementId)
+                entity.Property(e => e.ScheduleDisciplineReplacementId)
                     .ValueGeneratedNever()
-                    .HasColumnName("Shedule_discipline_replacement_id");
+                    .HasColumnName("Schedule_discipline_replacement_id");
 
                 entity.Property(e => e.AudienceId).HasColumnName("Audience_id");
 

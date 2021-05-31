@@ -76,7 +76,7 @@
         <DataTemplate x:Key="CourceSchedulesListBoxDataTemplate">
             <Border>
                 <StackPanel>
-                    <Border CornerRadius="10" Background="{DynamicResource MahApps.Brushes.Accent4}">
+                    <Border CornerRadius="10" Background="{DynamicResource MahApps.Brushes.Accent3}">
                         <Label Content="{Binding Group.Name}" 
                                Margin="5" 
                                FontSize="18" 
@@ -95,7 +95,7 @@
     </UserControl.Resources>
 
     <Grid Margin="10">
-        <Grid  Margin="10">
+        <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
@@ -105,19 +105,21 @@
                 <StackPanel Orientation="Horizontal">
                     <Label Margin="10" Content="Расписание занятий курса: " FontSize="18"/>
                     <ComboBox Margin="10" Width="150" 
-                              ItemsSource="{Binding CourseGroups}" 
-                              DisplayMemberPath="Курс" 
-                              SelectedValue="{Binding SelectedCource}" 
+                              ItemsSource="{Binding CourceNumbers}" 
+                              SelectedValue="{Binding SelectedCourceNumber}" 
                               mah:TextBoxHelper.Watermark="Номер курса" mah:TextBoxHelper.UseFloatingWatermark="True" ToolTip="Курс"/>
+                    <Button Margin="10" Background="Orange" Command="{Binding EditScheduleCommand}">
+                        <iconPacks:PackIconBoxIcons Width="20" Height="20" Kind="RegularEdit" VerticalAlignment="Center" Foreground="White" />
+                    </Button>
                 </StackPanel>
             </StackPanel>
 
-            <Grid Row="1" Margin="10,30,0,10">
+            <Grid Row="1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border Grid.Column="0" Background="Azure" CornerRadius="10" Margin="10">
+                <Border Grid.Column="0" Background="LightSkyBlue" Width="30" CornerRadius="10,10,10,10">
                     <Grid x:Name="Mad">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
@@ -140,11 +142,13 @@
                                     <RowDefinition Height="*"/>
                                     <RowDefinition Height="*"/>
                                 </Grid.RowDefinitions>
-                                <ItemsControl Grid.Column="0" Grid.Row="0" Margin="10" ItemsSource="Понедельник" VerticalAlignment="Center"/>
-                                <ItemsControl Grid.Column="0" Grid.Row="1" Margin="10" ItemsSource="Вторник" VerticalAlignment="Center"/>
-                                <ItemsControl Grid.Column="0" Grid.Row="2" Margin="10" ItemsSource="Среда" VerticalAlignment="Center"/>
-                                <ItemsControl Grid.Column="0" Grid.Row="3" Margin="10" ItemsSource="Четверг" VerticalAlignment="Center"/>
-                                <ItemsControl Grid.Column="0" Grid.Row="4" Margin="10" ItemsSource="Пятница" VerticalAlignment="Center"/>
+                               
+                                <ItemsControl Grid.Column="0" Grid.Row="0" ItemsSource="Понедельник" VerticalAlignment="Center"/>
+                                <ItemsControl Grid.Column="0" Grid.Row="1" ItemsSource="Вторник" VerticalAlignment="Center"/>
+                                <ItemsControl Grid.Column="0" Grid.Row="2" ItemsSource="Среда" VerticalAlignment="Center"/>
+                                <ItemsControl Grid.Column="0" Grid.Row="3" ItemsSource="Четверг" VerticalAlignment="Center"/>
+                                <ItemsControl Grid.Column="0" Grid.Row="4" ItemsSource="Пятница" VerticalAlignment="Center"/>
+                               
                             </Grid>
                         </Border>
 

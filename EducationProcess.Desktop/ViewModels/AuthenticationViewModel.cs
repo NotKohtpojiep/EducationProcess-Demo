@@ -104,6 +104,28 @@ namespace EducationProcess.Desktop.ViewModels
             return !IsAuthenticated;
         }
 
+        public bool ValidateLogin(string login)
+        {
+            if (string.IsNullOrWhiteSpace(login))
+                return false;
+            if (login.Length <= 3)
+                return false;
+            return true;
+        }
+
+        public bool ValidatePassword(string password)
+        {
+            if (string.IsNullOrWhiteSpace(password))
+                return false;
+            if (password.Length <= 3)
+                return false;
+            if (password.Any(char.IsDigit) == false)
+                return false;
+            if (password.Any(char.IsUpper) == false)
+                return false;
+            return true;
+        }
+
         private void Logout(object parameter)
         {
             CustomPrincipal customPrincipal = Thread.CurrentPrincipal as CustomPrincipal;

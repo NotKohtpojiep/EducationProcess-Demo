@@ -24,7 +24,6 @@ namespace EducationProcess.Desktop.Views
         public CourceScheduleView()
         {
             InitializeComponent();
-            DataContext = new CourceScheduleViewModel();
         }
     }
 }

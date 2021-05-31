@@ -377,6 +377,30 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Employee_cathedras",
+                columns: table => new
+                {
+                    Employee_id = table.Column<int>(type: "int", nullable: false),
+                    Cathedra_id = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee_cathedras", x => new { x.Employee_id, x.Cathedra_id });
+                    table.ForeignKey(
+                        name: "FK_Employee_cathedras_Cathedras",
+                        column: x => x.Cathedra_id,
+                        principalTable: "Cathedras",
+                        principalColumn: "Cathedra_id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Employee_cathedras_Employees",
+                        column: x => x.Employee_id,
+                        principalTable: "Employees",
+                        principalColumn: "Employee_id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Received_educations",
                 columns: table => new
                 {
@@ -480,7 +504,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                     Employee_id = table.Column<int>(type: "int", nullable: false),
                     Semester_discipline_id = table.Column<int>(type: "int", nullable: false),
                     Group_id = table.Column<int>(type: "int", nullable: false),
-                    Is_agreed = table.Column<bool>(type: "bit", nullable: false)
+                    Is_agreed = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -539,7 +563,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 name: "Schedule_discipline_replacement",
                 columns: table => new
                 {
-                    Shedule_discipline_replacement_id = table.Column<int>(type: "int", nullable: false),
+                    Schedule_discipline_replacement_id = table.Column<int>(type: "int", nullable: false),
                     Schedule_discipline_id = table.Column<int>(type: "int", nullable: true),
                     Fixed_discipline_id = table.Column<int>(type: "int", nullable: false),
                     Date = table.Column<DateTime>(type: "date", nullable: false),
@@ -549,7 +573,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Schedule_discipline_replacement", x => x.Shedule_discipline_replacement_id);
+                    table.PrimaryKey("PK_Schedule_discipline_replacement", x => x.Schedule_discipline_replacement_id);
                     table.ForeignKey(
                         name: "FK_Schedule_discipline_replacement_Audiences",
                         column: x => x.Audience_id,
@@ -578,14 +602,14 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Schedule_discipline_id = table.Column<int>(type: "int", nullable: true),
                     Schedule_discipline_replacement_id = table.Column<int>(type: "int", nullable: true),
-                    Lesson_type = table.Column<int>(type: "int", nullable: false)
+                    Lesson_type_id = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Conducted_pairs", x => x.Conducted_pair_id);
                     table.ForeignKey(
                         name: "FK_Conducted_pairs_Lesson_types",
-                        column: x => x.Lesson_type,
+                        column: x => x.Lesson_type_id,
                         principalTable: "Lesson_types",
                         principalColumn: "Lesson_type_id",
                         onDelete: ReferentialAction.Restrict);
@@ -593,7 +617,7 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                         name: "FK_Conducted_pairs_Schedule_discipline_replacement",
                         column: x => x.Schedule_discipline_replacement_id,
                         principalTable: "Schedule_discipline_replacement",
-                        principalColumn: "Shedule_discipline_replacement_id",
+                        principalColumn: "Schedule_discipline_replacement_id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Conducted_pairs_Schedule_disciplines1",
@@ -619,9 +643,9 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 column: "Specialtie_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Conducted_pairs_Lesson_type",
+                name: "IX_Conducted_pairs_Lesson_type_id",
                 table: "Conducted_pairs",
-                column: "Lesson_type");
+                column: "Lesson_type_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Conducted_pairs_Schedule_discipline_id",
@@ -662,6 +686,11 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
                 name: "IX_Education_plans_Specialtie_id",
                 table: "Education_plans",
                 column: "Specialtie_id");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Employee_cathedras_Cathedra_id",
+                table: "Employee_cathedras",
+                column: "Cathedra_id");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Employees_Post_id",
@@ -777,6 +806,9 @@ namespace EducationProcess.Desktop.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "Education_plan_semester_disciplines");
+
+            migrationBuilder.DropTable(
+                name: "Employee_cathedras");
 
             migrationBuilder.DropTable(
                 name: "Lesson_types");

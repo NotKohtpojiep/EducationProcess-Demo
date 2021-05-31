@@ -75,16 +75,16 @@
                             <Label Content="Скопировать данные уч. плана:" HorizontalAlignment="Left" ></Label>
                             <ComboBox Width="220" HorizontalAlignment="Left"
                                       mah:TextBoxHelper.Watermark="Учебный план"
-                                      SelectedValue="{Binding SelectedSpecialty}"
-                                      ItemsSource="{Binding Specialties}">
+                                      SelectedValue="{Binding SelectedEducationPlan}"
+                                      ItemsSource="{Binding EducationPlans}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock>
-                                            <Run Text="{Binding SpecialtieCode}"/>
+                                            <Run Text="{Binding Name}"/>
                                             <Run Text=" / "/>
-                                            <Run Text="{Binding ImplementedSpecialtyName}"/>
+                                            <Run Text="{Binding Specialtie.Specialtie_code}"/>
                                         </TextBlock>
-                                    </DataTemplate>
+                                    </DataTemplate> 
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
                         </StackPanel>
@@ -98,10 +98,7 @@
                 </Grid.RowDefinitions>
 
                 <DockPanel Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center" >
-                    <Button DockPanel.Dock="Left" Content="Сохранить" Margin="10" Width="100" Background="#FFC3F9C3">
-                        
-                    </Button>
-                    <Button DockPanel.Dock="Right" Command="{Binding CancelCommand}" Content="Отмена" Margin="10" Width="100" Background="LightYellow"></Button>
+                    <Button DockPanel.Dock="Left" Command="{Binding SaveCommand}" Content="Сохранить" Margin="10" Width="100" Background="#FFC3F9C3"/>
                 </DockPanel>
             </Grid>
         </Grid>

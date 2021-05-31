@@ -11,6 +11,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         {
             Accounts = new HashSet<Account>();
             Audiences = new HashSet<Audience>();
+            EmployeeCathedras = new HashSet<EmployeeCathedra>();
             FixedDisciplines = new HashSet<FixedDiscipline>();
             Groups = new HashSet<Group>();
         }
@@ -24,6 +25,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         public virtual Post Post { get; set; }
         public virtual ICollection<Account> Accounts { get; set; }
         public virtual ICollection<Audience> Audiences { get; set; }
+        public virtual ICollection<EmployeeCathedra> EmployeeCathedras { get; set; }
         public virtual ICollection<FixedDiscipline> FixedDisciplines { get; set; }
         public virtual ICollection<Group> Groups { get; set; }
     }

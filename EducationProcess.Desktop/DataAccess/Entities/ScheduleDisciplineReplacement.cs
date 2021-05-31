@@ -12,7 +12,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
             ConductedPairs = new HashSet<ConductedPair>();
         }
 
-        public int SheduleDisciplineReplacementId { get; set; }
+        public int ScheduleDisciplineReplacementId { get; set; }
         public int? ScheduleDisciplineId { get; set; }
         public int FixedDisciplineId { get; set; }
         public DateTime Date { get; set; }

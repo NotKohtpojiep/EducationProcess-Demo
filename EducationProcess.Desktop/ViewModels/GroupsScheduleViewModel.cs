@@ -1,61 +1,31 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Globalization;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using DevExpress.Mvvm;
 using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.DataAccess;
 using EducationProcess.Desktop.DataAccess.Entities;
 using EducationProcess.Desktop.Helpers;
+using EducationProcess.Desktop.Models;
+using EducationProcess.Desktop.Windows;
 using MahApps.Metro.Controls.Dialogs;
 
 namespace EducationProcess.Desktop.ViewModels
 {
-    public class EducationWeek
-    {
-        public string Name { get; set; }
-        public DateTime StartDay { get; set; }
-
-        public EducationWeek(DateTime start, string name)
-        {
-            StartDay = start;
-            Name = name;
-        }
-
-        public string WeekInfo
-        {
-            get
-            {
-                int firstDayOfYear = (int)new DateTime(StartDay.Year, 1, 1).DayOfWeek;
-                int weekNumber = (StartDay.DayOfYear + firstDayOfYear) / 7;
-                return $"({weekNumber}) {StartDay.ToShortDateString()} - {StartDay.AddDays(6).ToShortDateString()}";
-            }
-        }
-    }
-
-    public class CourseGroups
-    {
-        public int Course { get; set; }
-        public string CourseInfo
-        {
-            get => $"Курс: {Course}";
-        }
-        public Group[] CourseGroupsCollection { get; set; }
-        public CourseGroups(Group[] courseGroups, int semestreNumber)
-        {
-            Course = semestreNumber;
-            CourseGroupsCollection = courseGroups;
-        }
-    }
-
     public class GroupsScheduleViewModel : BindableBase
     {
+        private readonly INavigationManager _navigationManager;
+        private readonly IDialogCoordinator _dialogCoordinator;
+        private readonly EducationProcessContext _context;
+
         private string[] weekdays = new string[] { "Понедельник", "Вторник", "Среда", "Четверг", "Пятница" };
-        public GroupsScheduleViewModel()
+        public GroupsScheduleViewModel(INavigationManager navigationManager)
         {
+            _navigationManager = navigationManager;
+            _dialogCoordinator = DialogCoordinator.Instance;
+            _context = new EducationProcessContext();
+
             Discipline[] disciplines = new EducationProcessContext().Disciplines.ToArray();
             int maxCourse = new EducationProcessContext().Groups.Max(x => x.CourseNumber);
             CourseGroups = new ObservableCollection<CourseGroups>();
@@ -78,73 +48,55 @@ namespace EducationProcess.Desktop.ViewModels
             }
 
             WeekSchedule = new ObservableCollection<DaySchedule>(schedules);
+            PageBackCommand = new RelayCommand(null, _ => _navigationManager.Back());
+            ShowDisciplinesStatisticCommand =
+                new RelayCommand(null, _ => ShowDisciplinesStatisticWindow(SelectedGroup));
+            SelectGroupCommand = new RelayCommand(null, o => SelectGroup((Group) o));
         }
+
         public EducationWeek SelectedWeek { get; set; }
         public ObservableCollection<DaySchedule> WeekSchedule { get; set; }
         public ObservableCollection<EducationWeek> Weeks { get; set; }
         public ObservableCollection<CourseGroups> CourseGroups { get; set; }
+        public Group SelectedGroup { get; set; }
 
-    }
+        public RelayCommand PageBackCommand { get; set; }
+        public RelayCommand ShowDisciplinesStatisticCommand { get; set; }
+        public RelayCommand SelectGroupCommand { get; set; }
 
-    public class DaySchedule
-    {
-        public DaySchedule(Discipline[] suggestionDisciplines, string weekday)
+        private void SelectGroup(Group group)
         {
-            List<Lesson> disciplines = new List<Lesson>();
-            for (int i = 0; i < 5; i++)
+            SelectedGroup = group;
+        }
+
+        private void ShowDisciplinesStatisticWindow(Group group)
+        {
+            if (group == null)
             {
-                disciplines.Add(new Lesson(suggestionDisciplines, i + 1));
+                _dialogCoordinator.ShowMessageAsync(this, "Внимание", "Выберите группу");
+                return;
             }
 
-            Weekday = weekday;
-            Lessons = new ObservableCollection<Lesson>(disciplines);
+            int currentSemestre = GetSemestreByDate(DateTime.Now, group.ReceiptYear);
+            DisciplineStatisticViewModel viewModel = new DisciplineStatisticViewModel(group, currentSemestre);
+            DisciplinesStatisticWindow window = new DisciplinesStatisticWindow(viewModel);
+            window.Show();
         }
-        public string Weekday { get; set; }
-        public ObservableCollection<Lesson> Lessons { get; set; }
-    }
 
-    public class Lesson
-    {
-        private List<LessonItem> _pairOptions;
-        private Discipline[] _disciplines;
-        public int PairNumber { get; set; }
-        public ObservableCollection<LessonItem> PairOptions { get; set; }
-        public bool IsNotWhole { get; set; }
-        public Lesson(Discipline[] disciplines, int pairNumber)
+        private FixedDiscipline[] GetGroupFixedDisciplinesByDate(Group group, DateTime date)
         {
-            _disciplines = disciplines;
-            _pairOptions = new List<LessonItem>() { new LessonItem(disciplines, "") };
-            PairOptions = new ObservableCollection<LessonItem>(_pairOptions);
-            PairNumber = pairNumber;
-            ChangeCountLessonOptionsCommand = new RelayCommand(null, _ => ChangePairOptions());
+            int currentSemestre = GetSemestreByDate(date, group.ReceiptYear);
+            FixedDiscipline[] fixedDisciplines = _context.FixedDisciplines
+                .Where(x => x.GroupId == group.GroupId && x.SemesterDiscipline.Semester.Number == currentSemestre)
+                .ToArray();
+            return fixedDisciplines;
         }
 
-        public RelayCommand ChangeCountLessonOptionsCommand { get; set; }
-
-        private void ChangePairOptions()
+        private int GetSemestreByDate(DateTime currentDate, short receiptYear)
         {
-            if (IsNotWhole)
-            {
-                PairOptions[0] = new LessonItem(_disciplines, "Числитель");
-                PairOptions.Add(new LessonItem(_disciplines, "Знаменатель"));
-            }
-            else
-            {
-                PairOptions.RemoveAt(PairOptions.Count - 1);
-                PairOptions[0] = new LessonItem(_disciplines, "Обычный");
-            }
+            bool isFirstHalfYear = currentDate.Month / 7.0 < 1;
+            int currentCource = currentDate.Year - receiptYear + (isFirstHalfYear ? 0 : 1);
+            return currentCource * 2 - (isFirstHalfYear ? 0 : 1);
         }
-    }
-
-    public class LessonItem
-    {
-        public string PairInfo { get; set; }
-        public LessonItem(Discipline[] disciplines, string pairInfo)
-        {
-            Disciplines = new ObservableCollection<Discipline>(disciplines);
-            PairInfo = pairInfo;
-        }
-        public ObservableCollection<Discipline> Disciplines { get; set; }
-        public Discipline SelectedDiscipline { get; set; }
     }
 }

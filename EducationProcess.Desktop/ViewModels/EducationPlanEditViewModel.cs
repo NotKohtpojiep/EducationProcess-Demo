@@ -18,9 +18,7 @@ namespace EducationProcess.Desktop.ViewModels
         public ObservableCollection<Specialty> Specialties { get; set; }
         private IDialogCoordinator _dialogCoordinator;
 
-        public ICommand CancelCommand { get; set; }
-        public ICommand SaveCommand { get; set; }
-
+        public RelayCommand SaveCommand { get; set; }
 
         public AcademicYear SelectedAcademicYear { get; set; }
         public Specialty SelectedSpecialty { get; set; }
@@ -50,8 +48,6 @@ namespace EducationProcess.Desktop.ViewModels
                 TitleInfo = "Добавление уч. плана";
             }
 
-            CancelCommand = new RelayCommand(null,
-                _ => { _dialogCoordinator.ShowMessageAsync(this, "Отмена", "Вы действительно хотите выйти? Внесенные изменения не будут сохранены."); });
             SaveCommand = new RelayCommand(null,
                 _ => { _dialogCoordinator.ShowMessageAsync(this, "Подтверждение", "Вы действительно хотите применить данные изменения?"); });
         }

@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using EducationProcess.Desktop.ViewModels;
 
 namespace EducationProcess.Desktop.Views
 {
@@ -23,6 +24,7 @@ namespace EducationProcess.Desktop.Views
         public DisciplinesMenuView()
         {
             InitializeComponent();
+            DataContext = new DisciplineMenuViewModel();
         }
     }
 }

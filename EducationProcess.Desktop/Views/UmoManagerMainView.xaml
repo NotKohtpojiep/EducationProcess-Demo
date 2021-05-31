@@ -59,9 +59,9 @@
             <!--  Options  -->
             <mah:HamburgerMenu.OptionsItemsSource>
                 <mah:HamburgerMenuItemCollection>
-                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Cog}" Label="Settings">
+                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=Cog}" Label="Настройки">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
-                            <local:GroupsScheduleView />
+                            <local:SettingsView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
                 </mah:HamburgerMenuItemCollection>

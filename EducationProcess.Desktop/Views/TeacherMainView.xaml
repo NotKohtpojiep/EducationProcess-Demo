@@ -7,7 +7,9 @@
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:helpers="clr-namespace:EducationProcess.Desktop.Helpers"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+             xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
              mc:Ignorable="d" 
+             d:DataContext="{d:DesignInstance viewModels:TeacherMainViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <Grid>
         <mah:HamburgerMenu x:Name="HamburgerMenuControl"
@@ -43,7 +45,7 @@
                             </ScrollViewer>
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
-                    <helpers:HamburgerMenuIconBadgedItem Badge="10" Icon="{iconPacks:ForkAwesome Kind=BellOutline}" Label="Предлагаемые дисциплины">
+                    <helpers:HamburgerMenuIconBadgedItem Badge="{Binding SuggestionDisciplinesCount}" Icon="{iconPacks:ForkAwesome Kind=BellOutline}" Label="Предлагаемые дисциплины">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
                             <local:CheckDisciplineSuggestionsView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
@@ -53,9 +55,9 @@
                             <local:TeacherScheduleView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
-                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=BookEducation}" Label="Фиксирование занятий">
+                    <helpers:HamburgerMenuIconBadgedItem Badge="{Binding ConfirmingLessonsCount}" Icon="{iconPacks:Material Kind=BookEducation}" Label="Фиксирование занятий">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
-                            <local:TeacherScheduleView />
+                            <local:ConfirmLessonView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
                 </mah:HamburgerMenuItemCollection>

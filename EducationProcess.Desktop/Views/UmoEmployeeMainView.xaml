@@ -45,7 +45,7 @@
                     </helpers:HamburgerMenuIconBadgedItem>
                     <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:FontAwesome Kind=CalendarAltSolid}" Label="Расписание">
                         <helpers:HamburgerMenuIconBadgedItem.Tag>
-                            <local:CourceScheduleView />
+                            <local:ScheduleActivitiesView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
                     <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=CalendarAlert}" Label="Замены">

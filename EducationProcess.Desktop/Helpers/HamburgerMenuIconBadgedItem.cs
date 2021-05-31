@@ -13,7 +13,7 @@ namespace EducationProcess.Desktop.Helpers
         /// <summary>
         /// Identifies the <see cref="Icon"/> dependency property.
         /// </summary>
-        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon), typeof(object), typeof(HamburgerMenuIconItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty IconProperty = DependencyProperty.Register(nameof(Icon), typeof(object), typeof(HamburgerMenuIconBadgedItem), new PropertyMetadata(null));
 
         /// <summary>
         /// Gets or sets a value that specifies an user specific object which can be used as icon.
@@ -25,7 +25,7 @@ namespace EducationProcess.Desktop.Helpers
             set { SetValue(IconProperty, value); }
         }
 
-        public static readonly DependencyProperty BadgedProperty = DependencyProperty.Register(nameof(Badge), typeof(object), typeof(HamburgerMenuIconItem), new PropertyMetadata(null));
+        public static readonly DependencyProperty BadgedProperty = DependencyProperty.Register(nameof(Badge), typeof(object), typeof(HamburgerMenuIconBadgedItem), new PropertyMetadata(null));
 
         public object Badge
         {

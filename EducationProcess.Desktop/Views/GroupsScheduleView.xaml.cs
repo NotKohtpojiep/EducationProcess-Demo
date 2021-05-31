@@ -24,7 +24,6 @@ namespace EducationProcess.Desktop.Views
         public GroupsScheduleView()
         {
             InitializeComponent();
-            DataContext = new GroupsScheduleViewModel();
         }
     }
 }

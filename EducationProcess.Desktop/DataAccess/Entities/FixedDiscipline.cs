@@ -17,7 +17,7 @@ namespace EducationProcess.Desktop.DataAccess.Entities
         public int EmployeeId { get; set; }
         public int SemesterDisciplineId { get; set; }
         public int GroupId { get; set; }
-        public bool IsAgreed { get; set; }
+        public bool? IsAgreed { get; set; }
 
         public virtual Employee Employee { get; set; }
         public virtual Group Group { get; set; }

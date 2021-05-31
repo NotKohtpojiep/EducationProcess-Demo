@@ -23,12 +23,6 @@
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="Auto"/>
-        </Grid.RowDefinitions>
-
-        <ContentControl x:Name="FrameContent" Grid.Row="1" Content="{Binding SelectedViewModel}"/>
+        <ContentControl x:Name="FrameContent" Content="{Binding SelectedViewModel}"/>
     </Grid>
 </UserControl>

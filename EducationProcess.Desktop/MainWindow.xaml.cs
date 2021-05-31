@@ -40,7 +40,11 @@ namespace EducationProcess.Desktop
             if (role == "Сотрудник УМО")
                 viewByRole = new UmoEmployeeMainView();
             if (role == "Преподаватель")
-                viewByRole = new TeacherMainView();
+            {
+                TeacherMainView mainView = new TeacherMainView();
+                mainView.DataContext = new TeacherMainViewModel(DialogCoordinator.Instance);
+                viewByRole = mainView;
+            }
 
             MainFrame.Navigate(viewByRole);
         }

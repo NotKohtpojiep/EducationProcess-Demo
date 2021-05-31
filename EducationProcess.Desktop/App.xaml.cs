@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Windows;
 using EducationProcess.Desktop.Core;
+using EducationProcess.Desktop.DataAccess;
 using EducationProcess.Desktop.Helpers.Identity;
 using EducationProcess.Desktop.ViewModels;
 using EducationProcess.Desktop.Windows;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace EducationProcess.Desktop
 {
@@ -12,6 +15,25 @@ namespace EducationProcess.Desktop
     /// </summary>
     public partial class App : Application
     {
+        /*
+        private ServiceProvider serviceProvider;
+        public App()
+        {
+            ServiceCollection services = new ServiceCollection();
+            ConfigureServices(services);
+            serviceProvider = services.BuildServiceProvider();
+        }
+        private void ConfigureServices(ServiceCollection services)
+        {
+            services.AddDbContext<EducationProcessContext>(options =>
+            {
+                options.UseSqlServer("Server=DESKTOP-F79I7DI\\PLEASEBEMYSEMPAI;Database=EducationProcess;Trusted_Connection=True;");
+            });
+            services.AddSingleton<MainWindow>();
+            
+        }
+        */
+
         protected override void OnStartup(StartupEventArgs e)
         {
             //Create a custom principal with an anonymous identity at startup

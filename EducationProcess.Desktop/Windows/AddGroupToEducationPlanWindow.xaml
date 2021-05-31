@@ -6,9 +6,10 @@
         xmlns:local="clr-namespace:EducationProcess.Desktop.Windows"
         xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
+        WindowStartupLocation="CenterScreen"
         mc:Ignorable="d"
         mah:DialogParticipation.Register="{Binding}"
-        Title="Закрепление группы" Height="200" Width="250">
+        Title="Закрепление группы" Height="210" Width="250">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -19,7 +20,9 @@
         <ComboBox Grid.Row="1" Margin="10" 
                   ItemsSource="{Binding Groups}"
                   SelectedValue="{Binding SelectedGroup}"
-                  mah:TextBoxHelper.Watermark="Группа" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
+                  DisplayMemberPath="Name"
+                  mah:TextBoxHelper.Watermark="Группа" mah:TextBoxHelper.UseFloatingWatermark="True">
+        </ComboBox>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
