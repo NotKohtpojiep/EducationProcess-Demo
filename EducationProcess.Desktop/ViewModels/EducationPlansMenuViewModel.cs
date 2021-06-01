@@ -82,6 +82,14 @@ namespace EducationProcess.Desktop.ViewModels
                     _dialogCoordinator.ShowMessageAsync(this, "Ошибка", "Данный учебный план закреплен за группой");
                     return;
                 }
+
+                EducationPlanSemesterDiscipline[] educationPlanSemesterDisciplines =
+                    context.EducationPlanSemesterDisciplines
+                        .Where(x => x.EducationPlanId == educationPlan.EducationPlanId)
+                        .ToArray();
+                context.EducationPlanSemesterDisciplines.RemoveRange(educationPlanSemesterDisciplines);
+                context.EducationPlans.Remove(educationPlan);
+                context.SaveChanges();
                 RefreshEducationPlans();
             }
         }
@@ -91,6 +99,7 @@ namespace EducationProcess.Desktop.ViewModels
             if (IsSelectedEducationPlan(educationPlan))
             {
                 ShowEducationPlanEditor(educationPlan);
+                RefreshEducationPlans();
             }
         }
 

@@ -17,8 +17,8 @@ namespace EducationProcess.Desktop.ViewModels
     public class AddGroupToEducationPlanViewModel : BindableBase
     {
         private readonly IDialogCoordinator _dialogCoordinator;
-        private readonly EducationPlan _educationPlan;
         private readonly EducationProcessContext _context;
+        private readonly EducationPlan _educationPlan;
 
         public AddGroupToEducationPlanViewModel(EducationPlan educationPlan)
         {

@@ -90,48 +90,48 @@
                                 <Grid Row="0" Margin="2">
                                     <Label Content="Теоретические занятия:" HorizontalAlignment="Left"></Label>
                                     <mah:NumericUpDown 
-                                    Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.TheoryLessonHours}"
+                                    Minimum="0" Maximum="1000" Value="{Binding TheoryLessonHours}"
                                     mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="99" Margin="170,0,0,0"></mah:NumericUpDown>
                                 </Grid>
                                 <Grid Row="1" Margin="2">
                                     <Label Content="Практические занятия:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.PracticeWorkHours}" 
+                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding PracticeWorkHours}" 
                                                     mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
                                 <Grid Row="2" Margin="2">
                                     <Label Content="Лабораторные работы:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown   Value="{Binding SemesterDiscipline.LaboratoryWorkHours}" 
+                                    <mah:NumericUpDown   Value="{Binding LaboratoryWorkHours}" 
                                                         mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
                                 <Grid Row="3" Margin="2">
                                     <Label Content="Контрольные работы:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ControlWorkHours}" 
+                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding ControlWorkHours}" 
                                                     mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
                                 <Grid Row="4" Margin="2">
                                     <Label Content="Самостоятельные работы:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.IndependentWorkHours}" 
+                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding IndependentWorkHours}" 
                                                     mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
 
                                 <Grid Row="5" Margin="2">
                                     <Label Content="Консультация:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ConsultationHours}" 
+                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding ConsultationHours}" 
                                                     mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
                                 <Grid Row="6" Margin="2">
                                     <Label Content="Экзамен:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ExamHours}" 
+                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding ExamHours}" 
                                                     mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
                                 <Grid Row="7" Margin="2">
                                     <Label Content="Учебная практика:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.EducationalPracticeHours}" 
+                                    <mah:NumericUpDown  Minimum="0" Maximum="1000" Value="{Binding EducationalPracticeHours}" 
                                                     mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
                                 <Grid Row="8" Margin="2">
                                     <Label Content="Производственная практика:" HorizontalAlignment="Left"></Label>
-                                    <mah:NumericUpDown Minimum="0" Maximum="1000" Value="{Binding SemesterDiscipline.ProductionPracticeHours}" 
+                                    <mah:NumericUpDown Minimum="0" Maximum="1000" Value="{Binding ProductionPracticeHours}" 
                                                    mah:TextBoxHelper.Watermark="Часов" HorizontalAlignment="Right" Width="100"/>
                                 </Grid>
 
@@ -153,8 +153,13 @@
                 </Grid>
 
                 <DockPanel Grid.Row="2" LastChildFill="False" HorizontalAlignment="Center">
-                    <Button DockPanel.Dock="Left" Content="Сохранить" Margin="10" Width="100" Background="#FFC3F9C3"></Button>
-                    <Button DockPanel.Dock="Left" Command="{Binding CancelCommand}" Content="Отмена" Margin="10" Width="100" Background="LightYellow"></Button>
+                    <Button DockPanel.Dock="Left" 
+                            Command="{Binding SaveCommand}" 
+                            CommandParameter="{Binding}"
+                            Content="Сохранить" 
+                            Margin="10" 
+                            Width="100" 
+                            Background="#FFC3F9C3"></Button>
                 </DockPanel>
             </Grid>
         </Grid>

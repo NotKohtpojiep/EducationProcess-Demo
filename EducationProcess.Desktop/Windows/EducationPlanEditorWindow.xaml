@@ -55,7 +55,6 @@
                                     </DataTemplate>
                                 </ComboBox.ItemTemplate>
                             </ComboBox>
-
                             <Label Content="Выбранная специальность:" HorizontalAlignment="Left" ></Label>
                             <ComboBox Width="220" HorizontalAlignment="Left"
                                           mah:TextBoxHelper.Watermark="Специальность"
@@ -76,7 +75,8 @@
                             <ComboBox Width="220" HorizontalAlignment="Left"
                                       mah:TextBoxHelper.Watermark="Учебный план"
                                       SelectedValue="{Binding SelectedEducationPlan}"
-                                      ItemsSource="{Binding EducationPlans}">
+                                      ItemsSource="{Binding EducationPlans}"
+                                      IsEnabled="{Binding IsEnabledCopyEducationPlan}">
                                 <ComboBox.ItemTemplate>
                                     <DataTemplate>
                                         <TextBlock>
@@ -84,9 +84,9 @@
                                             <Run Text=" / "/>
                                             <Run Text="{Binding Specialtie.Specialtie_code}"/>
                                         </TextBlock>
-                                    </DataTemplate> 
+                                    </DataTemplate>
                                 </ComboBox.ItemTemplate>
-                            </ComboBox>
+                            </ComboBox> 
                         </StackPanel>
                     </Grid>
                 </Border>

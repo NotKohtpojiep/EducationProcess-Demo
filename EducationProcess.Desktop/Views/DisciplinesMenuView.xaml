@@ -8,7 +8,6 @@
              xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
              mah:DialogParticipation.Register="{Binding}"
-
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="900">
     <Grid>
@@ -39,6 +38,9 @@
             <Button  DockPanel.Dock="Right" Margin="10" Background="LightSkyBlue" Command="{Binding ViewDisciplineInfoCommand}">
                 <iconPacks:PackIconModern Width="20" Height="20" Kind="Eye" Foreground="White" />
             </Button>
+            <Button  DockPanel.Dock="Right" Margin="10" Background="PaleVioletRed" Command="{Binding AddDisciplineToTeacherCommand}">
+                <iconPacks:PackIconTypicons Width="20" Height="20" Kind="UserAdd" Foreground="White" />
+            </Button>
         </DockPanel>
 
         <DataGrid x:Name="DataGridsss" Grid.Row="2" 
@@ -51,7 +53,6 @@
                 <DataGridTextColumn Header="Кафедра" Binding="{Binding  Cathedra.Name}"/>
                 <DataGridTextColumn Header="Образовательный цикл" Binding="{Binding  EducationCycle.Name}"/>
                 <DataGridTextColumn Header="Дисциплина" Width="*" Binding="{Binding  Name}"/>
-                <DataGridTextColumn Header="Примечание" Binding="{Binding Note}"/>
             </DataGrid.Columns>
         </DataGrid>
     </Grid>

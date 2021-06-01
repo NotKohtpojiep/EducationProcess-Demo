@@ -33,7 +33,6 @@ namespace EducationProcess.Desktop
             
         }
         */
-
         protected override void OnStartup(StartupEventArgs e)
         {
             //Create a custom principal with an anonymous identity at startup

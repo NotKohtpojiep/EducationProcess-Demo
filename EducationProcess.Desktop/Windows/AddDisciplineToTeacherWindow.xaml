@@ -10,7 +10,7 @@
                   Height="400"
                   d:DesignHeight="400"
                   d:DesignWidth="300"
-                  d:DataContext="{d:DesignInstance viewModels:SemesterDisciplineEditViewModel}"
+                  d:DataContext="{d:DesignInstance viewModels:AddDisciplineToTeacherViewModel}"
                   mah:DialogParticipation.Register="{Binding}"
                   GlowBrush="{DynamicResource MahApps.Brushes.Accent}"
                   Background="{DynamicResource MahApps.Brushes.Accent2}"
@@ -30,15 +30,19 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Закрепление дисциплины преподавателю" Margin="10" TextWrapping="Wrap" FontSize="21" TextAlignment="Center"></TextBlock>
-            <ComboBox Grid.Row="1" Margin="10" mah:TextBoxHelper.Watermark="Дисциплина" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
+            <ComboBox Grid.Row="1" Margin="10" mah:TextBoxHelper.Watermark="Дисциплина" 
+                      mah:TextBoxHelper.UseFloatingWatermark="True" 
+                      ItemsSource="{Binding Disciplines}"
+                      SelectedValue="{Binding SelectedDiscipline}"
+                      DisplayMemberPath="Name"></ComboBox>
             <ComboBox Grid.Row="2" Margin="10" mah:TextBoxHelper.Watermark="Преподаватель" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
             <ComboBox Grid.Row="3" Margin="10" mah:TextBoxHelper.Watermark="Группа" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
             <ComboBox Grid.Row="4" Margin="10" mah:TextBoxHelper.Watermark="Семестр" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
             <Grid Row="5">
-                <Button Grid.Column="0" Command="{Binding ConvertToExcelCommand}"  Margin="10" Background="LightGreen">
+                <Button Grid.Column="0" Command="{Binding SendSuggestionCommand}"  Margin="10" Background="LightGreen">
                     <StackPanel Orientation="Horizontal" Margin="-5">
                         <Label Content="Согласовать" VerticalAlignment="Center"></Label>
-                        <iconPacks:PackIconMaterial Width="20" Height="20" Kind="SendClockOutline" VerticalAlignment="Center" Foreground="Black" />
+                        <iconPacks:PackIconVaadinIcons Width="20" Height="20" Kind="TimeForward" VerticalAlignment="Center" Foreground="Black" />
                     </StackPanel>
                 </Button>
             </Grid>

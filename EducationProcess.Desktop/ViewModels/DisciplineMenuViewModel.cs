@@ -38,10 +38,16 @@ namespace EducationProcess.Desktop.ViewModels
         public ObservableCollection<Discipline> Disciplines { get; set; }
         public Discipline SelectedDiscipline { get; set; }
 
+        public RelayCommand AddDisciplineToTeacherCommand { get; set; }
         public RelayCommand ViewDisciplineInfoCommand { get; set; }
         public RelayCommand AddDisciplineCommand { get; set; }
         public RelayCommand EditDisciplineCommand { get; set; }
         public RelayCommand DeleteDisciplineCommand { get; set; }
+
+        private void AddDisciplineToTeacher()
+        {
+            
+        }
 
         private void ViewDisciplineInfo()
         {
