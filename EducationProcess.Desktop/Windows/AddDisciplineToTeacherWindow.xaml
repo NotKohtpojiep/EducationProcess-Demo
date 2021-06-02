@@ -7,8 +7,8 @@
                   xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
                   xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
                   Width="300"
-                  Height="400"
-                  d:DesignHeight="400"
+                  Height="425"
+                  d:DesignHeight="425"
                   d:DesignWidth="300"
                   d:DataContext="{d:DesignInstance viewModels:AddDisciplineToTeacherViewModel}"
                   mah:DialogParticipation.Register="{Binding}"
@@ -30,14 +30,35 @@
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <TextBlock Grid.Row="0" Text="Закрепление дисциплины преподавателю" Margin="10" TextWrapping="Wrap" FontSize="21" TextAlignment="Center"></TextBlock>
-            <ComboBox Grid.Row="1" Margin="10" mah:TextBoxHelper.Watermark="Дисциплина" 
+            <ComboBox Grid.Row="1" Margin="10" 
+                      mah:TextBoxHelper.Watermark="Группа" mah:TextBoxHelper.UseFloatingWatermark="True"
+                      ItemsSource="{Binding Groups}"
+                      SelectedValue="{Binding SelectedGroup}"
+                      DisplayMemberPath="Name"></ComboBox>
+            <ComboBox Grid.Row="2" Margin="10" mah:TextBoxHelper.Watermark="Дисциплина" 
                       mah:TextBoxHelper.UseFloatingWatermark="True" 
                       ItemsSource="{Binding Disciplines}"
                       SelectedValue="{Binding SelectedDiscipline}"
                       DisplayMemberPath="Name"></ComboBox>
-            <ComboBox Grid.Row="2" Margin="10" mah:TextBoxHelper.Watermark="Преподаватель" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
-            <ComboBox Grid.Row="3" Margin="10" mah:TextBoxHelper.Watermark="Группа" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
-            <ComboBox Grid.Row="4" Margin="10" mah:TextBoxHelper.Watermark="Семестр" mah:TextBoxHelper.UseFloatingWatermark="True"></ComboBox>
+            <ComboBox Grid.Row="3" Margin="10" 
+                      mah:TextBoxHelper.Watermark="Преподаватель" mah:TextBoxHelper.UseFloatingWatermark="True"
+                      ItemsSource="{Binding Teachers}"
+                      SelectedValue="{Binding SelectedTeacher}">
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock>
+                            <Run Text="{Binding Firstname}"/>
+                            <Run Text=" "/>
+                            <Run Text="{Binding Lastname}"/>
+                            <Run Text=" "/>
+                            <Run Text="{Binding Middlename}"/>
+                        </TextBlock>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+            </ComboBox>
+            <TextBlock Grid.Row="4" Margin="10"
+                       Text="{Binding SelectionsInfo}">
+            </TextBlock>
             <Grid Row="5">
                 <Button Grid.Column="0" Command="{Binding SendSuggestionCommand}"  Margin="10" Background="LightGreen">
                     <StackPanel Orientation="Horizontal" Margin="-5">

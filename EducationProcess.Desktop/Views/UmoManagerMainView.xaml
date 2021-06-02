@@ -53,6 +53,11 @@
                             <local:DisciplinesMenuView />
                         </helpers:HamburgerMenuIconBadgedItem.Tag>
                     </helpers:HamburgerMenuIconBadgedItem>
+                    <helpers:HamburgerMenuIconBadgedItem Icon="{iconPacks:Material Kind=AccountGroup}" Label="Закрепления">
+                        <helpers:HamburgerMenuIconBadgedItem.Tag>
+                            <local:ChainDisciplineToTeacherMenuView />
+                        </helpers:HamburgerMenuIconBadgedItem.Tag>
+                    </helpers:HamburgerMenuIconBadgedItem>
                 </mah:HamburgerMenuItemCollection>
             </mah:HamburgerMenu.ItemsSource>
 

@@ -10,24 +10,21 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Navigation;
 using System.Windows.Shapes;
-using DevExpress.Mvvm;
-using MahApps.Metro.Controls;
+using EducationProcess.Desktop.ViewModels;
 
-namespace EducationProcess.Desktop.Windows
+namespace EducationProcess.Desktop.Views
 {
     /// <summary>
-    /// Логика взаимодействия для AddDisciplineToTeacherWindow.xaml
+    /// Логика взаимодействия для ChainDisciplineToTeacher.xaml
     /// </summary>
-    public partial class AddDisciplineToTeacherWindow : MetroWindow
+    public partial class ChainDisciplineToTeacherMenuView : UserControl
     {
-        public AddDisciplineToTeacherWindow()
+        public ChainDisciplineToTeacherMenuView()
         {
             InitializeComponent();
-        }
-        public AddDisciplineToTeacherWindow(BindableBase viewModel) : this()
-        {
-            DataContext = viewModel;
+            DataContext = new ChainDisciplineToTeacherMenuViewModel();
         }
     }
 }
