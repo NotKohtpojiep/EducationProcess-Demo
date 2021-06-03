@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DevExpress.Mvvm;
 using EducationProcess.Desktop.Core;
 using EducationProcess.Desktop.DataAccess;
 using EducationProcess.Desktop.DataAccess.Entities;
 using EducationProcess.Desktop.Windows;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace EducationProcess.Desktop.ViewModels
 {
-    public class ChainDisciplineToTeacherMenuViewModel
+    public class ChainDisciplineToTeacherMenuViewModel : BindableBase
     {
         public ChainDisciplineToTeacherMenuViewModel()
         {

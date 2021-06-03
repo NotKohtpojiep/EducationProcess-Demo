@@ -74,6 +74,7 @@ namespace EducationProcess.Desktop.ViewModels
                 _selectedGroup = value;
                 if (_selectedGroup != null)
                 {
+                    Teachers = new ObservableCollection<Employee>();
                     _semesterDisciplines = GetRelevantSemesterDisciplines(_selectedGroup);
                     Discipline[] disciplines = _semesterDisciplines.Select(x => x.Discipline).Distinct().ToArray();
                     Disciplines = new ObservableCollection<Discipline>(disciplines);

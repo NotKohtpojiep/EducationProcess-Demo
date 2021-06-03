@@ -48,8 +48,8 @@ namespace EducationProcess.Desktop.ViewModels
         {
             get
             {
-                return _context.ScheduleDisciplines.Count(x => x.FixedDisciplineId == _fixedDiscipline.FixedDisciplineId)
-                       + _context.ScheduleDisciplineReplacements.Count(x => x.FixedDisciplineId == _fixedDiscipline.FixedDisciplineId);
+                return _context.ConductedPairs.Count(x => x.ScheduleDiscipline.FixedDisciplineId == _fixedDiscipline.FixedDisciplineId)
+                       + _context.ConductedPairs.Count(x => x.ScheduleDiscipline.FixedDisciplineId == _fixedDiscipline.FixedDisciplineId);
             }
         }
 

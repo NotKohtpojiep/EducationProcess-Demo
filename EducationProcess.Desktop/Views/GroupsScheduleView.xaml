@@ -7,7 +7,8 @@
              xmlns:viewModels="clr-namespace:EducationProcess.Desktop.ViewModels"
              xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:iconPacks="http://metro.mahapps.com/winfx/xaml/iconpacks"
-             mc:Ignorable="d" 
+             mc:Ignorable="d"
+             mah:DialogParticipation.Register="{Binding}"
              d:DataContext="{d:DesignInstance viewModels:GroupsScheduleViewModel}"
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>

@@ -44,7 +44,7 @@ namespace EducationProcess.Desktop.ViewModels
                 _dialogCoordinator.ShowMessageAsync(this, "Внимание", "Выберите закрепляемую группу");
                 return false;
             }
-            if (IsValidGroup(group))
+            if (IsValidGroup(group) == false)
             {
                 _dialogCoordinator.ShowMessageAsync(this, "Внимание", "Данная группа является неккоректной");
                 return false;

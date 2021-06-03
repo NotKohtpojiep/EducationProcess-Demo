@@ -30,7 +30,7 @@ namespace EducationProcess.Desktop.ViewModels
 
             PageBackCommand = new RelayCommand(null, _ => _navigationManager.Back());
             ChainGroupCommand = new RelayCommand(null, _ => ChainGroup());
-            UnhainGroupCommand = new RelayCommand(null, _ => UnchainGroup(SelectedGroup));
+            UnchainGroupCommand = new RelayCommand(null, _ => UnchainGroup(SelectedGroup));
 
             Group[] groups = GetGroupsByEducationPlanId(educationPlan.EducationPlanId);
             Groups = new ObservableCollection<Group>(groups);
@@ -41,7 +41,7 @@ namespace EducationProcess.Desktop.ViewModels
 
         public RelayCommand PageBackCommand { get; set; }
         public RelayCommand ChainGroupCommand { get; set; }
-        public RelayCommand UnhainGroupCommand { get; set; }
+        public RelayCommand UnchainGroupCommand { get; set; }
 
         private void ChainGroup()
         {
